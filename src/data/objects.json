@@ -104,18 +104,8 @@
       ],
       "sizeSource": "not a buildable; preserve verbatim, render distinctly"
     },
-    "Wood_TriangleWallReverse": {
-      "name": "Wood Triangle Wall Reverse",
-      "category": "structure",
-      "size": [
-        400,
-        20,
-        325
-      ],
-      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
-    },
-    "Wooden_PyramidRoof": {
-      "name": "Wooden Pyramid Roof",
+    "JapaneseStyle_SlantedRoof": {
+      "name": "Japanese Style Slanted Roof",
       "category": "structure",
       "size": [
         400,
@@ -124,69 +114,18 @@
       ],
       "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
     },
-    "Wooden_ladder": {
-      "name": "Wooden ladder",
+    "Ancient_Pillars": {
+      "name": "Ancient Pillars",
       "category": "structure",
       "size": [
         40,
-        20,
+        40,
         325
       ],
       "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
     },
-    "Wooden_DiagonalWall": {
-      "name": "Wooden Diagonal Wall",
-      "category": "structure",
-      "size": [
-        400,
-        20,
-        325
-      ],
-      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
-    },
-    "Wooden_SlopedRoofCornerReverse": {
-      "name": "Wooden Sloped Roof Corner Reverse",
-      "category": "structure",
-      "size": [
-        400,
-        400,
-        30
-      ],
-      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
-    },
-    "Stone_Foundation": {
-      "name": "Stone Foundation",
-      "category": "structure",
-      "size": [
-        400,
-        400,
-        40
-      ],
-      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually",
-      "originAtTop": true
-    },
-    "Stone_DiagonalWall": {
-      "name": "Stone Diagonal Wall",
-      "category": "structure",
-      "size": [
-        400,
-        20,
-        325
-      ],
-      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
-    },
-    "Wood_TriangleWall": {
-      "name": "Wood Triangle Wall",
-      "category": "structure",
-      "size": [
-        400,
-        20,
-        325
-      ],
-      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
-    },
-    "Stone_TriangleRoof": {
-      "name": "Stone Triangle Roof",
+    "Ancient_SlantedRoof": {
+      "name": "Ancient Slanted Roof",
       "category": "structure",
       "size": [
         400,
@@ -206,42 +145,12 @@
       "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually",
       "originAtTop": true
     },
-    "Wooden_WallGate": {
-      "name": "Wooden Wall Gate",
-      "category": "structure",
-      "size": [
-        400,
-        30,
-        325
-      ],
-      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
-    },
-    "Wood_SlantedRoof": {
-      "name": "Wood Slanted Roof",
+    "Ancient_TriangleStairsCorner": {
+      "name": "Ancient Triangle Stairs Corner",
       "category": "structure",
       "size": [
         400,
         400,
-        30
-      ],
-      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
-    },
-    "Wooden_TriangleRoof": {
-      "name": "Wooden Triangle Roof",
-      "category": "structure",
-      "size": [
-        400,
-        400,
-        30
-      ],
-      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
-    },
-    "Stone_WindowWall": {
-      "name": "Stone Window Wall",
-      "category": "structure",
-      "size": [
-        400,
-        20,
         325
       ],
       "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
@@ -257,38 +166,8 @@
       "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually",
       "originAtTop": true
     },
-    "Wood_WindowWall": {
-      "name": "Wood Window Wall",
-      "category": "structure",
-      "size": [
-        400,
-        20,
-        325
-      ],
-      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
-    },
-    "Stone_wall": {
-      "name": "Stone wall",
-      "category": "structure",
-      "size": [
-        400,
-        20,
-        325
-      ],
-      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
-    },
-    "Wooden_DoorWall": {
-      "name": "Wooden Door Wall",
-      "category": "structure",
-      "size": [
-        400,
-        20,
-        325
-      ],
-      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
-    },
-    "Wooden_stair": {
-      "name": "Wooden stair",
+    "Ancient_stair": {
+      "name": "Ancient stair",
       "category": "structure",
       "size": [
         400,
@@ -297,8 +176,8 @@
       ],
       "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
     },
-    "Wooden_SlopedRoofCorner": {
-      "name": "Wooden Sloped Roof Corner",
+    "JapaneseStyle_TriangleRoof_01": {
+      "name": "Japanese Style Triangle Roof 01",
       "category": "structure",
       "size": [
         400,
@@ -307,8 +186,8 @@
       ],
       "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
     },
-    "Stone_PyramidRoof": {
-      "name": "Stone Pyramid Roof",
+    "Ancient_SlopedRoofCornerReverse": {
+      "name": "Ancient Sloped Roof Corner Reverse",
       "category": "structure",
       "size": [
         400,
@@ -317,8 +196,38 @@
       ],
       "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
     },
-    "Stone_SlopedRoofCornerReverse": {
-      "name": "Stone Sloped Roof Corner Reverse",
+    "Ancient_WallGate": {
+      "name": "Ancient Wall Gate",
+      "category": "structure",
+      "size": [
+        400,
+        30,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Ancient_SlopedRoofCorner": {
+      "name": "Ancient Sloped Roof Corner",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Iron_PyramidRoof": {
+      "name": "Iron Pyramid Roof",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Ancient_TriangleRoof": {
+      "name": "Ancient Triangle Roof",
       "category": "structure",
       "size": [
         400,
@@ -337,13 +246,13 @@
       ],
       "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
     },
-    "Wood_Fence": {
-      "name": "Wood Fence",
-      "category": "defense",
+    "Ancient_DoorWall": {
+      "name": "Ancient Door Wall",
+      "category": "structure",
       "size": [
         400,
         20,
-        110
+        325
       ],
       "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
     },
@@ -357,13 +266,93 @@
       ],
       "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
     },
-    "Stone_SlopedRoofCorner": {
-      "name": "Stone Sloped Roof Corner",
+    "Ancient_TriangleWall": {
+      "name": "Ancient Triangle Wall",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Ancient_roof": {
+      "name": "Ancient roof",
       "category": "structure",
       "size": [
         400,
         400,
         30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Iron_TriangleStairsCorner": {
+      "name": "Iron Triangle Stairs Corner",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Ancient_DiagonalWall": {
+      "name": "Ancient Diagonal Wall",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "SF_wall": {
+      "name": "SF wall",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Stone_Roof": {
+      "name": "Stone Roof",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "SF_Pillars": {
+      "name": "SF Pillars",
+      "category": "structure",
+      "size": [
+        40,
+        40,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Ancient_TriangleWallReverse": {
+      "name": "Ancient Triangle Wall Reverse",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Ancient_WindowWall": {
+      "name": "Ancient Window Wall",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
       ],
       "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
     },
@@ -387,13 +376,74 @@
       ],
       "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
     },
-    "Stone_Roof": {
-      "name": "Stone Roof",
+    "Ancient_wall": {
+      "name": "Ancient wall",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "JapaneseStyle_WallGate": {
+      "name": "Japanese Style Wall Gate",
+      "category": "structure",
+      "size": [
+        400,
+        30,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Wood_Fence": {
+      "name": "Wood Fence",
+      "category": "defense",
+      "size": [
+        400,
+        20,
+        110
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "JapaneseStyle_Pillar": {
+      "name": "Japanese Style Pillar",
+      "category": "structure",
+      "size": [
+        40,
+        40,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Glass_TriangleFoundation": {
+      "name": "Glass Triangle Foundation",
       "category": "structure",
       "size": [
         400,
         400,
-        30
+        40
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually",
+      "originAtTop": true
+    },
+    "Iron_DiagonalWall": {
+      "name": "Iron Diagonal Wall",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "JapaneseStyle_stair": {
+      "name": "Japanese Style stair",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        325
       ],
       "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
     },
@@ -407,6 +457,28 @@
       ],
       "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
     },
+    "Glass_foundation": {
+      "name": "Glass foundation",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        40
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually",
+      "originAtTop": true
+    },
+    "JapaneseStyle_foundation": {
+      "name": "Japanese Style foundation",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        40
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually",
+      "originAtTop": true
+    },
     "Stone_TriangleStairsCorner": {
       "name": "Stone Triangle Stairs Corner",
       "category": "structure",
@@ -417,33 +489,33 @@
       ],
       "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
     },
-    "Stone_Stair": {
-      "name": "Stone Stair",
+    "JapaneseStyle_SlopedRoofCorner": {
+      "name": "Japanese Style Sloped Roof Corner",
       "category": "structure",
       "size": [
         400,
         400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "SF_WindowWall": {
+      "name": "SF Window Wall",
+      "category": "structure",
+      "size": [
+        400,
+        20,
         325
       ],
       "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
     },
-    "Stone_pillar": {
-      "name": "Stone pillar",
-      "category": "structure",
-      "size": [
-        40,
-        40,
-        325
-      ],
-      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
-    },
-    "Stone_WallGate": {
-      "name": "Stone Wall Gate",
+    "Iron_SlopedRoofCorner": {
+      "name": "Iron Sloped Roof Corner",
       "category": "structure",
       "size": [
         400,
-        30,
-        325
+        400,
+        30
       ],
       "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
     },
@@ -457,109 +529,8 @@
       ],
       "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
     },
-    "RepairBench": {
-      "name": "Repair Bench",
-      "category": "production",
-      "size": [
-        null,
-        null,
-        null
-      ],
-      "sizeSource": "no rule matched and no works bounds — magenta until measured"
-    },
-    "WorkBench_SkillUnlock": {
-      "name": "Work Bench Skill Unlock",
-      "category": "production",
-      "size": [
-        200,
-        300,
-        95
-      ],
-      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
-    },
-    "Factory_Hard_01": {
-      "name": "Factory Hard 01",
-      "category": "production",
-      "size": [
-        260,
-        360,
-        140
-      ],
-      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
-    },
-    "Factory_Hard_03": {
-      "name": "Factory Hard 03",
-      "category": "production",
-      "size": [
-        400,
-        1800,
-        140
-      ],
-      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
-    },
-    "Metal_Foundation": {
-      "name": "Metal Foundation",
-      "category": "structure",
-      "size": [
-        400,
-        400,
-        40
-      ],
-      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually",
-      "originAtTop": true
-    },
-    "Factory_Hard_02": {
-      "name": "Factory Hard 02",
-      "category": "production",
-      "size": [
-        400,
-        1200,
-        140
-      ],
-      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
-    },
-    "Iron_SlopedRoofCorner": {
-      "name": "Iron Sloped Roof Corner",
-      "category": "structure",
-      "size": [
-        400,
-        400,
-        30
-      ],
-      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
-    },
-    "Iron_DiagonalWall": {
-      "name": "Iron Diagonal Wall",
-      "category": "structure",
-      "size": [
-        400,
-        20,
-        325
-      ],
-      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
-    },
-    "SF_Pillars": {
-      "name": "SF Pillars",
-      "category": "structure",
-      "size": [
-        40,
-        40,
-        325
-      ],
-      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
-    },
-    "SF_wall": {
-      "name": "SF wall",
-      "category": "structure",
-      "size": [
-        400,
-        20,
-        325
-      ],
-      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
-    },
-    "Iron_TriangleStairsCorner": {
-      "name": "Iron Triangle Stairs Corner",
+    "Stone_Stair": {
+      "name": "Stone Stair",
       "category": "structure",
       "size": [
         400,
@@ -568,199 +539,8 @@
       ],
       "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
     },
-    "Iron_PyramidRoof": {
-      "name": "Iron Pyramid Roof",
-      "category": "structure",
-      "size": [
-        400,
-        400,
-        30
-      ],
-      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
-    },
-    "Iron_TriangleWallReverse": {
-      "name": "Iron Triangle Wall Reverse",
-      "category": "structure",
-      "size": [
-        400,
-        20,
-        325
-      ],
-      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
-    },
-    "Metal_TriangleWall": {
-      "name": "Metal Triangle Wall",
-      "category": "structure",
-      "size": [
-        400,
-        20,
-        325
-      ],
-      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
-    },
-    "Iron_WallGate": {
-      "name": "Iron Wall Gate",
-      "category": "structure",
-      "size": [
-        400,
-        30,
-        325
-      ],
-      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
-    },
-    "Iron_Fence": {
-      "name": "Iron Fence",
-      "category": "defense",
-      "size": [
-        400,
-        20,
-        110
-      ],
-      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
-    },
-    "Metal_DoorWall": {
-      "name": "Metal Door Wall",
-      "category": "structure",
-      "size": [
-        400,
-        20,
-        325
-      ],
-      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
-    },
-    "JapaneseStyle_roof_01": {
-      "name": "Japanese Style roof 01",
-      "category": "structure",
-      "size": [
-        400,
-        400,
-        30
-      ],
-      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
-    },
-    "Metal_Roof": {
-      "name": "Metal Roof",
-      "category": "structure",
-      "size": [
-        400,
-        400,
-        30
-      ],
-      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
-    },
-    "Metal_pillars": {
-      "name": "Metal pillars",
-      "category": "structure",
-      "size": [
-        40,
-        40,
-        325
-      ],
-      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
-    },
-    "SF_TriangleRoof": {
-      "name": "SF Triangle Roof",
-      "category": "structure",
-      "size": [
-        400,
-        400,
-        30
-      ],
-      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
-    },
-    "JapaneseStyle_TriangleWall": {
-      "name": "Japanese Style Triangle Wall",
-      "category": "structure",
-      "size": [
-        400,
-        20,
-        325
-      ],
-      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
-    },
-    "Iron_TriangleRoof": {
-      "name": "Iron Triangle Roof",
-      "category": "structure",
-      "size": [
-        400,
-        400,
-        30
-      ],
-      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
-    },
-    "JapaneseStyle_roof_02": {
-      "name": "Japanese Style roof 02",
-      "category": "structure",
-      "size": [
-        400,
-        400,
-        30
-      ],
-      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
-    },
-    "JapaneseStyle_WindowWall": {
-      "name": "Japanese Style Window Wall",
-      "category": "structure",
-      "size": [
-        400,
-        20,
-        325
-      ],
-      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
-    },
-    "Metal_SlantedRoof": {
-      "name": "Metal Slanted Roof",
-      "category": "structure",
-      "size": [
-        400,
-        400,
-        30
-      ],
-      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
-    },
-    "Iron_SlopedRoofCornerReverse": {
-      "name": "Iron Sloped Roof Corner Reverse",
-      "category": "structure",
-      "size": [
-        400,
-        400,
-        30
-      ],
-      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
-    },
-    "Iron_TriangleFoundation": {
-      "name": "Iron Triangle Foundation",
-      "category": "structure",
-      "size": [
-        400,
-        400,
-        40
-      ],
-      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually",
-      "originAtTop": true
-    },
-    "Metal_Stair": {
-      "name": "Metal Stair",
-      "category": "structure",
-      "size": [
-        400,
-        400,
-        325
-      ],
-      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
-    },
-    "Metal_wall": {
-      "name": "Metal wall",
-      "category": "structure",
-      "size": [
-        400,
-        20,
-        325
-      ],
-      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
-    },
-    "Metal_WindowWall": {
-      "name": "Metal Window Wall",
+    "JapaneseStyle_wall_01": {
+      "name": "Japanese Style wall 01",
       "category": "structure",
       "size": [
         400,
@@ -780,60 +560,8 @@
       "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually",
       "originAtTop": true
     },
-    "JapaneseStyle_SlopedRoofCorner": {
-      "name": "Japanese Style Sloped Roof Corner",
-      "category": "structure",
-      "size": [
-        400,
-        400,
-        30
-      ],
-      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
-    },
-    "Glass_foundation": {
-      "name": "Glass foundation",
-      "category": "structure",
-      "size": [
-        400,
-        400,
-        40
-      ],
-      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually",
-      "originAtTop": true
-    },
-    "Glass_TriangleFoundation": {
-      "name": "Glass Triangle Foundation",
-      "category": "structure",
-      "size": [
-        400,
-        400,
-        40
-      ],
-      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually",
-      "originAtTop": true
-    },
-    "JapaneseStyle_TriangleRoof_01": {
-      "name": "Japanese Style Triangle Roof 01",
-      "category": "structure",
-      "size": [
-        400,
-        400,
-        30
-      ],
-      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
-    },
-    "JapaneseStyle_SlantedRoof": {
-      "name": "Japanese Style Slanted Roof",
-      "category": "structure",
-      "size": [
-        400,
-        400,
-        30
-      ],
-      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
-    },
-    "Glass_wall": {
-      "name": "Glass wall",
+    "JapaneseStyle_DiagonalWall": {
+      "name": "Japanese Style Diagonal Wall",
       "category": "structure",
       "size": [
         400,
@@ -842,128 +570,8 @@
       ],
       "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
     },
-    "Glass_WindowWall": {
-      "name": "Glass Window Wall",
-      "category": "structure",
-      "size": [
-        400,
-        20,
-        325
-      ],
-      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
-    },
-    "Glass_DiagonalWall": {
-      "name": "Glass Diagonal Wall",
-      "category": "structure",
-      "size": [
-        400,
-        20,
-        325
-      ],
-      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
-    },
-    "Glass_TriangleWall": {
-      "name": "Glass Triangle Wall",
-      "category": "structure",
-      "size": [
-        400,
-        20,
-        325
-      ],
-      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
-    },
-    "Glass_DoorWall": {
-      "name": "Glass Door Wall",
-      "category": "structure",
-      "size": [
-        400,
-        20,
-        325
-      ],
-      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
-    },
-    "Glass_TriangleWallReverse": {
-      "name": "Glass Triangle Wall Reverse",
-      "category": "structure",
-      "size": [
-        400,
-        20,
-        325
-      ],
-      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
-    },
-    "Glass_roof": {
-      "name": "Glass roof",
-      "category": "structure",
-      "size": [
-        400,
-        400,
-        30
-      ],
-      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
-    },
-    "Glass_TriangleRoof": {
-      "name": "Glass Triangle Roof",
-      "category": "structure",
-      "size": [
-        400,
-        400,
-        30
-      ],
-      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
-    },
-    "Glass_SlopedRoofCornerReverse": {
-      "name": "Glass Sloped Roof Corner Reverse",
-      "category": "structure",
-      "size": [
-        400,
-        400,
-        30
-      ],
-      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
-    },
-    "Glass_PyramidRoof": {
-      "name": "Glass Pyramid Roof",
-      "category": "structure",
-      "size": [
-        400,
-        400,
-        30
-      ],
-      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
-    },
-    "Glass_SlantedRoof": {
-      "name": "Glass Slanted Roof",
-      "category": "structure",
-      "size": [
-        400,
-        400,
-        30
-      ],
-      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
-    },
-    "Glass_stair": {
-      "name": "Glass stair",
-      "category": "structure",
-      "size": [
-        400,
-        400,
-        325
-      ],
-      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
-    },
-    "Glass_SlopedRoofCorner": {
-      "name": "Glass Sloped Roof Corner",
-      "category": "structure",
-      "size": [
-        400,
-        400,
-        30
-      ],
-      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
-    },
-    "Glass_pillars": {
-      "name": "Glass pillars",
+    "Stone_pillar": {
+      "name": "Stone pillar",
       "category": "structure",
       "size": [
         40,
@@ -972,98 +580,8 @@
       ],
       "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
     },
-    "JapaneseStyle_TriangleStairsCorner_01": {
-      "name": "Japanese Style Triangle Stairs Corner 01",
-      "category": "structure",
-      "size": [
-        400,
-        400,
-        325
-      ],
-      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
-    },
-    "SF_stair": {
-      "name": "SF stair",
-      "category": "structure",
-      "size": [
-        400,
-        400,
-        325
-      ],
-      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
-    },
-    "SF_WallGate": {
-      "name": "SF Wall Gate",
-      "category": "structure",
-      "size": [
-        400,
-        30,
-        325
-      ],
-      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
-    },
-    "Glass_WallGate": {
-      "name": "Glass Wall Gate",
-      "category": "structure",
-      "size": [
-        400,
-        30,
-        325
-      ],
-      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
-    },
-    "Glass_Fence": {
-      "name": "Glass Fence",
-      "category": "defense",
-      "size": [
-        400,
-        20,
-        110
-      ],
-      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
-    },
-    "SF_SlopedRoofCorner": {
-      "name": "SF Sloped Roof Corner",
-      "category": "structure",
-      "size": [
-        400,
-        400,
-        30
-      ],
-      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
-    },
-    "JapaneseStyle_DoorWall_02": {
-      "name": "Japanese Style Door Wall 02",
-      "category": "structure",
-      "size": [
-        400,
-        20,
-        325
-      ],
-      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
-    },
-    "JapaneseStyle_PyramidRoof": {
-      "name": "Japanese Style Pyramid Roof",
-      "category": "structure",
-      "size": [
-        400,
-        400,
-        30
-      ],
-      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
-    },
-    "JapaneseStyle_TriangleRoof_02": {
-      "name": "Japanese Style Triangle Roof 02",
-      "category": "structure",
-      "size": [
-        400,
-        400,
-        30
-      ],
-      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
-    },
-    "Ancient_foundation": {
-      "name": "Ancient foundation",
+    "SF_foundation": {
+      "name": "SF foundation",
       "category": "structure",
       "size": [
         400,
@@ -1073,8 +591,18 @@
       "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually",
       "originAtTop": true
     },
-    "JapaneseStyle_DoorWall_03": {
-      "name": "Japanese Style Door Wall 03",
+    "Stone_WallGate": {
+      "name": "Stone Wall Gate",
+      "category": "structure",
+      "size": [
+        400,
+        30,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "SF_TriangleWallReverse": {
+      "name": "SF Triangle Wall Reverse",
       "category": "structure",
       "size": [
         400,
@@ -1083,38 +611,18 @@
       ],
       "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
     },
-    "SF_TriangleWall": {
-      "name": "SF Triangle Wall",
-      "category": "structure",
+    "MedicineFacility_03": {
+      "name": "Medicine Facility 03",
+      "category": "production",
       "size": [
-        400,
-        20,
-        325
+        180,
+        260,
+        149.595272
       ],
-      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
     },
-    "SF_DoorWall": {
-      "name": "SF Door Wall",
-      "category": "structure",
-      "size": [
-        400,
-        20,
-        325
-      ],
-      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
-    },
-    "SF_DiagonalWall": {
-      "name": "SF Diagonal Wall",
-      "category": "structure",
-      "size": [
-        400,
-        20,
-        325
-      ],
-      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
-    },
-    "Ancient_TriangleFoundation": {
-      "name": "Ancient Triangle Foundation",
+    "Metal_Foundation": {
+      "name": "Metal Foundation",
       "category": "structure",
       "size": [
         400,
@@ -1134,8 +642,29 @@
       ],
       "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
     },
-    "SF_TriangleWallReverse": {
-      "name": "SF Triangle Wall Reverse",
+    "Ancient_TriangleFoundation": {
+      "name": "Ancient Triangle Foundation",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        40
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually",
+      "originAtTop": true
+    },
+    "Wooden_ladder": {
+      "name": "Wooden ladder",
+      "category": "structure",
+      "size": [
+        40,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "SF_DiagonalWall": {
+      "name": "SF Diagonal Wall",
       "category": "structure",
       "size": [
         400,
@@ -1144,8 +673,1010 @@
       ],
       "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
     },
-    "SF_foundation": {
-      "name": "SF foundation",
+    "SF_DoorWall": {
+      "name": "SF Door Wall",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "SF_TriangleWall": {
+      "name": "SF Triangle Wall",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Wooden_DiagonalWall": {
+      "name": "Wooden Diagonal Wall",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Ancient_foundation": {
+      "name": "Ancient foundation",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        40
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually",
+      "originAtTop": true
+    },
+    "Metal_WindowWall": {
+      "name": "Metal Window Wall",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "JapaneseStyle_TriangleRoof_02": {
+      "name": "Japanese Style Triangle Roof 02",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Factory_Hard_03": {
+      "name": "Factory Hard 03",
+      "category": "production",
+      "size": [
+        400,
+        1800,
+        140
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "Metal_wall": {
+      "name": "Metal wall",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "JapaneseStyle_PyramidRoof": {
+      "name": "Japanese Style Pyramid Roof",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Stone_Foundation": {
+      "name": "Stone Foundation",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        40
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually",
+      "originAtTop": true
+    },
+    "SF_WallGate": {
+      "name": "SF Wall Gate",
+      "category": "structure",
+      "size": [
+        400,
+        30,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Metal_Stair": {
+      "name": "Metal Stair",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "MedicalPalBed_05": {
+      "name": "Medical Pal Bed 05",
+      "category": "decor",
+      "size": [
+        360,
+        360,
+        100
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "JapaneseStyle_TriangleStairsCorner_01": {
+      "name": "Japanese Style Triangle Stairs Corner 01",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "BlastFurnace2": {
+      "name": "Blast Furnace2",
+      "category": "production",
+      "size": [
+        200,
+        200,
+        95
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "StonePit": {
+      "name": "Stone Pit",
+      "category": "production",
+      "size": [
+        640,
+        820,
+        200
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "Glass_roof": {
+      "name": "Glass roof",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Glass_pillars": {
+      "name": "Glass pillars",
+      "category": "structure",
+      "size": [
+        40,
+        40,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Stone_DiagonalWall": {
+      "name": "Stone Diagonal Wall",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "BlastFurnace": {
+      "name": "Blast Furnace",
+      "category": "production",
+      "size": [
+        200,
+        200,
+        95
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "Glass_SlopedRoofCorner": {
+      "name": "Glass Sloped Roof Corner",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "StationDeforest3": {
+      "name": "Station Deforest3",
+      "category": "production",
+      "size": [
+        820,
+        640,
+        200
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "MedicineFacility_01": {
+      "name": "Medicine Facility 01",
+      "category": "production",
+      "size": [
+        146.388942,
+        162.559554,
+        101.890262
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "Iron_SlopedRoofCornerReverse": {
+      "name": "Iron Sloped Roof Corner Reverse",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "AncientMultiProduct": {
+      "name": "Ancient Multi Product",
+      "category": "production",
+      "size": [
+        null,
+        null,
+        null
+      ],
+      "sizeSource": "no rule matched and no works bounds — magenta until measured"
+    },
+    "WeaponFactory_Dirty_03": {
+      "name": "Weapon Factory Dirty 03",
+      "category": "production",
+      "size": [
+        400,
+        1800,
+        140
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "Glass_stair": {
+      "name": "Glass stair",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Wood_TriangleWallReverse": {
+      "name": "Wood Triangle Wall Reverse",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Glass_SlantedRoof": {
+      "name": "Glass Slanted Roof",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Metal_SlantedRoof": {
+      "name": "Metal Slanted Roof",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Glass_PyramidRoof": {
+      "name": "Glass Pyramid Roof",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Crusher": {
+      "name": "Crusher",
+      "category": "production",
+      "size": [
+        400,
+        460,
+        95
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "MedicalPalBed_04": {
+      "name": "Medical Pal Bed 04",
+      "category": "decor",
+      "size": [
+        360,
+        360,
+        100
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "SphereFactory_Black_02": {
+      "name": "Sphere Factory Black 02",
+      "category": "production",
+      "size": [
+        400,
+        1200,
+        140
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "Wood_TriangleWall": {
+      "name": "Wood Triangle Wall",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "CompositeDesk": {
+      "name": "Composite Desk",
+      "category": "production",
+      "size": [
+        220,
+        300,
+        95
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "SphereFactory_Black_03": {
+      "name": "Sphere Factory Black 03",
+      "category": "production",
+      "size": [
+        400,
+        1800,
+        140
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "JapaneseStyle_WindowWall": {
+      "name": "Japanese Style Window Wall",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "JapaneseStyle_roof_02": {
+      "name": "Japanese Style roof 02",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "CopperPit": {
+      "name": "Copper Pit",
+      "category": "production",
+      "size": [
+        640,
+        820,
+        200
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "Factory_Money": {
+      "name": "Factory Money",
+      "category": "production",
+      "size": [
+        400,
+        1200,
+        140
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "Stone_TriangleRoof": {
+      "name": "Stone Triangle Roof",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "SphereFactory_Black_04": {
+      "name": "Sphere Factory Black 04",
+      "category": "production",
+      "size": [
+        400,
+        1400,
+        140
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "CrystalPit": {
+      "name": "Crystal Pit",
+      "category": "production",
+      "size": [
+        640,
+        820,
+        200
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "OilPump02": {
+      "name": "Oil Pump02",
+      "category": "production",
+      "size": [
+        800,
+        800,
+        500
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "Glass_SlopedRoofCornerReverse": {
+      "name": "Glass Sloped Roof Corner Reverse",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Iron_TriangleRoof": {
+      "name": "Iron Triangle Roof",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "AncientRelicRecycler": {
+      "name": "Ancient Relic Recycler",
+      "category": "decor",
+      "size": [
+        300,
+        411.941834,
+        95
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "JapaneseStyle_TriangleWall": {
+      "name": "Japanese Style Triangle Wall",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "WorkBench_SkillUnlock": {
+      "name": "Work Bench Skill Unlock",
+      "category": "production",
+      "size": [
+        200,
+        300,
+        95
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "Wooden_WallGate": {
+      "name": "Wooden Wall Gate",
+      "category": "structure",
+      "size": [
+        400,
+        30,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "WeaponFactory_Dirty_04": {
+      "name": "Weapon Factory Dirty 04",
+      "category": "production",
+      "size": [
+        400,
+        1400,
+        140
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "Factory_Hard_04": {
+      "name": "Factory Hard 04",
+      "category": "production",
+      "size": [
+        400,
+        1400,
+        140
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "Metal_pillars": {
+      "name": "Metal pillars",
+      "category": "structure",
+      "size": [
+        40,
+        40,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Glass_TriangleRoof": {
+      "name": "Glass Triangle Roof",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Wood_SlantedRoof": {
+      "name": "Wood Slanted Roof",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Wooden_TriangleRoof": {
+      "name": "Wooden Triangle Roof",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Metal_Roof": {
+      "name": "Metal Roof",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "AncientWorkBench": {
+      "name": "Ancient Work Bench",
+      "category": "production",
+      "size": [
+        null,
+        null,
+        null
+      ],
+      "sizeSource": "no rule matched and no works bounds — magenta until measured"
+    },
+    "Stone_WindowWall": {
+      "name": "Stone Window Wall",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Glass_TriangleWallReverse": {
+      "name": "Glass Triangle Wall Reverse",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "FlourMill": {
+      "name": "Flour Mill",
+      "category": "production",
+      "size": [
+        400,
+        460,
+        95
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "Wood_WindowWall": {
+      "name": "Wood Window Wall",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "SkyIslandOrePit": {
+      "name": "Sky Island Ore Pit",
+      "category": "production",
+      "size": [
+        640,
+        820,
+        200
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "JapaneseStyle_roof_01": {
+      "name": "Japanese Style roof 01",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Glass_DoorWall": {
+      "name": "Glass Door Wall",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "BlastFurnace3": {
+      "name": "Blast Furnace3",
+      "category": "production",
+      "size": [
+        200,
+        200,
+        95
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "Metal_DoorWall": {
+      "name": "Metal Door Wall",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Glass_TriangleWall": {
+      "name": "Glass Triangle Wall",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "IceCrusher": {
+      "name": "Ice Crusher",
+      "category": "production",
+      "size": [
+        400,
+        480,
+        95
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "Stone_wall": {
+      "name": "Stone wall",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "BlastFurnace4": {
+      "name": "Blast Furnace4",
+      "category": "production",
+      "size": [
+        400,
+        400,
+        95
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "Wooden_DoorWall": {
+      "name": "Wooden Door Wall",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "StationDeforest2": {
+      "name": "Station Deforest2",
+      "category": "production",
+      "size": [
+        820,
+        640,
+        200
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "Glass_DiagonalWall": {
+      "name": "Glass Diagonal Wall",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Wooden_stair": {
+      "name": "Wooden stair",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Glass_WindowWall": {
+      "name": "Glass Window Wall",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Glass_wall": {
+      "name": "Glass wall",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Iron_WallGate": {
+      "name": "Iron Wall Gate",
+      "category": "structure",
+      "size": [
+        400,
+        30,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Metal_TriangleWall": {
+      "name": "Metal Triangle Wall",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "AncientBlastFurnace": {
+      "name": "Ancient Blast Furnace",
+      "category": "production",
+      "size": [
+        null,
+        null,
+        null
+      ],
+      "sizeSource": "no rule matched and no works bounds — magenta until measured"
+    },
+    "Stone_SlopedRoofCornerReverse": {
+      "name": "Stone Sloped Roof Corner Reverse",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Iron_TriangleWallReverse": {
+      "name": "Iron Triangle Wall Reverse",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "CoalPit": {
+      "name": "Coal Pit",
+      "category": "production",
+      "size": [
+        640,
+        820,
+        200
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "QuartzPit": {
+      "name": "Quartz Pit",
+      "category": "production",
+      "size": [
+        640,
+        820,
+        200
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "Ancient_MedicalPalBed": {
+      "name": "Ancient Medical Pal Bed",
+      "category": "decor",
+      "size": [
+        360,
+        360,
+        100
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "WeaponFactory_Dirty_02": {
+      "name": "Weapon Factory Dirty 02",
+      "category": "production",
+      "size": [
+        400,
+        1200,
+        140
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "WeaponFactory_Dirty_01": {
+      "name": "Weapon Factory Dirty 01",
+      "category": "production",
+      "size": [
+        171.026106,
+        259.342584,
+        95
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "MedicalPalBed_03": {
+      "name": "Medical Pal Bed 03",
+      "category": "decor",
+      "size": [
+        360,
+        360,
+        100
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "SulfurPit": {
+      "name": "Sulfur Pit",
+      "category": "production",
+      "size": [
+        640,
+        820,
+        200
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "PlayerBed_03": {
+      "name": "Player Bed 03",
+      "category": "decor",
+      "size": [
+        200,
+        120,
+        60
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "MedicineFacility_02": {
+      "name": "Medicine Facility 02",
+      "category": "production",
+      "size": [
+        180,
+        200,
+        149.595272
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "FishingPond1": {
+      "name": "Fishing Pond1",
+      "category": "production",
+      "size": [
+        null,
+        null,
+        null
+      ],
+      "sizeSource": "no rule matched and no works bounds — magenta until measured"
+    },
+    "CampFire": {
+      "name": "Camp Fire",
+      "category": "production",
+      "size": [
+        200,
+        300,
+        95
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "Factory_Hard_02": {
+      "name": "Factory Hard 02",
+      "category": "production",
+      "size": [
+        400,
+        1200,
+        140
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "PlayerBed_02": {
+      "name": "Player Bed 02",
+      "category": "decor",
+      "size": [
+        200,
+        120,
+        60
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "SF_Fence": {
+      "name": "SF Fence",
+      "category": "defense",
+      "size": [
+        400,
+        20,
+        110
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "RepairBench": {
+      "name": "Repair Bench",
+      "category": "production",
+      "size": [
+        null,
+        null,
+        null
+      ],
+      "sizeSource": "no rule matched and no works bounds — magenta until measured"
+    },
+    "Ancient_Fence": {
+      "name": "Ancient Fence",
+      "category": "defense",
+      "size": [
+        400,
+        20,
+        110
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "JapaneseStyle_Fence": {
+      "name": "Japanese Style Fence",
+      "category": "defense",
+      "size": [
+        400,
+        20,
+        110
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "JapaneseStyle_TriangleFoundation": {
+      "name": "Japanese Style Triangle Foundation",
       "category": "structure",
       "size": [
         400,
@@ -1165,8 +1696,8 @@
       ],
       "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
     },
-    "JapaneseStyle_wall_01": {
-      "name": "Japanese Style wall 01",
+    "JapaneseStyle_DoorWall_03": {
+      "name": "Japanese Style Door Wall 03",
       "category": "structure",
       "size": [
         400,
@@ -1175,8 +1706,8 @@
       ],
       "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
     },
-    "JapaneseStyle_DiagonalWall": {
-      "name": "Japanese Style Diagonal Wall",
+    "JapaneseStyle_DoorWall_02": {
+      "name": "Japanese Style Door Wall 02",
       "category": "structure",
       "size": [
         400,
@@ -1185,8 +1716,68 @@
       ],
       "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
     },
-    "JapaneseStyle_foundation": {
-      "name": "Japanese Style foundation",
+    "SF_SlopedRoofCorner": {
+      "name": "SF Sloped Roof Corner",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Glass_Fence": {
+      "name": "Glass Fence",
+      "category": "defense",
+      "size": [
+        400,
+        20,
+        110
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Glass_WallGate": {
+      "name": "Glass Wall Gate",
+      "category": "structure",
+      "size": [
+        400,
+        30,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "SF_stair": {
+      "name": "SF stair",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Wooden_PyramidRoof": {
+      "name": "Wooden Pyramid Roof",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Wooden_SlopedRoofCornerReverse": {
+      "name": "Wooden Sloped Roof Corner Reverse",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Iron_TriangleFoundation": {
+      "name": "Iron Triangle Foundation",
       "category": "structure",
       "size": [
         400,
@@ -1196,59 +1787,18 @@
       "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually",
       "originAtTop": true
     },
-    "JapaneseStyle_TriangleFoundation": {
-      "name": "Japanese Style Triangle Foundation",
+    "SF_TriangleRoof": {
+      "name": "SF Triangle Roof",
       "category": "structure",
       "size": [
         400,
         400,
-        40
-      ],
-      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually",
-      "originAtTop": true
-    },
-    "SF_WindowWall": {
-      "name": "SF Window Wall",
-      "category": "structure",
-      "size": [
-        400,
-        20,
-        325
+        30
       ],
       "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
     },
-    "JapaneseStyle_stair": {
-      "name": "Japanese Style stair",
-      "category": "structure",
-      "size": [
-        400,
-        400,
-        325
-      ],
-      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
-    },
-    "JapaneseStyle_Pillar": {
-      "name": "Japanese Style Pillar",
-      "category": "structure",
-      "size": [
-        40,
-        40,
-        325
-      ],
-      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
-    },
-    "JapaneseStyle_WallGate": {
-      "name": "Japanese Style Wall Gate",
-      "category": "structure",
-      "size": [
-        400,
-        30,
-        325
-      ],
-      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
-    },
-    "JapaneseStyle_Fence": {
-      "name": "Japanese Style Fence",
+    "Iron_Fence": {
+      "name": "Iron Fence",
       "category": "defense",
       "size": [
         400,
@@ -1257,58 +1807,8 @@
       ],
       "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
     },
-    "SF_Fence": {
-      "name": "SF Fence",
-      "category": "defense",
-      "size": [
-        400,
-        20,
-        110
-      ],
-      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
-    },
-    "Ancient_wall": {
-      "name": "Ancient wall",
-      "category": "structure",
-      "size": [
-        400,
-        20,
-        325
-      ],
-      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
-    },
-    "Ancient_WindowWall": {
-      "name": "Ancient Window Wall",
-      "category": "structure",
-      "size": [
-        400,
-        20,
-        325
-      ],
-      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
-    },
-    "Ancient_TriangleWallReverse": {
-      "name": "Ancient Triangle Wall Reverse",
-      "category": "structure",
-      "size": [
-        400,
-        20,
-        325
-      ],
-      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
-    },
-    "Ancient_DiagonalWall": {
-      "name": "Ancient Diagonal Wall",
-      "category": "structure",
-      "size": [
-        400,
-        20,
-        325
-      ],
-      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
-    },
-    "Ancient_roof": {
-      "name": "Ancient roof",
+    "Wooden_SlopedRoofCorner": {
+      "name": "Wooden Sloped Roof Corner",
       "category": "structure",
       "size": [
         400,
@@ -1317,28 +1817,8 @@
       ],
       "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
     },
-    "Ancient_TriangleWall": {
-      "name": "Ancient Triangle Wall",
-      "category": "structure",
-      "size": [
-        400,
-        20,
-        325
-      ],
-      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
-    },
-    "Ancient_DoorWall": {
-      "name": "Ancient Door Wall",
-      "category": "structure",
-      "size": [
-        400,
-        20,
-        325
-      ],
-      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
-    },
-    "Ancient_TriangleRoof": {
-      "name": "Ancient Triangle Roof",
+    "Stone_PyramidRoof": {
+      "name": "Stone Pyramid Roof",
       "category": "structure",
       "size": [
         400,
@@ -1347,8 +1827,8 @@
       ],
       "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
     },
-    "Ancient_SlopedRoofCorner": {
-      "name": "Ancient Sloped Roof Corner",
+    "Stone_SlopedRoofCorner": {
+      "name": "Stone Sloped Roof Corner",
       "category": "structure",
       "size": [
         400,
@@ -1357,75 +1837,15 @@
       ],
       "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
     },
-    "Ancient_Fence": {
-      "name": "Ancient Fence",
-      "category": "defense",
+    "Factory_Hard_01": {
+      "name": "Factory Hard 01",
+      "category": "production",
       "size": [
-        400,
-        20,
-        110
+        260,
+        360,
+        140
       ],
-      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
-    },
-    "Ancient_WallGate": {
-      "name": "Ancient Wall Gate",
-      "category": "structure",
-      "size": [
-        400,
-        30,
-        325
-      ],
-      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
-    },
-    "Ancient_SlopedRoofCornerReverse": {
-      "name": "Ancient Sloped Roof Corner Reverse",
-      "category": "structure",
-      "size": [
-        400,
-        400,
-        30
-      ],
-      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
-    },
-    "Ancient_stair": {
-      "name": "Ancient stair",
-      "category": "structure",
-      "size": [
-        400,
-        400,
-        325
-      ],
-      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
-    },
-    "Ancient_TriangleStairsCorner": {
-      "name": "Ancient Triangle Stairs Corner",
-      "category": "structure",
-      "size": [
-        400,
-        400,
-        325
-      ],
-      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
-    },
-    "Ancient_SlantedRoof": {
-      "name": "Ancient Slanted Roof",
-      "category": "structure",
-      "size": [
-        400,
-        400,
-        30
-      ],
-      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
-    },
-    "Ancient_Pillars": {
-      "name": "Ancient Pillars",
-      "category": "structure",
-      "size": [
-        40,
-        40,
-        325
-      ],
-      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
     }
   }
 }

@@ -44,6 +44,10 @@ function classify(typeId: string, donor: any): { category: string; size: (number
   if (t.includes("ladder")) return rule("structure", [40, 20, WALL_H]);
   if (t.includes("stair")) return rule("structure", [GRID, GRID, WALL_H]);
   if (t.includes("roof")) return rule("structure", [GRID, GRID, 30]);
+  // Pal beds: MedicalPalBed_02's measured bounds were 360x360x100; assume the
+  // family matches. Player beds are visibly smaller — rough eyeball.
+  if (t.includes("palbed")) return rule("decor", [360, 360, 100]);
+  if (t.includes("bed")) return rule("decor", [200, 120, 60]);
 
   // Production/furniture: prefer real bounds from the donor's works entry.
   const be = donor?.works?.[0]?.RawData?.value?.workable_bounds?.box_sphere_bounds?.box_extent;
@@ -54,7 +58,11 @@ function classify(typeId: string, donor: any): { category: string; size: (number
   const src = size[0]
     ? "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
     : "no rule matched and no works bounds — magenta until measured";
-  if (t.includes("bench") || t.includes("factory") || t.includes("workbench")) {
+  const PRODUCTION_HINTS = [
+    "bench", "factory", "furnace", "pit", "crusher", "mill", "pump",
+    "station", "facility", "pond", "campfire", "multiproduct", "desk",
+  ];
+  if (PRODUCTION_HINTS.some((h) => t.includes(h))) {
     return { category: "production", size, sizeSource: src };
   }
   return size[0] ? { category: "decor", size, sizeSource: src } : null;
