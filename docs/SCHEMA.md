@@ -76,10 +76,18 @@ appear as `{"~b": "<base64>"}` (`trailing_bytes`, `CustomVersionData`,
   },
   "ConcreteModel": {               // struct_type: PalMapObjectConcreteModelSaveData
     "value": {
+      // TWO SHAPES EXIST (discovered 2026-07-16 via export lint):
+      // 1. "Smart" objects (chest, workbench, palbox, …): RawData.value has
+      //    instance_id / model_instance_id / concrete_model_type + extras,
+      //    and Model.RawData.concrete_model_instance_id cross-references it.
+      // 2. Plain structural pieces (foundations, walls, pillars, roofs, …):
+      //    Model.RawData.concrete_model_instance_id is the ZERO GUID and
+      //    RawData.value is just {"values": <opaque>} with NO id fields.
+      //    Preserve verbatim; never mint concrete ids for these (C4).
       "RawData": { "value": {
-        "instance_id": "<guid>",   // == concrete_model_instance_id above
-        "model_instance_id": "<guid>",  // == Model instance_id (backref)
-        "concrete_model_type": "PalMapObjectBaseCampPoint" // etc.
+        "instance_id": "<guid>",   // == concrete_model_instance_id above (shape 1 only)
+        "model_instance_id": "<guid>",  // == Model instance_id (backref, shape 1 only)
+        "concrete_model_type": "PalMapObjectBaseCampPoint" // etc. (shape 1 only)
         /* + type-specific fields — treat all as UNKNOWN except observed ones */
       }},
       "ModuleMap": { "value": [    // present on objects with behaviours
