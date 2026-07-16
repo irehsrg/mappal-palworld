@@ -1,0 +1,68 @@
+{
+  "_README": "Type registry: MapObjectId.value -> display info + gray-box dimensions in Unreal units (cm), full extents [x, y, z]. Only types personally observed in fixtures/ may appear here (CLAUDE.md C4). null dimension = not yet measured; renderer falls back to magenta unknown-box sizing. Sources: grid math in docs/CALIBRATION.md; furniture dims from works[].workable_bounds.box_extent (half-extents doubled).",
+  "gridPitch": 400,
+  "verticalPitch": 325,
+  "types": {
+    "Wooden_foundation": {
+      "name": "Wooden Foundation",
+      "category": "structure",
+      "size": [400, 400, 40],
+      "sizeSource": "footprint = derived grid pitch; thickness eyeballed, origin at top surface — refine later",
+      "originAtTop": true
+    },
+    "Wooden_wall": {
+      "name": "Wooden Wall",
+      "category": "structure",
+      "size": [400, 20, 325],
+      "sizeSource": "width = grid pitch, height = derived vertical pitch (pillar-derived, wall assumed equal), thickness eyeballed; origin at bottom edge midpoint"
+    },
+    "Wooden_pillar": {
+      "name": "Wooden Pillar",
+      "category": "structure",
+      "size": [40, 40, 325],
+      "sizeSource": "height = derived vertical pitch (measured from stacked pair); cross-section eyeballed"
+    },
+    "Wooden_roof": {
+      "name": "Wooden Roof",
+      "category": "structure",
+      "size": [400, 400, 20],
+      "sizeSource": "footprint assumed = grid pitch; thickness eyeballed"
+    },
+    "PalBoxV2": {
+      "name": "Palbox",
+      "category": "structure",
+      "size": [null, null, null],
+      "sizeSource": "not measured; its works entry lacks usable bounds in fixture"
+    },
+    "ItemChest": {
+      "name": "Wooden Chest",
+      "category": "storage",
+      "size": [160, 200, 74],
+      "sizeSource": "works[].workable_bounds.box_extent (80,100,37) doubled"
+    },
+    "Workbench": {
+      "name": "Primitive Workbench",
+      "category": "production",
+      "size": [220, 300, 95],
+      "sizeSource": "works[].workable_bounds.box_extent (110,150,47.5) doubled — interaction volume, slightly padded"
+    },
+    "MedicalPalBed_02": {
+      "name": "Pal Bed (Medical 02)",
+      "category": "decor",
+      "size": [360, 360, 100],
+      "sizeSource": "works[].workable_bounds.box_extent (180,180,50) doubled — interaction volume, likely padded"
+    },
+    "CommonDropItem3D": {
+      "name": "Dropped Item Bag",
+      "category": "world",
+      "size": [50, 50, 50],
+      "sizeSource": "nominal marker size — not a buildable; preserve verbatim, render distinctly"
+    },
+    "DamagableRock0012": {
+      "name": "Rock (world object)",
+      "category": "world",
+      "size": [null, null, null],
+      "sizeSource": "not a buildable; preserve verbatim, render distinctly"
+    }
+  }
+}

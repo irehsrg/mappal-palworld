@@ -1,0 +1,3 @@
+# Fixtures are byte-exact test data (round-trip fidelity, CLAUDE.md C5) —
+# never let git normalize their line endings.
+fixtures/** -text
