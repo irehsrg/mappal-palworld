@@ -58,12 +58,30 @@ function classify(typeId: string, donor: any): { category: string; size: (number
   const src = size[0]
     ? "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
     : "no rule matched and no works bounds — magenta until measured";
+  const STORAGE_HINTS = [
+    "shelf", "chest", "box", "container", "barrel", "tansu", "cask", "storage",
+  ];
+  if (STORAGE_HINTS.some((h) => t.includes(h))) {
+    return {
+      category: "storage",
+      size: size[0] ? size : [200, 100, 180],
+      sizeSource: size[0] ? src : "rough storage-furniture estimate — display only",
+    };
+  }
   const PRODUCTION_HINTS = [
     "bench", "factory", "furnace", "pit", "crusher", "mill", "pump",
     "station", "facility", "pond", "campfire", "multiproduct", "desk",
+    "conveyor", "stove", "hatch", "lab", "operating", "basecampwork",
   ];
   if (PRODUCTION_HINTS.some((h) => t.includes(h))) {
     return { category: "production", size, sizeSource: src };
+  }
+  const SPECIAL_HINTS = [
+    "altar", "statue", "expedition", "rankup", "skinchange",
+    "displaycharacter", "goddess",
+  ];
+  if (SPECIAL_HINTS.some((h) => t.includes(h))) {
+    return { category: "decor", size, sizeSource: src };
   }
   return size[0] ? { category: "decor", size, sizeSource: src } : null;
 }

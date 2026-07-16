@@ -1846,6 +1846,596 @@
         140
       ],
       "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "FarmBlockV2_Carrot": {
+      "name": "Farm Block V2 Carrot",
+      "category": "decor",
+      "size": [
+        700,
+        700,
+        24
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "CoolerPalFoodBox": {
+      "name": "Cooler Pal Food Box",
+      "category": "storage",
+      "size": [
+        200,
+        200,
+        45
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "Shelf07_Stone": {
+      "name": "Shelf07 Stone",
+      "category": "storage",
+      "size": [
+        200,
+        100,
+        180
+      ],
+      "sizeSource": "rough storage-furniture estimate — display only"
+    },
+    "Shelf06_Stone": {
+      "name": "Shelf06 Stone",
+      "category": "storage",
+      "size": [
+        200,
+        100,
+        180
+      ],
+      "sizeSource": "rough storage-furniture estimate — display only"
+    },
+    "FarmBlockV2_Onion": {
+      "name": "Farm Block V2 Onion",
+      "category": "decor",
+      "size": [
+        700,
+        700,
+        24
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "Shelf02_Iron": {
+      "name": "Shelf02 Iron",
+      "category": "storage",
+      "size": [
+        200,
+        100,
+        180
+      ],
+      "sizeSource": "rough storage-furniture estimate — display only"
+    },
+    "HugeKitchen": {
+      "name": "Huge Kitchen",
+      "category": "decor",
+      "size": [
+        260,
+        260,
+        100
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "Box02_Iron": {
+      "name": "Box02 Iron",
+      "category": "storage",
+      "size": [
+        200,
+        100,
+        180
+      ],
+      "sizeSource": "rough storage-furniture estimate — display only"
+    },
+    "FishingPond2": {
+      "name": "Fishing Pond2",
+      "category": "production",
+      "size": [
+        null,
+        null,
+        null
+      ],
+      "sizeSource": "no rule matched and no works bounds — magenta until measured"
+    },
+    "FarmBlockV2_tomato": {
+      "name": "Farm Block V2 tomato",
+      "category": "decor",
+      "size": [
+        700,
+        700,
+        24
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "AncientFarmBlock": {
+      "name": "Ancient Farm Block",
+      "category": "decor",
+      "size": [
+        360,
+        320,
+        60
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "DismantlingConveyor": {
+      "name": "Dismantling Conveyor",
+      "category": "production",
+      "size": [
+        null,
+        null,
+        null
+      ],
+      "sizeSource": "no rule matched and no works bounds — magenta until measured"
+    },
+    "FarmBlockV2_Potato": {
+      "name": "Farm Block V2 Potato",
+      "category": "decor",
+      "size": [
+        700,
+        700,
+        24
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "Farm_SkillFruits": {
+      "name": "Farm Skill Fruits",
+      "category": "decor",
+      "size": [
+        700,
+        700,
+        24
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "FarmBlockV2_Berries": {
+      "name": "Farm Block V2 Berries",
+      "category": "decor",
+      "size": [
+        500,
+        500,
+        24
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "FarmBlockV2_Lettuce": {
+      "name": "Farm Block V2 Lettuce",
+      "category": "decor",
+      "size": [
+        700,
+        700,
+        24
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "AncientCookingStove": {
+      "name": "Ancient Cooking Stove",
+      "category": "production",
+      "size": [
+        null,
+        null,
+        null
+      ],
+      "sizeSource": "no rule matched and no works bounds — magenta until measured"
+    },
+    "BaseCampWorkHard02": {
+      "name": "Base Camp Work Hard02",
+      "category": "production",
+      "size": [
+        null,
+        null,
+        null
+      ],
+      "sizeSource": "no rule matched and no works bounds — magenta until measured"
+    },
+    "BaseCampWorkHard": {
+      "name": "Base Camp Work Hard",
+      "category": "production",
+      "size": [
+        null,
+        null,
+        null
+      ],
+      "sizeSource": "no rule matched and no works bounds — magenta until measured"
+    },
+    "FarmBlockV2_wheet": {
+      "name": "Farm Block V2 wheet",
+      "category": "decor",
+      "size": [
+        700,
+        700,
+        24
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "PalFoodBox": {
+      "name": "Pal Food Box",
+      "category": "storage",
+      "size": [
+        200,
+        100,
+        180
+      ],
+      "sizeSource": "rough storage-furniture estimate — display only"
+    },
+    "ElectricKitchen": {
+      "name": "Electric Kitchen",
+      "category": "decor",
+      "size": [
+        200,
+        200,
+        100
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "Tansu": {
+      "name": "Tansu",
+      "category": "storage",
+      "size": [
+        200,
+        100,
+        180
+      ],
+      "sizeSource": "rough storage-furniture estimate — display only"
+    },
+    "GlobalPalStorage": {
+      "name": "Global Pal Storage",
+      "category": "storage",
+      "size": [
+        200,
+        100,
+        180
+      ],
+      "sizeSource": "rough storage-furniture estimate — display only"
+    },
+    "CookingStove": {
+      "name": "Cooking Stove",
+      "category": "production",
+      "size": [
+        150,
+        120,
+        100
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "SkinChange": {
+      "name": "Skin Change",
+      "category": "decor",
+      "size": [
+        null,
+        null,
+        null
+      ],
+      "sizeSource": "no rule matched and no works bounds — magenta until measured"
+    },
+    "BaseCampWorkHard03": {
+      "name": "Base Camp Work Hard03",
+      "category": "production",
+      "size": [
+        null,
+        null,
+        null
+      ],
+      "sizeSource": "no rule matched and no works bounds — magenta until measured"
+    },
+    "DimensionPalStorage": {
+      "name": "Dimension Pal Storage",
+      "category": "storage",
+      "size": [
+        200,
+        100,
+        180
+      ],
+      "sizeSource": "rough storage-furniture estimate — display only"
+    },
+    "BaseCampWorkerExtraStation": {
+      "name": "Base Camp Worker Extra Station",
+      "category": "production",
+      "size": [
+        null,
+        null,
+        null
+      ],
+      "sizeSource": "no rule matched and no works bounds — magenta until measured"
+    },
+    "Lab": {
+      "name": "Lab",
+      "category": "production",
+      "size": [
+        null,
+        null,
+        null
+      ],
+      "sizeSource": "no rule matched and no works bounds — magenta until measured"
+    },
+    "MultiElectricHatchingPalEggWithBreed": {
+      "name": "Multi Electric Hatching Pal Egg With Breed",
+      "category": "production",
+      "size": [
+        null,
+        null,
+        null
+      ],
+      "sizeSource": "no rule matched and no works bounds — magenta until measured"
+    },
+    "OperatingTable": {
+      "name": "Operating Table",
+      "category": "production",
+      "size": [
+        null,
+        null,
+        null
+      ],
+      "sizeSource": "no rule matched and no works bounds — magenta until measured"
+    },
+    "Shelf05_Stone": {
+      "name": "Shelf05 Stone",
+      "category": "storage",
+      "size": [
+        200,
+        100,
+        180
+      ],
+      "sizeSource": "rough storage-furniture estimate — display only"
+    },
+    "GuildChest": {
+      "name": "Guild Chest",
+      "category": "storage",
+      "size": [
+        200,
+        100,
+        180
+      ],
+      "sizeSource": "rough storage-furniture estimate — display only"
+    },
+    "BaseCampItemDispenser": {
+      "name": "Base Camp Item Dispenser",
+      "category": "production",
+      "size": [
+        null,
+        null,
+        null
+      ],
+      "sizeSource": "no rule matched and no works bounds — magenta until measured"
+    },
+    "BuildableGoddessStatue": {
+      "name": "Buildable Goddess Statue",
+      "category": "decor",
+      "size": [
+        null,
+        null,
+        null
+      ],
+      "sizeSource": "no rule matched and no works bounds — magenta until measured"
+    },
+    "Expedition": {
+      "name": "Expedition",
+      "category": "decor",
+      "size": [
+        null,
+        null,
+        null
+      ],
+      "sizeSource": "no rule matched and no works bounds — magenta until measured"
+    },
+    "CharacterRankUp": {
+      "name": "Character Rank Up",
+      "category": "decor",
+      "size": [
+        null,
+        null,
+        null
+      ],
+      "sizeSource": "no rule matched and no works bounds — magenta until measured"
+    },
+    "MonsterFarm": {
+      "name": "Monster Farm",
+      "category": "decor",
+      "size": [
+        1100,
+        1100,
+        200
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "DisplayCharacter": {
+      "name": "Display Character",
+      "category": "decor",
+      "size": [
+        null,
+        null,
+        null
+      ],
+      "sizeSource": "no rule matched and no works bounds — magenta until measured"
+    },
+    "Shelf_Wood": {
+      "name": "Shelf Wood",
+      "category": "storage",
+      "size": [
+        200,
+        100,
+        180
+      ],
+      "sizeSource": "rough storage-furniture estimate — display only"
+    },
+    "Altar": {
+      "name": "Altar",
+      "category": "decor",
+      "size": [
+        null,
+        null,
+        null
+      ],
+      "sizeSource": "no rule matched and no works bounds — magenta until measured"
+    },
+    "CoolerBox": {
+      "name": "Cooler Box",
+      "category": "storage",
+      "size": [
+        246.34243,
+        235.355402,
+        100
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "ItemChest_02": {
+      "name": "Item Chest 02",
+      "category": "storage",
+      "size": [
+        200,
+        100,
+        180
+      ],
+      "sizeSource": "rough storage-furniture estimate — display only"
+    },
+    "Shelf04_Iron": {
+      "name": "Shelf04 Iron",
+      "category": "storage",
+      "size": [
+        200,
+        100,
+        180
+      ],
+      "sizeSource": "rough storage-furniture estimate — display only"
+    },
+    "ItemChest_03": {
+      "name": "Item Chest 03",
+      "category": "storage",
+      "size": [
+        200,
+        100,
+        180
+      ],
+      "sizeSource": "rough storage-furniture estimate — display only"
+    },
+    "Shelf03_Iron": {
+      "name": "Shelf03 Iron",
+      "category": "storage",
+      "size": [
+        200,
+        100,
+        180
+      ],
+      "sizeSource": "rough storage-furniture estimate — display only"
+    },
+    "Container01_Iron": {
+      "name": "Container01 Iron",
+      "category": "storage",
+      "size": [
+        200,
+        100,
+        180
+      ],
+      "sizeSource": "rough storage-furniture estimate — display only"
+    },
+    "Shelf04_Stone": {
+      "name": "Shelf04 Stone",
+      "category": "storage",
+      "size": [
+        200,
+        100,
+        180
+      ],
+      "sizeSource": "rough storage-furniture estimate — display only"
+    },
+    "Shelf03_Stone": {
+      "name": "Shelf03 Stone",
+      "category": "storage",
+      "size": [
+        200,
+        100,
+        180
+      ],
+      "sizeSource": "rough storage-furniture estimate — display only"
+    },
+    "Refrigerator": {
+      "name": "Refrigerator",
+      "category": "decor",
+      "size": [
+        200,
+        200,
+        100
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "ItemChest_04": {
+      "name": "Item Chest 04",
+      "category": "storage",
+      "size": [
+        200,
+        100,
+        180
+      ],
+      "sizeSource": "rough storage-furniture estimate — display only"
+    },
+    "Shelf02_Stone": {
+      "name": "Shelf02 Stone",
+      "category": "storage",
+      "size": [
+        200,
+        100,
+        180
+      ],
+      "sizeSource": "rough storage-furniture estimate — display only"
+    },
+    "Box01_Iron": {
+      "name": "Box01 Iron",
+      "category": "storage",
+      "size": [
+        200,
+        100,
+        180
+      ],
+      "sizeSource": "rough storage-furniture estimate — display only"
+    },
+    "Shelf01_Stone": {
+      "name": "Shelf01 Stone",
+      "category": "storage",
+      "size": [
+        200,
+        100,
+        180
+      ],
+      "sizeSource": "rough storage-furniture estimate — display only"
+    },
+    "Shelf01_Iron": {
+      "name": "Shelf01 Iron",
+      "category": "storage",
+      "size": [
+        200,
+        100,
+        180
+      ],
+      "sizeSource": "rough storage-furniture estimate — display only"
+    },
+    "Box_Wood": {
+      "name": "Box Wood",
+      "category": "storage",
+      "size": [
+        200,
+        100,
+        180
+      ],
+      "sizeSource": "rough storage-furniture estimate — display only"
+    },
+    "Shelf_Cask_Wood": {
+      "name": "Shelf Cask Wood",
+      "category": "storage",
+      "size": [
+        200,
+        100,
+        180
+      ],
+      "sizeSource": "rough storage-furniture estimate — display only"
+    },
+    "Barrel_Wood": {
+      "name": "Barrel Wood",
+      "category": "storage",
+      "size": [
+        200,
+        100,
+        180
+      ],
+      "sizeSource": "rough storage-furniture estimate — display only"
     }
   }
 }
