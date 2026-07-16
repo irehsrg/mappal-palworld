@@ -6,63 +6,517 @@
     "Wooden_foundation": {
       "name": "Wooden Foundation",
       "category": "structure",
-      "size": [400, 400, 40],
+      "size": [
+        400,
+        400,
+        40
+      ],
       "sizeSource": "footprint = derived grid pitch; thickness eyeballed, origin at top surface — refine later",
       "originAtTop": true
     },
     "Wooden_wall": {
       "name": "Wooden Wall",
       "category": "structure",
-      "size": [400, 20, 325],
+      "size": [
+        400,
+        20,
+        325
+      ],
       "sizeSource": "width = grid pitch, height = derived vertical pitch (pillar-derived, wall assumed equal), thickness eyeballed; origin at bottom edge midpoint"
     },
     "Wooden_pillar": {
       "name": "Wooden Pillar",
       "category": "structure",
-      "size": [40, 40, 325],
+      "size": [
+        40,
+        40,
+        325
+      ],
       "sizeSource": "height = derived vertical pitch (measured from stacked pair); cross-section eyeballed"
     },
     "Wooden_roof": {
       "name": "Wooden Roof",
       "category": "structure",
-      "size": [400, 400, 20],
+      "size": [
+        400,
+        400,
+        20
+      ],
       "sizeSource": "footprint assumed = grid pitch; thickness eyeballed"
     },
     "PalBoxV2": {
       "name": "Palbox",
       "category": "structure",
-      "size": [null, null, null],
+      "size": [
+        null,
+        null,
+        null
+      ],
       "sizeSource": "not measured; its works entry lacks usable bounds in fixture"
     },
     "ItemChest": {
       "name": "Wooden Chest",
       "category": "storage",
-      "size": [160, 200, 74],
+      "size": [
+        160,
+        200,
+        74
+      ],
       "sizeSource": "works[].workable_bounds.box_extent (80,100,37) doubled"
     },
     "Workbench": {
       "name": "Primitive Workbench",
       "category": "production",
-      "size": [220, 300, 95],
+      "size": [
+        220,
+        300,
+        95
+      ],
       "sizeSource": "works[].workable_bounds.box_extent (110,150,47.5) doubled — interaction volume, slightly padded"
     },
     "MedicalPalBed_02": {
       "name": "Pal Bed (Medical 02)",
       "category": "decor",
-      "size": [360, 360, 100],
+      "size": [
+        360,
+        360,
+        100
+      ],
       "sizeSource": "works[].workable_bounds.box_extent (180,180,50) doubled — interaction volume, likely padded"
     },
     "CommonDropItem3D": {
       "name": "Dropped Item Bag",
       "category": "world",
-      "size": [50, 50, 50],
+      "size": [
+        50,
+        50,
+        50
+      ],
       "sizeSource": "nominal marker size — not a buildable; preserve verbatim, render distinctly"
     },
     "DamagableRock0012": {
       "name": "Rock (world object)",
       "category": "world",
-      "size": [null, null, null],
+      "size": [
+        null,
+        null,
+        null
+      ],
       "sizeSource": "not a buildable; preserve verbatim, render distinctly"
+    },
+    "Wood_TriangleWallReverse": {
+      "name": "Wood Triangle Wall Reverse",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Wooden_PyramidRoof": {
+      "name": "Wooden Pyramid Roof",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Wooden_ladder": {
+      "name": "Wooden ladder",
+      "category": "structure",
+      "size": [
+        40,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Wooden_DiagonalWall": {
+      "name": "Wooden Diagonal Wall",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Wooden_SlopedRoofCornerReverse": {
+      "name": "Wooden Sloped Roof Corner Reverse",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Stone_Foundation": {
+      "name": "Stone Foundation",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        40
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually",
+      "originAtTop": true
+    },
+    "Stone_DiagonalWall": {
+      "name": "Stone Diagonal Wall",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Wood_TriangleWall": {
+      "name": "Wood Triangle Wall",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Stone_TriangleRoof": {
+      "name": "Stone Triangle Roof",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Stone_TriangleFoundation": {
+      "name": "Stone Triangle Foundation",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        40
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually",
+      "originAtTop": true
+    },
+    "Wooden_WallGate": {
+      "name": "Wooden Wall Gate",
+      "category": "structure",
+      "size": [
+        400,
+        30,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Wood_SlantedRoof": {
+      "name": "Wood Slanted Roof",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Wooden_TriangleRoof": {
+      "name": "Wooden Triangle Roof",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Stone_WindowWall": {
+      "name": "Stone Window Wall",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Wooden_TriangleFoundation": {
+      "name": "Wooden Triangle Foundation",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        40
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually",
+      "originAtTop": true
+    },
+    "Wood_WindowWall": {
+      "name": "Wood Window Wall",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Stone_wall": {
+      "name": "Stone wall",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Wooden_DoorWall": {
+      "name": "Wooden Door Wall",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Wooden_stair": {
+      "name": "Wooden stair",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Wooden_SlopedRoofCorner": {
+      "name": "Wooden Sloped Roof Corner",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Stone_PyramidRoof": {
+      "name": "Stone Pyramid Roof",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Stone_SlopedRoofCornerReverse": {
+      "name": "Stone Sloped Roof Corner Reverse",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Stone_TriangleWall": {
+      "name": "Stone Triangle Wall",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Wood_Fence": {
+      "name": "Wood Fence",
+      "category": "defense",
+      "size": [
+        400,
+        20,
+        110
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Stone_SlantedRoof": {
+      "name": "Stone Slanted Roof",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Stone_SlopedRoofCorner": {
+      "name": "Stone Sloped Roof Corner",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Stone_DoorWall": {
+      "name": "Stone Door Wall",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Wooden_TriangleStairsCorner": {
+      "name": "Wooden Triangle Stairs Corner",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Stone_Roof": {
+      "name": "Stone Roof",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Stone_TriangleWallReverse": {
+      "name": "Stone Triangle Wall Reverse",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Stone_TriangleStairsCorner": {
+      "name": "Stone Triangle Stairs Corner",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Stone_Stair": {
+      "name": "Stone Stair",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Stone_pillar": {
+      "name": "Stone pillar",
+      "category": "structure",
+      "size": [
+        40,
+        40,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Stone_WallGate": {
+      "name": "Stone Wall Gate",
+      "category": "structure",
+      "size": [
+        400,
+        30,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Stone_Fence": {
+      "name": "Stone Fence",
+      "category": "defense",
+      "size": [
+        400,
+        20,
+        110
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "RepairBench": {
+      "name": "Repair Bench",
+      "category": "production",
+      "size": [
+        null,
+        null,
+        null
+      ],
+      "sizeSource": "no rule matched and no works bounds — magenta until measured"
+    },
+    "WorkBench_SkillUnlock": {
+      "name": "Work Bench Skill Unlock",
+      "category": "production",
+      "size": [
+        200,
+        300,
+        95
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "Factory_Hard_01": {
+      "name": "Factory Hard 01",
+      "category": "production",
+      "size": [
+        260,
+        360,
+        140
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "Factory_Hard_03": {
+      "name": "Factory Hard 03",
+      "category": "production",
+      "size": [
+        400,
+        1800,
+        140
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "Metal_Foundation": {
+      "name": "Metal Foundation",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        40
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually",
+      "originAtTop": true
+    },
+    "Factory_Hard_02": {
+      "name": "Factory Hard 02",
+      "category": "production",
+      "size": [
+        400,
+        1200,
+        140
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
     }
   }
 }
