@@ -183,6 +183,11 @@ correctly" are different claims, and only the in-game loop tests the second one.
 > incident; see docs/CALIBRATION.md). Placement ships covered by
 > `src/model/placement.test.ts`; each new donor type still needs one in-game
 > verification before it's considered trusted.
+>
+> **2026-07-16, later:** mixed-type placement export (structures, storage,
+> production machines, utility pieces) imported into a throwaway world — all
+> pieces spawned correctly (verified by Alex). All 242 donor types harvested
+> to date are trusted. The per-new-donor rule continues for future harvests.
 
 The blocker is §0.2's linkage question. To synthesize a *new* chest, we likely must also
 synthesize its container entry, its ID, and its registration with the base camp — and

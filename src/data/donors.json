@@ -245,7 +245,8 @@
    "Shelf_Cask_Wood": "fixtures/sampler_02.json",
    "Barrel_Wood": "fixtures/sampler_02.json"
   },
-  "harvestedAt": "2026-07-16T20:46:12.695Z"
+  "harvestedAt": "2026-07-16T20:46:12.695Z",
+  "verifiedInGame": "2026-07-16 — mixed-type placement export imported into a throwaway world via PST v2.1.0; all pieces spawned correctly (verified by Alex). All donor types harvested up to this date are trusted."
  },
  "donors": {
   "Wooden_foundation": {
