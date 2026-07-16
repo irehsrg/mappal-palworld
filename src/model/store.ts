@@ -9,6 +9,7 @@ import { create } from "zustand";
 import { loadBlueprint, serializeBlueprint, type LoadedBlueprint } from "../parse/blueprint";
 import { extractCampInfo, extractObjects, type CampInfo } from "./blueprintView";
 import { mintGuid, reconcileExport, type DonorLibrary } from "./writeback";
+import { validateLinkage } from "./validate";
 import type { PlacedObject, Quat, Vec3 } from "./types";
 import donorsJson from "../data/donors.json";
 
@@ -258,6 +259,15 @@ export const useEditorStore = create<EditorState>((set, get) => {
       const { blueprint, objects, fileName } = get();
       if (!blueprint) return null;
       const { raw, notes } = reconcileExport(blueprint.raw, objects, DONORS);
+      const lintWarnings = validateLinkage(raw);
+      if (lintWarnings.length > 0) {
+        notes.push(
+          `⚠ export lint found ${lintWarnings.length} linkage issue(s):`,
+          ...lintWarnings
+        );
+      } else {
+        notes.push("export lint: linkage graph clean");
+      }
       const text = serializeBlueprint({ raw, warnings: [] });
       const base = (fileName ?? "blueprint.json").replace(/\.json$/i, "");
       return { filename: `${base}_edited.json`, text, notes };

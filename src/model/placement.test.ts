@@ -48,10 +48,12 @@ describe("palette placement (donor pattern)", () => {
       before.map_objects.map((m: any) => m.Model.value.RawData.value.instance_id)
     );
     expect(originalIds.has(rd.instance_id)).toBe(false);
-    // Model <-> ConcreteModel cross-references are consistent.
+    // Structural pieces have NO concrete model: the zero GUID and an opaque
+    // ConcreteModel blob must be preserved verbatim, never invented (C4).
     const crd = added.ConcreteModel.value.RawData.value;
-    expect(crd.model_instance_id).toBe(placedId);
-    expect(crd.instance_id).toBe(rd.concrete_model_instance_id);
+    expect(rd.concrete_model_instance_id).toBe("00000000-0000-0000-0000-000000000000");
+    expect(crd.instance_id).toBeUndefined();
+    expect(crd.model_instance_id).toBeUndefined();
     // Membership rewritten to THIS file's camp and guild.
     expect(rd.base_camp_id_belong_to).toBe(before.base_camp.key);
     expect(rd.group_id_belong_to).toBe(
@@ -73,9 +75,15 @@ describe("palette placement (donor pattern)", () => {
   });
 
   it("places a chest with a fresh inventory container", () => {
-    const { before, after } = placeOne("ItemChest");
+    const { before, after, placedId } = placeOne("ItemChest");
     expect(after.item_containers).toHaveLength(before.item_containers.length + 1);
     const added = after.map_objects[after.map_objects.length - 1];
+    // Smart objects DO have a concrete model — cross-refs must be reminted consistently.
+    const rd = added.Model.value.RawData.value;
+    const crd = added.ConcreteModel.value.RawData.value;
+    expect(crd.model_instance_id).toBe(placedId);
+    expect(crd.instance_id).toBe(rd.concrete_model_instance_id);
+    expect(rd.concrete_model_instance_id).not.toBe("00000000-0000-0000-0000-000000000000");
     const mod = added.ConcreteModel.value.ModuleMap.value.find((m: any) =>
       String(m.key).includes("ItemContainer")
     );

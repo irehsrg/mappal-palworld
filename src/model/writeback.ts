@@ -87,11 +87,25 @@ function cloneBundle(
   const rd = modelRawData(clone, `${opts.label} clone`);
   const crd = concreteRawData(clone, `${opts.label} clone`);
 
-  const newConcreteId = mintGuid();
   rd.instance_id = opts.newModelId;
-  rd.concrete_model_instance_id = newConcreteId;
-  crd.instance_id = newConcreteId;
-  crd.model_instance_id = opts.newModelId;
+
+  // Only "smart" objects (chest, workbench, palbox, …) have a real concrete
+  // model with cross-referencing ids. Plain structural pieces carry the zero
+  // GUID and an opaque ConcreteModel blob with NO id fields (observed in
+  // fixtures — see docs/SCHEMA.md). Never invent fields there (C4): remint
+  // only when the source genuinely has them.
+  const ZERO = "00000000-0000-0000-0000-000000000000";
+  const hasConcrete =
+    typeof srcRd.concrete_model_instance_id === "string" &&
+    srcRd.concrete_model_instance_id !== ZERO &&
+    typeof crd.instance_id === "string";
+  let newConcreteId: string | null = null;
+  if (hasConcrete) {
+    newConcreteId = mintGuid();
+    rd.concrete_model_instance_id = newConcreteId;
+    crd.instance_id = newConcreteId;
+    crd.model_instance_id = opts.newModelId;
+  }
   if (opts.rebase) {
     rd.base_camp_id_belong_to = opts.rebase.campId;
     rd.group_id_belong_to = opts.rebase.groupId;
@@ -128,7 +142,10 @@ function cloneBundle(
     const oldWorkId = wcv.id;
     wcv.id = newWorkId;
     wcv.owner_map_object_model_id = opts.newModelId;
-    if (wcv.owner_map_object_concrete_model_id === srcRd.concrete_model_instance_id) {
+    if (
+      newConcreteId !== null &&
+      wcv.owner_map_object_concrete_model_id === srcRd.concrete_model_instance_id
+    ) {
       wcv.owner_map_object_concrete_model_id = newConcreteId;
     }
     if (wcv.transform?.map_object_instance_id === srcRd.instance_id) {
