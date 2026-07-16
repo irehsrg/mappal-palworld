@@ -19,7 +19,7 @@
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
 import { useThree } from "@react-three/fiber";
-import { Outlines } from "@react-three/drei";
+import { Html, Outlines } from "@react-three/drei";
 import type { PlacedObject, Quat, Vec3 } from "../model/types";
 import { GRID_PITCH } from "../model/types";
 import { usePlaceModeStore } from "./placeModeStore";
@@ -27,6 +27,7 @@ import { findPalbox } from "./campGeometry";
 import { resolveType } from "./objectTypes";
 import { getProxyGeometry } from "./proxyGeometry";
 import { UNIT_SCALE, localAxesFromYaw, threeVecToUe, ueQuatToThree, ueVecToThree, yawFromQuat } from "./coords";
+import { computeStampFill, stampFillNewCount, stampModeFromModifiers } from "./arrayStamp";
 
 export interface PlaceModeProps {
   objects: PlacedObject[];
@@ -112,9 +113,26 @@ export function PlaceMode({ objects, centroidThree }: PlaceModeProps) {
         y = anchorUE.y + forward.y * rf + right.y * rr;
       }
 
+      const targetPos: Vec3 = { x, y, z: anchorUE.z };
+
+      // Array-stamp preview (task "B. Array stamping"): only while
+      // Shift/Ctrl+Shift is held and a prior stamp exists this session to
+      // fill from — see arrayStamp.ts for the line/rect math, shared with
+      // the actual placement click in Scene.tsx / ObjectBox.tsx.
+      const { lastStampPos } = usePlaceModeStore.getState();
+      const stampMode = stampModeFromModifiers(e.shiftKey, e.ctrlKey);
+      let fillPositions: Vec3[] | undefined;
+      let fillCountFull: number | undefined;
+      if (stampMode !== "single" && lastStampPos) {
+        fillPositions = computeStampFill(lastStampPos, targetPos, yaw, stampMode);
+        fillCountFull = stampFillNewCount(lastStampPos, targetPos, yaw, stampMode);
+      }
+
       usePlaceModeStore.getState().setHover({
-        position: { x, y, z: anchorUE.z },
+        position: targetPos,
         rotation,
+        fillPositions,
+        fillCountFull,
       });
     }
 
@@ -138,30 +156,64 @@ export function PlaceMode({ objects, centroidThree }: PlaceModeProps) {
 
   if (!armedType || !hover) return null;
 
-  // Ghost: same shape (proxyGeometry.ts, shared with ObjectBox.tsx — the
-  // brief requires the ghost preview to use the identical geometry, not a
-  // lookalike) and same vertical-origin convention, just translucent and
-  // non-interactive (raycast disabled — RadiusRing.tsx uses the same trick —
-  // so it never steals the click meant to place/select at this same screen
-  // position). No zOffset needed: proxyGeometry.ts's shapes are already
-  // anchored per originAtTop, so the mesh sits directly at hover.position.z.
+  // Ghost shape: same geometry (proxyGeometry.ts, shared with ObjectBox.tsx
+  // — the brief requires the ghost preview to use the identical geometry,
+  // not a lookalike) and same vertical-origin convention, just translucent
+  // and non-interactive (raycast disabled — RadiusRing.tsx uses the same
+  // trick — so it never steals the click meant to place/select at this same
+  // screen position). No zOffset needed: proxyGeometry.ts's shapes are
+  // already anchored per originAtTop, so each mesh sits directly at its
+  // position.z. Geometry/quaternion are identical for every ghost in a fill
+  // (same armed type, same anchor rotation), so they're built once and
+  // reused across every rendered ghost — cheap even at the 200-piece cap.
   const resolved = resolveType(armedType);
-  const posUE: Vec3 = hover.position;
-  const position = ueVecToThree(posUE).sub(centroidThree);
   const quaternion = ueQuatToThree(hover.rotation);
   const geometry = getProxyGeometry(armedType, resolved.size, resolved.originAtTop, resolved.isUnknownDims);
 
+  // Array-stamp preview (task "B. Array stamping"): when a Shift/Ctrl+Shift
+  // fill is in progress, hover.fillPositions is the authoritative list of
+  // NEW cells a click would stamp (may be empty — hovering exactly back on
+  // the anchor cell means "nothing new to place here"). Otherwise fall back
+  // to the single cursor ghost, same as before array stamping existed.
+  const ghostPositions: Vec3[] = hover.fillPositions ?? [hover.position];
+  const showBadge = hover.fillPositions !== undefined && hover.fillPositions.length > 0;
+
   return (
-    <mesh position={position} quaternion={quaternion} geometry={geometry} raycast={() => null}>
-      <meshStandardMaterial
-        color={resolved.color}
-        transparent
-        opacity={resolved.materialOpacity ?? 0.4}
-        depthWrite={false}
-        side={THREE.DoubleSide}
-        flatShading
-      />
-      <Outlines thickness={1.5} color="#5be3ff" />
-    </mesh>
+    <>
+      {ghostPositions.map((posUE, i) => (
+        <mesh
+          key={i}
+          position={ueVecToThree(posUE).sub(centroidThree)}
+          quaternion={quaternion}
+          geometry={geometry}
+          raycast={() => null}
+        >
+          <meshStandardMaterial
+            color={resolved.color}
+            transparent
+            opacity={resolved.materialOpacity ?? 0.4}
+            depthWrite={false}
+            side={THREE.DoubleSide}
+            flatShading
+          />
+          <Outlines thickness={1.5} color="#5be3ff" />
+        </mesh>
+      ))}
+      {showBadge && (
+        <Html
+          position={ueVecToThree(hover.position).sub(centroidThree)}
+          center
+          pointerEvents="none"
+          style={{ transform: "translateY(-28px)" }}
+        >
+          <div className="place-fill-badge">
+            {hover.fillPositions!.length}
+            {hover.fillCountFull !== undefined && hover.fillCountFull > hover.fillPositions!.length
+              ? ` of ${hover.fillCountFull} (capped)`
+              : ""}
+          </div>
+        </Html>
+      )}
+    </>
   );
 }

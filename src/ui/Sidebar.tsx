@@ -144,6 +144,8 @@ function KeyboardCheatSheet() {
     ["Palette button", "Arm/disarm place mode for that object"],
     ["Click (while placing)", "Stamp a piece; stays armed for repeats"],
     ["Alt (while placing)", "Disable grid snap for that placement"],
+    ["Shift+click (while placing)", "Fill a line from the last stamp to here"],
+    ["Ctrl+Shift+click (while placing)", "Fill a rectangle from the last stamp to here"],
   ];
   return (
     <section className="sidebar__section">

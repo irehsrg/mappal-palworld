@@ -9,10 +9,11 @@ import * as THREE from "three";
 import { Html, Outlines } from "@react-three/drei";
 import type { PlacedObject } from "../model/types";
 import { useEditorStore } from "../model/store";
-import { ueVecToThree, ueQuatToThree } from "./coords";
+import { ueVecToThree, ueQuatToThree, yawFromQuat } from "./coords";
 import { getTypeEntry, resolveType } from "./objectTypes";
 import { getProxyGeometry } from "./proxyGeometry";
 import { usePlaceModeStore } from "./placeModeStore";
+import { computeStampFill, stampModeFromModifiers } from "./arrayStamp";
 
 export interface ObjectBoxProps {
   object: PlacedObject;
@@ -83,10 +84,20 @@ export function ObjectBox({ object, centroidThree, selected, showLabel, onSelect
         // position — it must never select the object underneath instead.
         // See PlaceMode.tsx / Scene.tsx's onPointerMissed for the other half
         // of this (clicking empty space while armed).
-        const { armedType, hover, setHover } = usePlaceModeStore.getState();
+        const { armedType, hover, setHover, lastStampPos, setLastStampPos } = usePlaceModeStore.getState();
         if (armedType) {
           if (hover) {
-            useEditorStore.getState().placeObject(armedType, hover.position, hover.rotation);
+            // Array stamping (task "B. Array stamping") — same Shift/
+            // Ctrl+Shift line/rect fill as Scene.tsx's onPointerMissed (this
+            // is the "clicked on top of an existing object while armed"
+            // path); see arrayStamp.ts and that file's comment for details.
+            const mode = stampModeFromModifiers(e.shiftKey, e.ctrlKey);
+            const positions =
+              mode === "single"
+                ? [hover.position]
+                : computeStampFill(lastStampPos, hover.position, yawFromQuat(hover.rotation), mode);
+            for (const pos of positions) useEditorStore.getState().placeObject(armedType, pos, hover.rotation);
+            setLastStampPos(hover.position);
             // See Scene.tsx's onPointerMissed for why the ghost is hidden
             // immediately after a placement click (auto-select vs. ghost
             // overlap on the same frame).

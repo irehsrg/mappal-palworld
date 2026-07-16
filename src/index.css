@@ -394,27 +394,57 @@ body,
   white-space: nowrap;
 }
 
-.palette__other {
-  margin-top: 6px;
+.palette__search {
+  width: 100%;
+  padding: 6px 8px;
+  margin-bottom: 8px;
+  background: #14161a;
+  color: #e6e6e6;
+  border: 1px solid #3a3f47;
+  border-radius: 4px;
+  font-size: 13px;
 }
 
-.palette__other-toggle {
+.palette__search:focus {
+  outline: none;
+  border-color: #5be3ff;
+}
+
+.palette__section {
+  margin-top: 4px;
+}
+
+.palette__section-toggle {
   width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 6px;
   padding: 4px 0;
   background: transparent;
   border: none;
-  color: #9098a3;
+  color: #cfd3da;
   cursor: pointer;
   font-size: 12px;
+  font-weight: 600;
   text-align: left;
 }
 
-.palette__other-toggle:hover {
-  color: #cfd3da;
+.palette__section-toggle:hover:not(:disabled) {
+  color: #ffffff;
 }
 
-.palette__other .palette {
-  margin-top: 4px;
+.palette__section-toggle:disabled {
+  cursor: default;
+}
+
+.palette__section-count {
+  color: #9098a3;
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+}
+
+.palette__section .palette {
+  margin: 4px 0 6px;
   padding-left: 4px;
   border-left: 1px solid #2a2d33;
 }
@@ -426,6 +456,21 @@ body,
 }
 
 /* -------------------------------------------------------------- 3D labels */
+
+/* Array-stamp fill-count badge (PlaceMode.tsx) — floats above the cursor
+   ghost while a Shift/Ctrl+Shift line/rect fill is previewed. */
+.place-fill-badge {
+  padding: 2px 8px;
+  background: rgba(20, 22, 26, 0.9);
+  border: 1px solid #5be3ff;
+  border-radius: 10px;
+  color: #5be3ff;
+  font-size: 11px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  user-select: none;
+}
 
 .object-label {
   padding: 2px 6px;

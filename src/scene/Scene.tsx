@@ -21,12 +21,13 @@ import * as THREE from "three";
 import { Canvas } from "@react-three/fiber";
 import { Grid, OrbitControls } from "@react-three/drei";
 import { useEditorStore } from "../model/store";
-import { ueVecToThree } from "./coords";
+import { ueVecToThree, yawFromQuat } from "./coords";
 import { ObjectBox } from "./ObjectBox";
 import { RadiusRing } from "./RadiusRing";
 import { MarqueeSelect } from "./MarqueeSelect";
 import { PlaceMode } from "./PlaceMode";
 import { usePlaceModeStore } from "./placeModeStore";
+import { computeStampFill, stampModeFromModifiers } from "./arrayStamp";
 
 /** Labels get gnarly with a huge selection — cap concurrent 3D labels silently (sidebar still lists full selection info). */
 const MAX_LABELS = 20;
@@ -99,10 +100,22 @@ export function Scene() {
           const dist = Math.hypot(e.clientX - down.x, e.clientY - down.y);
           if (dist > DRAG_THRESHOLD_PX) return; // was an orbit/pan drag, not a click
         }
-        const { armedType, hover, setHover } = usePlaceModeStore.getState();
+        const { armedType, hover, setHover, lastStampPos, setLastStampPos } = usePlaceModeStore.getState();
         if (armedType) {
           if (hover) {
-            placeObject(armedType, hover.position, hover.rotation);
+            // Array stamping (task "B. Array stamping"): Shift = fill a
+            // line from the last stamp to here, Ctrl+Shift = fill the
+            // rectangle between them — see arrayStamp.ts. Plain click is
+            // unchanged (single piece at the ghost's position). Each piece
+            // in a fill is its own placeObject() call/undo step — documented
+            // limitation, see the palette's armed-hint copy.
+            const mode = stampModeFromModifiers(e.shiftKey, e.ctrlKey);
+            const positions =
+              mode === "single"
+                ? [hover.position]
+                : computeStampFill(lastStampPos, hover.position, yawFromQuat(hover.rotation), mode);
+            for (const pos of positions) placeObject(armedType, pos, hover.rotation);
+            setLastStampPos(hover.position);
             // Hide the ghost until the next pointer move: the store
             // auto-selects the just-placed object (highlighted, opaque), and
             // without this the translucent ghost would sit exactly on top of

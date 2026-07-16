@@ -9,9 +9,11 @@
 // - src/ui/Palette.tsx: arm()/toggle() on click, reads armedType for
 //   highlighting.
 // - src/scene/PlaceMode.tsx: writes `hover` every pointer move (ground-plane
-//   raycast + grid snap), renders the ghost box from it.
-// - src/scene/Scene.tsx / ObjectBox.tsx: read armedType/hover via getState()
-//   at click time to place instead of select/clear (see those files).
+//   raycast + grid snap + array-stamp fill preview via arrayStamp.ts),
+//   renders the ghost box(es) from it.
+// - src/scene/Scene.tsx / ObjectBox.tsx: read armedType/hover/lastStampPos
+//   via getState() at click time to place instead of select/clear, and to
+//   compute Shift/Ctrl+Shift array fills (see arrayStamp.ts and those files).
 // - src/scene/MarqueeSelect.tsx: bails out of shift+drag while armed.
 // - src/scene/useKeyboardControls.ts: Escape disarms (checked before the
 //   normal clear-selection Escape handling).
@@ -22,27 +24,53 @@ import type { Quat, Vec3 } from "../model/types";
 export interface PlaceHover {
   position: Vec3;
   rotation: Quat;
+  /**
+   * Array-stamp preview (task "B. Array stamping"): populated only while
+   * Shift or Ctrl+Shift is held AND a lastStampPos anchor exists from
+   * earlier in this armed session. The NEW cells a click would stamp right
+   * now — the anchor cell itself is excluded (it's already a real placed
+   * object), and the list is capped at arrayStamp.ts's MAX_STAMP_COUNT.
+   * Undefined in plain single-stamp hover (no fill in progress).
+   */
+  fillPositions?: Vec3[];
+  /** Uncapped new-cell count for the fill (may exceed fillPositions.length when capped) — drives the cursor count badge. */
+  fillCountFull?: number;
 }
 
 interface PlaceModeState {
   /** typeId currently armed from the palette, or null if place mode is off. */
   armedType: string | null;
   hover: PlaceHover | null;
+  /**
+   * Grid position of the most recently stamped piece THIS armed session
+   * (single, line, or rect — see arrayStamp.ts) — the anchor a Shift/
+   * Ctrl+Shift click fills a line/rect from. Null before the first stamp,
+   * and reset to null whenever the armed type changes or place mode is
+   * disarmed (task brief: "changing armed type resets the last-stamp anchor").
+   */
+  lastStampPos: Vec3 | null;
   arm(typeId: string): void;
   disarm(): void;
   /** Palette button behaviour: click arms; clicking the already-armed button again disarms. */
   toggle(typeId: string): void;
   setHover(hover: PlaceHover | null): void;
+  setLastStampPos(pos: Vec3 | null): void;
 }
 
 export const usePlaceModeStore = create<PlaceModeState>((set, get) => ({
   armedType: null,
   hover: null,
-  arm: (typeId) => set({ armedType: typeId, hover: null }),
-  disarm: () => set({ armedType: null, hover: null }),
+  lastStampPos: null,
+  arm: (typeId) => set({ armedType: typeId, hover: null, lastStampPos: null }),
+  disarm: () => set({ armedType: null, hover: null, lastStampPos: null }),
   toggle: (typeId) => {
     const { armedType } = get();
-    set(armedType === typeId ? { armedType: null, hover: null } : { armedType: typeId, hover: null });
+    set(
+      armedType === typeId
+        ? { armedType: null, hover: null, lastStampPos: null }
+        : { armedType: typeId, hover: null, lastStampPos: null },
+    );
   },
   setHover: (hover) => set({ hover }),
+  setLastStampPos: (pos) => set({ lastStampPos: pos }),
 }));
