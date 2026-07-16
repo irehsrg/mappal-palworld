@@ -41,7 +41,13 @@ const MATERIAL_TINT: { test: (lower: string) => boolean; color: string; opacity?
   // the rule is here so a future Glass_* type picks it up automatically.
   { test: (t) => t.includes("glass"), color: "#bfe8ea", opacity: 0.45 },
   { test: (t) => t.startsWith("stone"), color: "#8d8d94" },
-  { test: (t) => t.startsWith("metal"), color: "#6e7f8d" },
+  // The metal kit uses BOTH "Metal_" and "Iron_" prefixes (observed in sampler_01).
+  { test: (t) => t.startsWith("metal") || t.startsWith("iron"), color: "#6e7f8d" },
+  // "SF_" = the sci-fi/"clean" high-tech kit — bright off-white panels.
+  { test: (t) => t.startsWith("sf"), color: "#d8dde2" },
+  // Observed in sampler_01: two more kits with their own prefixes.
+  { test: (t) => t.startsWith("japanesestyle"), color: "#b06a52" },
+  { test: (t) => t.startsWith("ancient"), color: "#7d9187" },
   { test: (t) => t.startsWith("wood"), color: "#8a6f4d" }, // covers both "Wood_" and "Wooden_" prefixes
 ];
 

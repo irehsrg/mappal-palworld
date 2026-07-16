@@ -517,6 +517,915 @@
         140
       ],
       "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "Iron_SlopedRoofCorner": {
+      "name": "Iron Sloped Roof Corner",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Iron_DiagonalWall": {
+      "name": "Iron Diagonal Wall",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "SF_Pillars": {
+      "name": "SF Pillars",
+      "category": "structure",
+      "size": [
+        40,
+        40,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "SF_wall": {
+      "name": "SF wall",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Iron_TriangleStairsCorner": {
+      "name": "Iron Triangle Stairs Corner",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Iron_PyramidRoof": {
+      "name": "Iron Pyramid Roof",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Iron_TriangleWallReverse": {
+      "name": "Iron Triangle Wall Reverse",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Metal_TriangleWall": {
+      "name": "Metal Triangle Wall",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Iron_WallGate": {
+      "name": "Iron Wall Gate",
+      "category": "structure",
+      "size": [
+        400,
+        30,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Iron_Fence": {
+      "name": "Iron Fence",
+      "category": "defense",
+      "size": [
+        400,
+        20,
+        110
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Metal_DoorWall": {
+      "name": "Metal Door Wall",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "JapaneseStyle_roof_01": {
+      "name": "Japanese Style roof 01",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Metal_Roof": {
+      "name": "Metal Roof",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Metal_pillars": {
+      "name": "Metal pillars",
+      "category": "structure",
+      "size": [
+        40,
+        40,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "SF_TriangleRoof": {
+      "name": "SF Triangle Roof",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "JapaneseStyle_TriangleWall": {
+      "name": "Japanese Style Triangle Wall",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Iron_TriangleRoof": {
+      "name": "Iron Triangle Roof",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "JapaneseStyle_roof_02": {
+      "name": "Japanese Style roof 02",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "JapaneseStyle_WindowWall": {
+      "name": "Japanese Style Window Wall",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Metal_SlantedRoof": {
+      "name": "Metal Slanted Roof",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Iron_SlopedRoofCornerReverse": {
+      "name": "Iron Sloped Roof Corner Reverse",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Iron_TriangleFoundation": {
+      "name": "Iron Triangle Foundation",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        40
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually",
+      "originAtTop": true
+    },
+    "Metal_Stair": {
+      "name": "Metal Stair",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Metal_wall": {
+      "name": "Metal wall",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Metal_WindowWall": {
+      "name": "Metal Window Wall",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "SF_TriangleFoundation": {
+      "name": "SF Triangle Foundation",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        40
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually",
+      "originAtTop": true
+    },
+    "JapaneseStyle_SlopedRoofCorner": {
+      "name": "Japanese Style Sloped Roof Corner",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Glass_foundation": {
+      "name": "Glass foundation",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        40
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually",
+      "originAtTop": true
+    },
+    "Glass_TriangleFoundation": {
+      "name": "Glass Triangle Foundation",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        40
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually",
+      "originAtTop": true
+    },
+    "JapaneseStyle_TriangleRoof_01": {
+      "name": "Japanese Style Triangle Roof 01",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "JapaneseStyle_SlantedRoof": {
+      "name": "Japanese Style Slanted Roof",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Glass_wall": {
+      "name": "Glass wall",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Glass_WindowWall": {
+      "name": "Glass Window Wall",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Glass_DiagonalWall": {
+      "name": "Glass Diagonal Wall",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Glass_TriangleWall": {
+      "name": "Glass Triangle Wall",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Glass_DoorWall": {
+      "name": "Glass Door Wall",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Glass_TriangleWallReverse": {
+      "name": "Glass Triangle Wall Reverse",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Glass_roof": {
+      "name": "Glass roof",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Glass_TriangleRoof": {
+      "name": "Glass Triangle Roof",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Glass_SlopedRoofCornerReverse": {
+      "name": "Glass Sloped Roof Corner Reverse",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Glass_PyramidRoof": {
+      "name": "Glass Pyramid Roof",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Glass_SlantedRoof": {
+      "name": "Glass Slanted Roof",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Glass_stair": {
+      "name": "Glass stair",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Glass_SlopedRoofCorner": {
+      "name": "Glass Sloped Roof Corner",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Glass_pillars": {
+      "name": "Glass pillars",
+      "category": "structure",
+      "size": [
+        40,
+        40,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "JapaneseStyle_TriangleStairsCorner_01": {
+      "name": "Japanese Style Triangle Stairs Corner 01",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "SF_stair": {
+      "name": "SF stair",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "SF_WallGate": {
+      "name": "SF Wall Gate",
+      "category": "structure",
+      "size": [
+        400,
+        30,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Glass_WallGate": {
+      "name": "Glass Wall Gate",
+      "category": "structure",
+      "size": [
+        400,
+        30,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Glass_Fence": {
+      "name": "Glass Fence",
+      "category": "defense",
+      "size": [
+        400,
+        20,
+        110
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "SF_SlopedRoofCorner": {
+      "name": "SF Sloped Roof Corner",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "JapaneseStyle_DoorWall_02": {
+      "name": "Japanese Style Door Wall 02",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "JapaneseStyle_PyramidRoof": {
+      "name": "Japanese Style Pyramid Roof",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "JapaneseStyle_TriangleRoof_02": {
+      "name": "Japanese Style Triangle Roof 02",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Ancient_foundation": {
+      "name": "Ancient foundation",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        40
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually",
+      "originAtTop": true
+    },
+    "JapaneseStyle_DoorWall_03": {
+      "name": "Japanese Style Door Wall 03",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "SF_TriangleWall": {
+      "name": "SF Triangle Wall",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "SF_DoorWall": {
+      "name": "SF Door Wall",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "SF_DiagonalWall": {
+      "name": "SF Diagonal Wall",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Ancient_TriangleFoundation": {
+      "name": "Ancient Triangle Foundation",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        40
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually",
+      "originAtTop": true
+    },
+    "JapaneseStyle_SlopedRoofCornerReverse": {
+      "name": "Japanese Style Sloped Roof Corner Reverse",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "SF_TriangleWallReverse": {
+      "name": "SF Triangle Wall Reverse",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "SF_foundation": {
+      "name": "SF foundation",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        40
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually",
+      "originAtTop": true
+    },
+    "JapaneseStyle_DoorWall_01": {
+      "name": "Japanese Style Door Wall 01",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "JapaneseStyle_wall_01": {
+      "name": "Japanese Style wall 01",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "JapaneseStyle_DiagonalWall": {
+      "name": "Japanese Style Diagonal Wall",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "JapaneseStyle_foundation": {
+      "name": "Japanese Style foundation",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        40
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually",
+      "originAtTop": true
+    },
+    "JapaneseStyle_TriangleFoundation": {
+      "name": "Japanese Style Triangle Foundation",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        40
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually",
+      "originAtTop": true
+    },
+    "SF_WindowWall": {
+      "name": "SF Window Wall",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "JapaneseStyle_stair": {
+      "name": "Japanese Style stair",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "JapaneseStyle_Pillar": {
+      "name": "Japanese Style Pillar",
+      "category": "structure",
+      "size": [
+        40,
+        40,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "JapaneseStyle_WallGate": {
+      "name": "Japanese Style Wall Gate",
+      "category": "structure",
+      "size": [
+        400,
+        30,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "JapaneseStyle_Fence": {
+      "name": "Japanese Style Fence",
+      "category": "defense",
+      "size": [
+        400,
+        20,
+        110
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "SF_Fence": {
+      "name": "SF Fence",
+      "category": "defense",
+      "size": [
+        400,
+        20,
+        110
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Ancient_wall": {
+      "name": "Ancient wall",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Ancient_WindowWall": {
+      "name": "Ancient Window Wall",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Ancient_TriangleWallReverse": {
+      "name": "Ancient Triangle Wall Reverse",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Ancient_DiagonalWall": {
+      "name": "Ancient Diagonal Wall",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Ancient_roof": {
+      "name": "Ancient roof",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Ancient_TriangleWall": {
+      "name": "Ancient Triangle Wall",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Ancient_DoorWall": {
+      "name": "Ancient Door Wall",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Ancient_TriangleRoof": {
+      "name": "Ancient Triangle Roof",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Ancient_SlopedRoofCorner": {
+      "name": "Ancient Sloped Roof Corner",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Ancient_Fence": {
+      "name": "Ancient Fence",
+      "category": "defense",
+      "size": [
+        400,
+        20,
+        110
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Ancient_WallGate": {
+      "name": "Ancient Wall Gate",
+      "category": "structure",
+      "size": [
+        400,
+        30,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Ancient_SlopedRoofCornerReverse": {
+      "name": "Ancient Sloped Roof Corner Reverse",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Ancient_stair": {
+      "name": "Ancient stair",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Ancient_TriangleStairsCorner": {
+      "name": "Ancient Triangle Stairs Corner",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Ancient_SlantedRoof": {
+      "name": "Ancient Slanted Roof",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Ancient_Pillars": {
+      "name": "Ancient Pillars",
+      "category": "structure",
+      "size": [
+        40,
+        40,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
     }
   }
 }
