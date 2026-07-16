@@ -20,3 +20,6 @@ coverage/
 
 # generated round-trip artifacts
 calibration_01_roundtrip.json
+
+# locally extracted game assets — never committed
+assets-local/
