@@ -83,6 +83,32 @@ function classify(typeId: string, donor: any): { category: string; size: (number
   if (SPECIAL_HINTS.some((h) => t.includes(h))) {
     return { category: "decor", size, sizeSource: src };
   }
+
+  // Decor/furniture families (sampler_03). All sizes are rough display
+  // estimates; bounds win when a donor has them.
+  const est = (category: string, s: (number | null)[]) => ({
+    category,
+    size: size[0] ? size : s,
+    sizeSource: size[0] ? src : "rough furniture estimate — display only",
+  });
+  if (t.startsWith("trap")) return est("defense", [150, 150, 40]);
+  // Large freestanding base gates (Wood_Gate/Stone_Gate/Metal_Gate) — much
+  // bigger than the wall-mounted WallGate handled above.
+  if (t.endsWith("_gate") || t === "gate") return est("defense", [800, 60, 500]);
+  if (t.includes("furnituretree") || t.includes("bonsai")) return est("decor", [150, 150, 300]);
+  if (t.includes("furniturebush") || t.includes("plant")) return est("decor", [120, 120, 100]);
+  if (t.includes("light") || t.includes("lamp") || t.includes("torch") || t.includes("andon"))
+    return est("decor", [60, 60, 220]);
+  if (t.includes("rug")) return est("decor", [200, 200, 5]);
+  if (t.includes("sofa") || t.includes("counter")) return est("decor", [220, 100, 100]);
+  if (t.includes("table") || t.includes("fudukue") || t.includes("seika"))
+    return est("decor", [200, 200, 90]);
+  if (t.includes("chair") || t.includes("stool") || t.includes("zabuton") || t.includes("zaisu"))
+    return est("decor", [100, 100, 100]);
+  if (t.includes("spa")) return est("production", [300, 300, 150]);
+  if (t.includes("signboard") || t.includes("headstone") || t.includes("scarecrow"))
+    return est("decor", [100, 40, 150]);
+
   return size[0] ? { category: "decor", size, sizeSource: src } : null;
 }
 

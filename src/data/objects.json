@@ -2436,6 +2436,1086 @@
         180
       ],
       "sizeSource": "rough storage-furniture estimate — display only"
+    },
+    "Light_LightPole02": {
+      "name": "Light Light Pole02",
+      "category": "decor",
+      "size": [
+        60,
+        60,
+        220
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Bench_Wood": {
+      "name": "Bench Wood",
+      "category": "production",
+      "size": [
+        null,
+        null,
+        null
+      ],
+      "sizeSource": "no rule matched and no works bounds — magenta until measured"
+    },
+    "FurnitureTree02_Cherry": {
+      "name": "Furniture Tree02 Cherry",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        300
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Sofa01_Stone": {
+      "name": "Sofa01 Stone",
+      "category": "decor",
+      "size": [
+        220,
+        100,
+        100
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "FurnitureTree02_Tropical": {
+      "name": "Furniture Tree02 Tropical",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        300
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Rug03_Stone": {
+      "name": "Rug03 Stone",
+      "category": "decor",
+      "size": [
+        200,
+        200,
+        5
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Trap_LegHold": {
+      "name": "Trap Leg Hold",
+      "category": "defense",
+      "size": [
+        150,
+        150,
+        40
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "FurnitureTree03_Cherry": {
+      "name": "Furniture Tree03 Cherry",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        300
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "FurnitureTree03_Tropical": {
+      "name": "Furniture Tree03 Tropical",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        300
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "FurnitureTree03_Yellow": {
+      "name": "Furniture Tree03 Yellow",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        300
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Light_FirePlace01": {
+      "name": "Light Fire Place01",
+      "category": "decor",
+      "size": [
+        60,
+        60,
+        220
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Desk01_Iron": {
+      "name": "Desk01 Iron",
+      "category": "production",
+      "size": [
+        null,
+        null,
+        null
+      ],
+      "sizeSource": "no rule matched and no works bounds — magenta until measured"
+    },
+    "Seika": {
+      "name": "Seika",
+      "category": "decor",
+      "size": [
+        200,
+        200,
+        90
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "FurnitureTree01_Green": {
+      "name": "Furniture Tree01 Green",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        300
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Stool_High_Wood": {
+      "name": "Stool High Wood",
+      "category": "decor",
+      "size": [
+        100,
+        100,
+        100
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Plant01_Plant": {
+      "name": "Plant01 Plant",
+      "category": "decor",
+      "size": [
+        120,
+        120,
+        100
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Light_FloorLamp01": {
+      "name": "Light Floor Lamp01",
+      "category": "decor",
+      "size": [
+        60,
+        60,
+        220
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "DefenseBowGun": {
+      "name": "Defense Bow Gun",
+      "category": "decor",
+      "size": [
+        440,
+        440,
+        95
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "LargeLamp": {
+      "name": "Large Lamp",
+      "category": "decor",
+      "size": [
+        60,
+        60,
+        220
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "FurnitureBush01_Flower": {
+      "name": "Furniture Bush01 Flower",
+      "category": "decor",
+      "size": [
+        120,
+        120,
+        100
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "ManualElectricGenerator": {
+      "name": "Manual Electric Generator",
+      "category": "decor",
+      "size": [
+        340,
+        640,
+        240
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "ElectricGenerator": {
+      "name": "Electric Generator",
+      "category": "decor",
+      "size": [
+        340,
+        340,
+        95
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "AncientElectricGenerator": {
+      "name": "Ancient Electric Generator",
+      "category": "decor",
+      "size": [
+        300,
+        300,
+        95
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "OilPump": {
+      "name": "Oil Pump",
+      "category": "production",
+      "size": [
+        800,
+        800,
+        500
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "EnergyStorage_Electric": {
+      "name": "Energy Storage Electric",
+      "category": "storage",
+      "size": [
+        200,
+        100,
+        180
+      ],
+      "sizeSource": "rough storage-furniture estimate — display only"
+    },
+    "Heater": {
+      "name": "Heater",
+      "category": "decor",
+      "size": [
+        200,
+        200,
+        95
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "Cooler": {
+      "name": "Cooler",
+      "category": "decor",
+      "size": [
+        200,
+        200,
+        95
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "Rug02_Stone": {
+      "name": "Rug02 Stone",
+      "category": "decor",
+      "size": [
+        200,
+        200,
+        5
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Light_FirePlace02": {
+      "name": "Light Fire Place02",
+      "category": "decor",
+      "size": [
+        60,
+        60,
+        220
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Spa": {
+      "name": "Spa",
+      "category": "production",
+      "size": [
+        300,
+        300,
+        150
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "TableCircular01_Iron": {
+      "name": "Table Circular01 Iron",
+      "category": "decor",
+      "size": [
+        200,
+        200,
+        90
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Light_LightPole01": {
+      "name": "Light Light Pole01",
+      "category": "decor",
+      "size": [
+        60,
+        60,
+        220
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "DefenseMissile": {
+      "name": "Defense Missile",
+      "category": "decor",
+      "size": [
+        440,
+        440,
+        95
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "Light_FloorLamp02": {
+      "name": "Light Floor Lamp02",
+      "category": "decor",
+      "size": [
+        60,
+        60,
+        220
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "PalMedicineBox": {
+      "name": "Pal Medicine Box",
+      "category": "storage",
+      "size": [
+        200,
+        100,
+        180
+      ],
+      "sizeSource": "rough storage-furniture estimate — display only"
+    },
+    "Torch": {
+      "name": "Torch",
+      "category": "decor",
+      "size": [
+        60,
+        60,
+        220
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Lamp": {
+      "name": "Lamp",
+      "category": "decor",
+      "size": [
+        60,
+        60,
+        220
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Light_LightPole03": {
+      "name": "Light Light Pole03",
+      "category": "decor",
+      "size": [
+        60,
+        60,
+        220
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Light_LightPole04": {
+      "name": "Light Light Pole04",
+      "category": "decor",
+      "size": [
+        60,
+        60,
+        220
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Andon": {
+      "name": "Andon",
+      "category": "decor",
+      "size": [
+        60,
+        60,
+        220
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "TableSquare02_Iron": {
+      "name": "Table Square02 Iron",
+      "category": "decor",
+      "size": [
+        200,
+        200,
+        90
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "TableSquare_Wood": {
+      "name": "Table Square Wood",
+      "category": "decor",
+      "size": [
+        200,
+        200,
+        90
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "TableCircular01_Stone": {
+      "name": "Table Circular01 Stone",
+      "category": "decor",
+      "size": [
+        200,
+        200,
+        90
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Chair01_Stone": {
+      "name": "Chair01 Stone",
+      "category": "decor",
+      "size": [
+        100,
+        100,
+        100
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "TableCircular_Wood": {
+      "name": "Table Circular Wood",
+      "category": "decor",
+      "size": [
+        200,
+        200,
+        90
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Fudukue": {
+      "name": "Fudukue",
+      "category": "decor",
+      "size": [
+        200,
+        200,
+        90
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Chair02_Iron": {
+      "name": "Chair02 Iron",
+      "category": "decor",
+      "size": [
+        100,
+        100,
+        100
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Sofa01_Iron": {
+      "name": "Sofa01 Iron",
+      "category": "decor",
+      "size": [
+        220,
+        100,
+        100
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Chair01_Iron": {
+      "name": "Chair01 Iron",
+      "category": "decor",
+      "size": [
+        100,
+        100,
+        100
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "TableSquare01_Iron": {
+      "name": "Table Square01 Iron",
+      "category": "decor",
+      "size": [
+        200,
+        200,
+        90
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Sofa02_Iron": {
+      "name": "Sofa02 Iron",
+      "category": "decor",
+      "size": [
+        220,
+        100,
+        100
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Desk01_Stone": {
+      "name": "Desk01 Stone",
+      "category": "production",
+      "size": [
+        null,
+        null,
+        null
+      ],
+      "sizeSource": "no rule matched and no works bounds — magenta until measured"
+    },
+    "Stool01_Iron": {
+      "name": "Stool01 Iron",
+      "category": "decor",
+      "size": [
+        100,
+        100,
+        100
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Zabuton": {
+      "name": "Zabuton",
+      "category": "decor",
+      "size": [
+        100,
+        100,
+        100
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "FurnitureTree01_Snow": {
+      "name": "Furniture Tree01 Snow",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        300
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Rug04_Stone": {
+      "name": "Rug04 Stone",
+      "category": "decor",
+      "size": [
+        200,
+        200,
+        5
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "FurnitureTree01_Tropical": {
+      "name": "Furniture Tree01 Tropical",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        300
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Zaisu": {
+      "name": "Zaisu",
+      "category": "decor",
+      "size": [
+        100,
+        100,
+        100
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Stool_Wood": {
+      "name": "Stool Wood",
+      "category": "decor",
+      "size": [
+        100,
+        100,
+        100
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Rug01_Stone": {
+      "name": "Rug01 Stone",
+      "category": "decor",
+      "size": [
+        200,
+        200,
+        5
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Counter_Wood": {
+      "name": "Counter Wood",
+      "category": "decor",
+      "size": [
+        220,
+        100,
+        100
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Stool01_Stone": {
+      "name": "Stool01 Stone",
+      "category": "decor",
+      "size": [
+        100,
+        100,
+        100
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Bonsai": {
+      "name": "Bonsai",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        300
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Plant03_Plant": {
+      "name": "Plant03 Plant",
+      "category": "decor",
+      "size": [
+        120,
+        120,
+        100
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Sofa03_Stone": {
+      "name": "Sofa03 Stone",
+      "category": "decor",
+      "size": [
+        220,
+        100,
+        100
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Chair02_Stone": {
+      "name": "Chair02 Stone",
+      "category": "decor",
+      "size": [
+        100,
+        100,
+        100
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "TableCircular_Wood_None": {
+      "name": "Table Circular Wood None",
+      "category": "decor",
+      "size": [
+        200,
+        200,
+        90
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "FurnitureTree01_Red": {
+      "name": "Furniture Tree01 Red",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        300
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Plant02_Plant": {
+      "name": "Plant02 Plant",
+      "category": "decor",
+      "size": [
+        120,
+        120,
+        100
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Trap_MineAttack": {
+      "name": "Trap Mine Attack",
+      "category": "defense",
+      "size": [
+        150,
+        150,
+        40
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Chair01_Pal": {
+      "name": "Chair01 Pal",
+      "category": "decor",
+      "size": [
+        100,
+        100,
+        100
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "TableSide01_Iron": {
+      "name": "Table Side01 Iron",
+      "category": "decor",
+      "size": [
+        200,
+        200,
+        90
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Sofa02_Stone": {
+      "name": "Sofa02 Stone",
+      "category": "decor",
+      "size": [
+        220,
+        100,
+        100
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Plant04_Plant": {
+      "name": "Plant04 Plant",
+      "category": "decor",
+      "size": [
+        120,
+        120,
+        100
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Trap_Noose": {
+      "name": "Trap Noose",
+      "category": "defense",
+      "size": [
+        150,
+        150,
+        40
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Trap_LegHold_Big": {
+      "name": "Trap Leg Hold Big",
+      "category": "defense",
+      "size": [
+        150,
+        150,
+        40
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Trap_MineElecShock": {
+      "name": "Trap Mine Elec Shock",
+      "category": "defense",
+      "size": [
+        150,
+        150,
+        40
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "DefenseWait": {
+      "name": "Defense Wait",
+      "category": "decor",
+      "size": [
+        260,
+        260,
+        95
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "DefenseMachinegun": {
+      "name": "Defense Machinegun",
+      "category": "decor",
+      "size": [
+        440,
+        440,
+        95
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "DefenseWall_Wood": {
+      "name": "Defense Wall Wood",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "DefenseWall": {
+      "name": "Defense Wall",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Wood_Gate": {
+      "name": "Wood Gate",
+      "category": "defense",
+      "size": [
+        800,
+        60,
+        500
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "DefenseWall_Metal": {
+      "name": "Defense Wall Metal",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Metal_Gate": {
+      "name": "Metal Gate",
+      "category": "defense",
+      "size": [
+        800,
+        60,
+        500
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "FurnitureTree03_Green": {
+      "name": "Furniture Tree03 Green",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        300
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Stone_Gate": {
+      "name": "Stone Gate",
+      "category": "defense",
+      "size": [
+        800,
+        60,
+        500
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "TableSquare_Wood_None": {
+      "name": "Table Square Wood None",
+      "category": "decor",
+      "size": [
+        200,
+        200,
+        90
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "FurnitureTree02_Snow": {
+      "name": "Furniture Tree02 Snow",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        300
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "FurnitureTree02_Red": {
+      "name": "Furniture Tree02 Red",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        300
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "FurnitureTree03_Red": {
+      "name": "Furniture Tree03 Red",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        300
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "FurnitureTree01_Yellow": {
+      "name": "Furniture Tree01 Yellow",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        300
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "FurnitureTree02_Yellow": {
+      "name": "Furniture Tree02 Yellow",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        300
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "FurnitureTree01_Cherry": {
+      "name": "Furniture Tree01 Cherry",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        300
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "FurnitureTree03_Snow": {
+      "name": "Furniture Tree03 Snow",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        300
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "FurnitureTree01_Desert": {
+      "name": "Furniture Tree01 Desert",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        300
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "FurnitureTree02_Desert": {
+      "name": "Furniture Tree02 Desert",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        300
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "FurnitureTree03_Desert": {
+      "name": "Furniture Tree03 Desert",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        300
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "FurnitureTree01_Bamboo": {
+      "name": "Furniture Tree01 Bamboo",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        300
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "FurnitureTree02_Bamboo": {
+      "name": "Furniture Tree02 Bamboo",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        300
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "FurnitureTree03_Bamboo": {
+      "name": "Furniture Tree03 Bamboo",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        300
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "FurnitureBush01_Green": {
+      "name": "Furniture Bush01 Green",
+      "category": "decor",
+      "size": [
+        120,
+        120,
+        100
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "FurnitureBush01_Yellow": {
+      "name": "Furniture Bush01 Yellow",
+      "category": "decor",
+      "size": [
+        120,
+        120,
+        100
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "FurnitureBush02_Flower": {
+      "name": "Furniture Bush02 Flower",
+      "category": "decor",
+      "size": [
+        120,
+        120,
+        100
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "FurnitureBush01_Tropical": {
+      "name": "Furniture Bush01 Tropical",
+      "category": "decor",
+      "size": [
+        120,
+        120,
+        100
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "FurnitureBush01_Snow": {
+      "name": "Furniture Bush01 Snow",
+      "category": "decor",
+      "size": [
+        120,
+        120,
+        100
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "DamagedScarecrow": {
+      "name": "Damaged Scarecrow",
+      "category": "decor",
+      "size": [
+        100,
+        40,
+        150
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Signboard": {
+      "name": "Signboard",
+      "category": "decor",
+      "size": [
+        100,
+        40,
+        150
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Headstone": {
+      "name": "Headstone",
+      "category": "decor",
+      "size": [
+        100,
+        40,
+        150
+      ],
+      "sizeSource": "rough furniture estimate — display only"
     }
   }
 }
