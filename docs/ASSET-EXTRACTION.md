@@ -21,14 +21,20 @@ extraction is routine, buildings aren't) — so MapPal's manifest is new ground.
 1. Download FModel (`dec-2025` release or newer): https://fmodel.app/ —
    that release matters: it added Nanite static-mesh export, which UE5 games use.
 2. Download the mappings file `Mappings.usmap`:
-   https://github.com/PalworldModding/UsefulFiles/blob/master/Mappings.usmap
-   (alternates: elliotks/Palworld-FModel has per-build versions;
-   TheNaeem/Unreal-Mappings-Archive; or self-generate via UE4SS Dumper).
-3. In FModel: add game → directory `...\steamapps\common\Palworld`;
-   Settings → General → UE Versions = `GAME_UE5_1`; enable **Local Mapping
+   https://github.com/PalworldModding/UsefulFiles/raw/refs/heads/master/Mappings.usmap
+   — verified updated **2026-07-10, "Update Mapping to 1.0"**, matching our
+   game build. (Do NOT use elliotks/Palworld-FModel — archived, pre-1.0 only.
+   Fallback if a future hotfix breaks it: self-dump via UE4SS Dumper tab.)
+3. In FModel: Directory → Selector → "Add Undetected Game" → directory
+   `...\steamapps\common\Palworld` (the folder containing `Engine` and `Pal`);
+   UE Versions = `GAME_UE5_1`; Settings → General → enable **Local Mapping
    File** → point at the `.usmap`. Leave the AES field blank (not needed).
-4. Settings → Models: Mesh Format = **glTF2**, Texture Format = **PNG**,
-   Level of Detail = **First Level Only**.
+4. Settings → Models: Texture Format = **PNG**. Mesh Format — two routes:
+   - **Quick:** `glTF2` directly. Works, but is the less battle-tested path.
+   - **Robust (FModel devs' recommendation):** `UEFormat (uemodel)`, then the
+     UEFormat Blender plugin (github.com/Buckminsterfullerene02/UEFormat) →
+     Blender → export glTF Binary (.glb). Use this if a direct-glTF mesh
+     looks wrong (UVs/materials).
 
 ## Per-export session (~20 min for all building pieces)
 
@@ -46,17 +52,26 @@ extraction is routine, buildings aren't) — so MapPal's manifest is new ground.
    `assets-local/blueprints/*.json`, `assets-local/models/*.glb`,
    `assets-local/icons/*.png`.
 
-## Known pitfalls (from the modding community's own docs)
+## Known pitfalls (from the modding community's own docs + Epic's glTF docs)
 
-- The community's battle-tested path is ActorX (.psk) → Blender → FBX/glTF;
-  FModel's direct glTF2 export exists but is less proven for Palworld
-  specifically. Try glTF first; fall back to Blender (import scale 0.01,
-  "Add Leaf Bones" off) if a mesh looks wrong.
+- Blender import of UE assets: scale 0.01, "Add Leaf Bones" off.
 - UE materials only approximate to glTF PBR — expect some texture slot fixing;
-  normal maps may need a green-channel flip.
+  normal maps may need a green-channel flip. glTF keeps max 2 UV channels,
+  needs full-precision UVs, exports no collision and a single LOD (all fine
+  for viz). Runtime paint/weathering overlays won't survive — you get the
+  clean material, not in-game decay.
 - `DT_MapObjectAssignData` is Pal work-assignment data, NOT an ID→mesh table —
   the mesh reference lives inside each BuildObject Blueprint, hence the
-  batch-JSON approach.
+  batch-JSON approach. The building static-mesh folder itself is publicly
+  undocumented: open any `BP_BuildObject_*` blueprint, its StaticMeshComponent
+  reference reveals the real folder (5 minutes, firsthand ground truth).
+- ID ↔ blueprint matching heuristic: `BP_BuildObject_<Name>` suffixes mirror
+  item IDs (e.g. `BP_BuildObject_WorkBench_SkillUnlock` ↔ our
+  `WorkBench_SkillUnlock` donor) — strong pattern, verify per piece.
+- For a fully scripted alternative to manual FModel clicking:
+  github.com/PalworldDataTools/PalworldDataExtractor is a CUE4Parse-based
+  .NET CLI/library that already dumps Palworld DataTables to JSON — could be
+  extended to dump `DT_ItemDataTable` + BuildObject blueprints headlessly.
 
 ## What MapPal does with it (to be built)
 
