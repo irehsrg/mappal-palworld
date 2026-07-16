@@ -4,6 +4,8 @@
 // cheat-sheet. Only shown once a blueprint is loaded (App.tsx).
 import { useEditorStore } from "../model/store";
 import { CATEGORY_COLOR, CATEGORY_LABEL, countByCategory, unknownDimensionTypes } from "../scene/objectTypes";
+import { countOutsideRadius, findPalbox } from "../scene/campGeometry";
+import { RelocateBasePanel } from "./RelocateBasePanel";
 
 function round(n: number): number {
   return Math.round(n);
@@ -62,6 +64,42 @@ function SelectionInfo() {
   );
 }
 
+// Live, warn-don't-block radius check (CLAUDE.md §5/§11). Uses the palbox's
+// LIVE position, not camp.position — the camp anchor follows the palbox at
+// export, so a base moved during editing should be judged by where the
+// palbox is now, not where it started. See src/scene/campGeometry.ts.
+function RadiusGuardrail() {
+  const objects = useEditorStore((s) => s.objects);
+  const camp = useEditorStore((s) => s.camp);
+  const { palbox, reason } = findPalbox(objects);
+
+  return (
+    <section className="sidebar__section">
+      <h3>Radius guardrail</h3>
+      {!camp || !palbox ? (
+        <p className="sidebar__empty">
+          Radius check unavailable — {!camp ? "camp anchor/area_range not found for this file" : reason}.
+        </p>
+      ) : (
+        (() => {
+          const count = countOutsideRadius(objects, palbox.position, camp.areaRange);
+          return (
+            <div className={`radius-guardrail${count > 0 ? " radius-guardrail--warn" : ""}`}>
+              <div className="radius-guardrail__row">
+                <span>Objects outside base radius</span>
+                <span className="radius-guardrail__count">{count}</span>
+              </div>
+              {count > 0 && (
+                <p className="radius-guardrail__warning">these may not import correctly — untested</p>
+              )}
+            </div>
+          );
+        })()
+      )}
+    </section>
+  );
+}
+
 function WarningsSection() {
   const blueprint = useEditorStore((s) => s.blueprint);
   const loadError = useEditorStore((s) => s.loadError);
@@ -97,6 +135,8 @@ function KeyboardCheatSheet() {
     ["Q / E", "Rotate ±90° about vertical axis"],
     ["Delete / Backspace", "Delete selection"],
     ["Ctrl+D", "Duplicate selection"],
+    ["Ctrl+A", "Select all"],
+    ["Shift+drag empty space", "Box-select (adds to selection)"],
     ["Ctrl+Z", "Undo"],
     ["Ctrl+Y / Ctrl+Shift+Z", "Redo"],
     ["Escape", "Clear selection"],
@@ -121,6 +161,8 @@ export function Sidebar() {
     <div className="sidebar">
       <CategoryCounts />
       <SelectionInfo />
+      <RadiusGuardrail />
+      <RelocateBasePanel />
       <WarningsSection />
       <KeyboardCheatSheet />
     </div>

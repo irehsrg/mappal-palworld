@@ -51,6 +51,29 @@ function asQuat(q: Partial<Quat> | undefined, index: number, what: string): Quat
   return { x: q.x, y: q.y, z: q.z, w: q.w };
 }
 
+export interface CampInfo {
+  /** Camp anchor position (== palbox transform at load time). */
+  position: Vec3;
+  /** Build radius in Unreal units (fixture: 3500). Objects outside get warnings. */
+  areaRange: number;
+}
+
+/** Camp anchor + radius, or null if the shape is unexpected (warn, don't guess). */
+export function extractCampInfo(raw: unknown): CampInfo | null {
+  const rd = (raw as any)?.base_camp?.value?.RawData?.value;
+  const t = rd?.transform?.translation;
+  const areaRange = rd?.area_range;
+  if (
+    typeof t?.x !== "number" ||
+    typeof t?.y !== "number" ||
+    typeof t?.z !== "number" ||
+    typeof areaRange !== "number"
+  ) {
+    return null;
+  }
+  return { position: { x: t.x, y: t.y, z: t.z }, areaRange };
+}
+
 /** Returns raw.map_objects or throws loudly. */
 export function getMapObjects(raw: unknown): unknown[] {
   const objs = (raw as { map_objects?: unknown })?.map_objects;

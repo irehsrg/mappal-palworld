@@ -7,9 +7,15 @@
 
 import { create } from "zustand";
 import { loadBlueprint, serializeBlueprint, type LoadedBlueprint } from "../parse/blueprint";
-import { extractObjects } from "./blueprintView";
-import { mintGuid, reconcileExport } from "./writeback";
+import { extractCampInfo, extractObjects, type CampInfo } from "./blueprintView";
+import { mintGuid, reconcileExport, type DonorLibrary } from "./writeback";
 import type { PlacedObject, Quat, Vec3 } from "./types";
+import donorsJson from "../data/donors.json";
+
+/** Donor bundles harvested from real exports (tools/harvest-donors.ts). */
+const DONORS = (donorsJson as { donors: DonorLibrary }).donors;
+/** Types offerable in the palette: donors exist and placement is allowed. */
+export const PLACEABLE_TYPES = Object.keys(DONORS).filter((t) => t !== "PalBoxV2");
 
 interface TransformState {
   position: Vec3;
@@ -73,6 +79,8 @@ export interface EditorState {
   blueprint: LoadedBlueprint | null;
   loadError: string | null;
   objects: PlacedObject[];
+  /** Camp anchor + build radius as loaded; null if the file's camp shape was unexpected. */
+  camp: CampInfo | null;
   /** Selected object ids. */
   selection: string[];
   undoStack: Command[];
@@ -87,6 +95,8 @@ export interface EditorState {
   deleteSelection(): void;
   /** Duplicate current selection, offset in Unreal space; selects the copies. */
   duplicateSelection(offset: Vec3): void;
+  /** Place a new object from the donor library (Phase 2); selects it. */
+  placeObject(typeId: string, position: Vec3, rotation: Quat): void;
   undo(): void;
   redo(): void;
   /** null when nothing is loaded. */
@@ -106,6 +116,7 @@ export const useEditorStore = create<EditorState>((set, get) => {
     blueprint: null,
     loadError: null,
     objects: [],
+    camp: null,
     selection: [],
     undoStack: [],
     redoStack: [],
@@ -114,11 +125,18 @@ export const useEditorStore = create<EditorState>((set, get) => {
       try {
         const bp = loadBlueprint(text);
         const objects = extractObjects(bp.raw);
+        const camp = extractCampInfo(bp.raw);
+        if (!camp) {
+          bp.warnings.push(
+            "base_camp transform/area_range not found where expected — radius guardrails disabled for this file"
+          );
+        }
         set({
           fileName: name,
           blueprint: bp,
           loadError: null,
           objects,
+          camp,
           selection: [],
           undoStack: [],
           redoStack: [],
@@ -129,6 +147,7 @@ export const useEditorStore = create<EditorState>((set, get) => {
           blueprint: null,
           loadError: err instanceof Error ? err.message : String(err),
           objects: [],
+          camp: null,
           selection: [],
           undoStack: [],
           redoStack: [],
@@ -195,6 +214,24 @@ export const useEditorStore = create<EditorState>((set, get) => {
       set({ selection: created.map((o) => o.id) });
     },
 
+    placeObject(typeId, position, rotation) {
+      if (!get().blueprint) return;
+      if (!PLACEABLE_TYPES.includes(typeId)) return;
+      const created: PlacedObject[] = [
+        {
+          id: mintGuid(),
+          typeId,
+          position,
+          rotation,
+          scale: { x: 1, y: 1, z: 1 },
+          origin: "placed",
+        },
+      ];
+      // Same command shape as duplicate: apply appends, revert removes.
+      push({ kind: "duplicate", created });
+      set({ selection: created.map((o) => o.id) });
+    },
+
     undo() {
       const { undoStack, objects } = get();
       const cmd = undoStack[undoStack.length - 1];
@@ -220,7 +257,7 @@ export const useEditorStore = create<EditorState>((set, get) => {
     exportBlueprint() {
       const { blueprint, objects, fileName } = get();
       if (!blueprint) return null;
-      const { raw, notes } = reconcileExport(blueprint.raw, objects);
+      const { raw, notes } = reconcileExport(blueprint.raw, objects, DONORS);
       const text = serializeBlueprint({ raw, warnings: [] });
       const base = (fileName ?? "blueprint.json").replace(/\.json$/i, "");
       return { filename: `${base}_edited.json`, text, notes };

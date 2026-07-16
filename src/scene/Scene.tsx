@@ -23,10 +23,16 @@ import { Grid, OrbitControls } from "@react-three/drei";
 import { useEditorStore } from "../model/store";
 import { ueVecToThree } from "./coords";
 import { ObjectBox } from "./ObjectBox";
+import { RadiusRing } from "./RadiusRing";
+import { MarqueeSelect } from "./MarqueeSelect";
+
+/** Labels get gnarly with a huge selection — cap concurrent 3D labels silently (sidebar still lists full selection info). */
+const MAX_LABELS = 20;
 
 export function Scene() {
   const objects = useEditorStore((s) => s.objects);
   const blueprint = useEditorStore((s) => s.blueprint);
+  const camp = useEditorStore((s) => s.camp);
   const selection = useEditorStore((s) => s.selection);
   const setSelection = useEditorStore((s) => s.setSelection);
   const toggleSelect = useEditorStore((s) => s.toggleSelect);
@@ -48,6 +54,9 @@ export function Scene() {
   }, [blueprint]);
 
   const selectionSet = useMemo(() => new Set(selection), [selection]);
+  // First N selected ids get a floating label in the 3D view — capped so a
+  // huge multi-select doesn't paper the viewport in <Html> overlays.
+  const labelIds = useMemo(() => new Set(selection.slice(0, MAX_LABELS)), [selection]);
 
   const handleSelect = useCallback(
     (id: string, additive: boolean) => {
@@ -96,9 +105,25 @@ export function Scene() {
         infiniteGrid
       />
 
+      <RadiusRing objects={objects} camp={camp} centroidThree={centroidThree} />
+
       {objects.map((o) => (
-        <ObjectBox key={o.id} object={o} centroidThree={centroidThree} selected={selectionSet.has(o.id)} onSelect={handleSelect} />
+        <ObjectBox
+          key={o.id}
+          object={o}
+          centroidThree={centroidThree}
+          selected={selectionSet.has(o.id)}
+          showLabel={labelIds.has(o.id)}
+          onSelect={handleSelect}
+        />
       ))}
+
+      {/* Shift+drag box-select on empty space — see MarqueeSelect.tsx header
+          for why this can't interfere with plain-drag orbit or click-select.
+          Rendered before OrbitControls so its pointerdown listener attaches
+          first (belt-and-suspenders; the enabled-flag trick doesn't
+          strictly depend on this ordering, see that file). */}
+      <MarqueeSelect objects={objects} centroidThree={centroidThree} />
 
       <OrbitControls makeDefault />
     </Canvas>

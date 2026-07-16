@@ -24,6 +24,7 @@ export function useKeyboardControls(): void {
   const undo = useEditorStore((s) => s.undo);
   const redo = useEditorStore((s) => s.redo);
   const clearSelection = useEditorStore((s) => s.clearSelection);
+  const setSelection = useEditorStore((s) => s.setSelection);
 
   useEffect(() => {
     // Disabled entirely when nothing is loaded — nothing to nudge/rotate/etc,
@@ -48,6 +49,14 @@ export function useKeyboardControls(): void {
       if (ctrlOrCmd && (e.key === "y" || e.key === "Y")) {
         e.preventDefault();
         redo();
+        return;
+      }
+
+      if (ctrlOrCmd && (e.key === "a" || e.key === "A")) {
+        // preventDefault so the browser doesn't select page text instead.
+        e.preventDefault();
+        const { objects } = useEditorStore.getState();
+        setSelection(objects.map((o) => o.id));
         return;
       }
 
@@ -157,5 +166,5 @@ export function useKeyboardControls(): void {
 
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [blueprint, transformObjects, deleteSelection, duplicateSelection, undo, redo, clearSelection]);
+  }, [blueprint, transformObjects, deleteSelection, duplicateSelection, undo, redo, clearSelection, setSelection]);
 }

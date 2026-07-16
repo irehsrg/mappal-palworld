@@ -4,22 +4,25 @@
 // is no per-typeId prefab, just data-driven dimensions from objectTypes.ts.
 import { useMemo } from "react";
 import * as THREE from "three";
-import { Outlines } from "@react-three/drei";
+import { Html, Outlines } from "@react-three/drei";
 import type { PlacedObject } from "../model/types";
 import { ueVecToThree, ueQuatToThree, ueSizeToThreeBoxArgs } from "./coords";
-import { resolveType } from "./objectTypes";
+import { getTypeEntry, resolveType } from "./objectTypes";
 
 export interface ObjectBoxProps {
   object: PlacedObject;
   /** Scene-wide recentring offset (three.js space, metres) — see Scene.tsx. */
   centroidThree: THREE.Vector3;
   selected: boolean;
+  /** Show the floating display-name label above this box (Scene.tsx caps this at 20 concurrent labels). */
+  showLabel: boolean;
   onSelect: (id: string, additive: boolean) => void;
 }
 
-export function ObjectBox({ object, centroidThree, selected, onSelect }: ObjectBoxProps) {
+export function ObjectBox({ object, centroidThree, selected, showLabel, onSelect }: ObjectBoxProps) {
   const resolved = resolveType(object.typeId);
   const isWorldObject = resolved.category === "world" && !resolved.isUnknownDims;
+  const displayName = getTypeEntry(object.typeId)?.name ?? object.typeId;
 
   // Position + rotation are recomputed only when the object's own transform
   // (or the scene recentring offset) changes — cheap, but no need to redo it
@@ -78,6 +81,17 @@ export function ObjectBox({ object, centroidThree, selected, onSelect }: ObjectB
           geometry — the "Unity SelectionOutline" equivalent — without us
           hand-rolling a second scaled-up mesh. */}
       {selected && <Outlines thickness={2} color="#5be3ff" />}
+
+      {/* Floating display-name label, billboarded (screen-space) by drei's
+          Html — `center` anchors it at this point instead of top-left, and
+          `pointerEvents="none"` keeps it from stealing clicks meant for the
+          box underneath. Position is in the mesh's local space, so this
+          floats just above the box regardless of the box's own rotation. */}
+      {showLabel && (
+        <Html center pointerEvents="none" position={[0, boxArgs[1] / 2 + 0.2, 0]} style={{ zIndex: 1 }}>
+          <div className="object-label">{displayName}</div>
+        </Html>
+      )}
     </mesh>
   );
 }

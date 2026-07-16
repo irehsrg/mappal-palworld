@@ -10,12 +10,16 @@ export interface HeaderProps {
 export function Header({ onExported }: HeaderProps) {
   const fileName = useEditorStore((s) => s.fileName);
   const blueprint = useEditorStore((s) => s.blueprint);
-  const objectCount = useEditorStore((s) => s.objects.length);
+  const objects = useEditorStore((s) => s.objects);
+  const objectCount = objects.length;
   const undoCount = useEditorStore((s) => s.undoStack.length);
   const redoCount = useEditorStore((s) => s.redoStack.length);
   const undo = useEditorStore((s) => s.undo);
   const redo = useEditorStore((s) => s.redo);
+  const setSelection = useEditorStore((s) => s.setSelection);
   const exportBlueprint = useEditorStore((s) => s.exportBlueprint);
+
+  const handleSelectAll = () => setSelection(objects.map((o) => o.id));
 
   const handleExport = () => {
     const result = exportBlueprint();
@@ -38,7 +42,10 @@ export function Header({ onExported }: HeaderProps) {
       <div className="header__title">
         <span className="header__name">{fileName ?? "MapPal — no file loaded"}</span>
         {blueprint && (
-          <span className="header__count">
+          <span
+            className="header__count"
+            title="Build limit: unknown — the game enforces one, we don't know it yet."
+          >
             {objectCount} object{objectCount === 1 ? "" : "s"} · build limit: unknown
           </span>
         )}
@@ -46,6 +53,14 @@ export function Header({ onExported }: HeaderProps) {
 
       {blueprint && (
         <div className="header__actions">
+          <button
+            type="button"
+            onClick={handleSelectAll}
+            disabled={objectCount === 0}
+            title="Select all (Ctrl+A)"
+          >
+            Select all
+          </button>
           <button type="button" onClick={undo} disabled={undoCount === 0} title="Undo (Ctrl+Z)">
             ↶ Undo
           </button>

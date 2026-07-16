@@ -42,9 +42,10 @@ export interface PlacedObject {
   hpMax?: number;
   /**
    * originals came from the loaded file (id exists in raw); duplicates are
-   * cloned at export time from their sourceId's raw entry with fresh GUIDs.
+   * cloned at export time from their sourceId's raw entry with fresh GUIDs;
+   * placed objects are cloned from the donor library (src/data/donors.json).
    */
-  origin: "original" | "duplicate";
+  origin: "original" | "duplicate" | "placed";
   /** For duplicates: the original object's id to clone from. */
   sourceId?: string;
 }
