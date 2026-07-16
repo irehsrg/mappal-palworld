@@ -1,14 +1,17 @@
-// One placed object, rendered as a gray-box proxy (CLAUDE.md §5 — we never
-// have real meshes, C2). A "box" here is a single three.js Mesh + BoxGeometry
-// whose size/position/rotation are all derived from the editor model; there
-// is no per-typeId prefab, just data-driven dimensions from objectTypes.ts.
+// One placed object, rendered as a gray-box-turned-parametric-shape proxy
+// (CLAUDE.md §5 — we never have real meshes, C2: procedural three.js
+// geometry only, nothing ripped from game assets). The shape itself comes
+// from proxyGeometry.ts, keyed off the typeId's name; there is still no
+// per-typeId prefab in the "real mesh" sense — just a data-driven silhouette
+// derived from objectTypes.ts's dimensions.
 import { useMemo } from "react";
 import * as THREE from "three";
 import { Html, Outlines } from "@react-three/drei";
 import type { PlacedObject } from "../model/types";
 import { useEditorStore } from "../model/store";
-import { ueVecToThree, ueQuatToThree, ueSizeToThreeBoxArgs } from "./coords";
+import { ueVecToThree, ueQuatToThree } from "./coords";
 import { getTypeEntry, resolveType } from "./objectTypes";
+import { getProxyGeometry } from "./proxyGeometry";
 import { usePlaceModeStore } from "./placeModeStore";
 
 export interface ObjectBoxProps {
@@ -29,41 +32,48 @@ export function ObjectBox({ object, centroidThree, selected, showLabel, onSelect
   // Position + rotation are recomputed only when the object's own transform
   // (or the scene recentring offset) changes — cheap, but no need to redo it
   // every render of an unrelated sibling.
-  const { position, quaternion, boxArgs } = useMemo(() => {
-    // Vertical origin convention (CLAUDE.md §5 / objects.json `originAtTop`):
-    // foundations store their TOP surface and extend downward; everything
-    // else stores its BOTTOM and extends upward. Rotation here is always
-    // pure yaw (docs/CALIBRATION.md), so it never tilts the vertical axis —
-    // the offset can be applied directly in Unreal Z before conversion.
-    const halfHeightUE = resolved.size[2] / 2;
-    const zOffsetUE = resolved.originAtTop ? -halfHeightUE : halfHeightUE;
-    const posUE = {
-      x: object.position.x,
-      y: object.position.y,
-      z: object.position.z + zOffsetUE,
-    };
+  const { position, quaternion } = useMemo(() => {
+    // No vertical origin offset needed here anymore (contrast with the old
+    // "centered box + half-height offset" trick): proxyGeometry.ts builds
+    // every shape already anchored per objects.json's `originAtTop`
+    // convention (top-anchored foundations extend down from local Y=0,
+    // everything else extends up from local Y=0), so the mesh sits directly
+    // at the object's own Z. Rotation here is always pure yaw
+    // (docs/CALIBRATION.md), so it never tilts the vertical axis.
+    const posUE = { x: object.position.x, y: object.position.y, z: object.position.z };
     return {
       position: ueVecToThree(posUE).sub(centroidThree),
       quaternion: ueQuatToThree(object.rotation),
-      boxArgs: ueSizeToThreeBoxArgs(resolved.size),
     };
-  }, [
-    object.position.x,
-    object.position.y,
-    object.position.z,
-    object.rotation.x,
-    object.rotation.y,
-    object.rotation.z,
-    object.rotation.w,
-    centroidThree,
-    resolved.size,
-    resolved.originAtTop,
-  ]);
+  }, [object.position.x, object.position.y, object.position.z, object.rotation.x, object.rotation.y, object.rotation.z, object.rotation.w, centroidThree]);
+
+  // Shared with PlaceMode.tsx's ghost preview so the armed-item preview and
+  // the placed object always render the exact same silhouette. Geometries
+  // are memoized inside proxyGeometry.ts (shared across every instance of
+  // the same shape+size), so this lookup is cheap — a Map hit, not a build.
+  const geometry = useMemo(
+    () => getProxyGeometry(object.typeId, resolved.size, resolved.originAtTop, resolved.isUnknownDims),
+    [object.typeId, resolved.size, resolved.originAtTop, resolved.isUnknownDims],
+  );
+  // Label floats just above the shape's local top. Bottom-anchored shapes
+  // span local Y [0,height] (top = height); top-anchored (foundation) shapes
+  // span [-height,0] (top = 0) — geometry.boundingBox.max.y covers both.
+  // Guarded (not recomputed if already set) since geometry is shared across
+  // every instance of the same shape+size — see proxyGeometry.ts's cache.
+  const labelY = useMemo(() => {
+    if (!geometry.boundingBox) geometry.computeBoundingBox();
+    return (geometry.boundingBox?.max.y ?? 0) + 0.2;
+  }, [geometry]);
+
+  const glassOpacity = resolved.materialOpacity;
+  const transparent = isWorldObject || glassOpacity !== undefined;
+  const opacity = glassOpacity ?? (isWorldObject ? 0.55 : 1);
 
   return (
     <mesh
       position={position}
       quaternion={quaternion}
+      geometry={geometry}
       onClick={(e) => {
         // Stop propagation so this doesn't also trigger the Canvas's
         // onPointerMissed (which clears selection on empty-space clicks).
@@ -87,26 +97,29 @@ export function ObjectBox({ object, centroidThree, selected, showLabel, onSelect
         onSelect(object.id, e.shiftKey);
       }}
     >
-      <boxGeometry args={boxArgs} />
       <meshStandardMaterial
         color={resolved.color}
-        transparent={isWorldObject}
-        opacity={isWorldObject ? 0.55 : 1}
+        transparent={transparent}
+        opacity={opacity}
+        side={THREE.DoubleSide}
+        flatShading
         emissive={selected ? "#ffffff" : "#000000"}
         emissiveIntensity={selected ? 0.45 : 0}
       />
-      {/* drei Outlines draws a screen-space outline mesh around this box's
+      {/* drei Outlines draws a screen-space outline mesh around this shape's
           geometry — the "Unity SelectionOutline" equivalent — without us
-          hand-rolling a second scaled-up mesh. */}
+          hand-rolling a second scaled-up mesh. Works on arbitrary
+          BufferGeometry (including the merged stair/fence/ladder shapes);
+          the emissive highlight above is the fallback if it ever doesn't. */}
       {selected && <Outlines thickness={2} color="#5be3ff" />}
 
       {/* Floating display-name label, billboarded (screen-space) by drei's
           Html — `center` anchors it at this point instead of top-left, and
           `pointerEvents="none"` keeps it from stealing clicks meant for the
-          box underneath. Position is in the mesh's local space, so this
-          floats just above the box regardless of the box's own rotation. */}
+          shape underneath. Position is in the mesh's local space, so this
+          floats just above the shape regardless of the mesh's own rotation. */}
       {showLabel && (
-        <Html center pointerEvents="none" position={[0, boxArgs[1] / 2 + 0.2, 0]} style={{ zIndex: 1 }}>
+        <Html center pointerEvents="none" position={[0, labelY, 0]} style={{ zIndex: 1 }}>
           <div className="object-label">{displayName}</div>
         </Html>
       )}

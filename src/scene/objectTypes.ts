@@ -28,6 +28,32 @@ export const CATEGORY_COLOR: Record<Category, string> = {
   world: "#444444",
 };
 
+/**
+ * Material-tier tint, derived from the typeId's own prefix (Wood/Wooden,
+ * Stone, Metal, Glass — the four build materials Palworld's structure
+ * pieces come in). Applied ON TOP of CATEGORY_COLOR, structure category
+ * only (§ resolveType below) — production/storage/decor/defense/world keep
+ * their plain category color, and unknown-dims objects stay magenta
+ * regardless of what their name looks like.
+ */
+const MATERIAL_TINT: { test: (lower: string) => boolean; color: string; opacity?: number }[] = [
+  // Checked in order — "glass" isn't a prefix seen in objects.json yet, but
+  // the rule is here so a future Glass_* type picks it up automatically.
+  { test: (t) => t.includes("glass"), color: "#bfe8ea", opacity: 0.45 },
+  { test: (t) => t.startsWith("stone"), color: "#8d8d94" },
+  { test: (t) => t.startsWith("metal"), color: "#6e7f8d" },
+  { test: (t) => t.startsWith("wood"), color: "#8a6f4d" }, // covers both "Wood_" and "Wooden_" prefixes
+];
+
+/** Material tint for a typeId, or null if it doesn't match any known material prefix (kept plain category color). */
+function materialTint(typeId: string): { color: string; opacity?: number } | null {
+  const t = typeId.toLowerCase();
+  for (const rule of MATERIAL_TINT) {
+    if (rule.test(t)) return { color: rule.color, opacity: rule.opacity };
+  }
+  return null;
+}
+
 export const CATEGORY_LABEL: Record<Category, string> = {
   structure: "Structure",
   production: "Production",
@@ -49,6 +75,8 @@ export interface ResolvedType {
   originAtTop: boolean;
   /** True when the typeId isn't registered at all, or is registered but has one or more null size components. */
   isUnknownDims: boolean;
+  /** Material-tier translucency (currently just Glass) — layered on top of the world-category translucency ObjectBox/PlaceMode already apply. */
+  materialOpacity?: number;
 }
 
 export function resolveType(typeId: string): ResolvedType {
@@ -63,12 +91,18 @@ export function resolveType(typeId: string): ResolvedType {
       isUnknownDims: true,
     };
   }
+  // Material tint applies on top of the category color, structure category
+  // only — production/storage/decor/defense/world keep their plain
+  // category color (task brief: "Non-structure categories keep their
+  // category colors").
+  const tint = entry.category === "structure" ? materialTint(typeId) : null;
   return {
     size: entry.size as [number, number, number],
-    color: CATEGORY_COLOR[entry.category],
+    color: tint?.color ?? CATEGORY_COLOR[entry.category],
     category: entry.category,
     originAtTop: entry.originAtTop === true,
     isUnknownDims: false,
+    materialOpacity: tint?.opacity,
   };
 }
 

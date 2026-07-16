@@ -25,15 +25,8 @@ import { GRID_PITCH } from "../model/types";
 import { usePlaceModeStore } from "./placeModeStore";
 import { findPalbox } from "./campGeometry";
 import { resolveType } from "./objectTypes";
-import {
-  UNIT_SCALE,
-  localAxesFromYaw,
-  threeVecToUe,
-  ueQuatToThree,
-  ueSizeToThreeBoxArgs,
-  ueVecToThree,
-  yawFromQuat,
-} from "./coords";
+import { getProxyGeometry } from "./proxyGeometry";
+import { UNIT_SCALE, localAxesFromYaw, threeVecToUe, ueQuatToThree, ueVecToThree, yawFromQuat } from "./coords";
 
 export interface PlaceModeProps {
   objects: PlacedObject[];
@@ -145,22 +138,29 @@ export function PlaceMode({ objects, centroidThree }: PlaceModeProps) {
 
   if (!armedType || !hover) return null;
 
-  // Ghost box: same size/color/vertical-origin convention as ObjectBox.tsx,
-  // just translucent and non-interactive (raycast disabled — RadiusRing.tsx
-  // uses the same trick — so it never steals the click meant to place/select
-  // at this same screen position).
+  // Ghost: same shape (proxyGeometry.ts, shared with ObjectBox.tsx — the
+  // brief requires the ghost preview to use the identical geometry, not a
+  // lookalike) and same vertical-origin convention, just translucent and
+  // non-interactive (raycast disabled — RadiusRing.tsx uses the same trick —
+  // so it never steals the click meant to place/select at this same screen
+  // position). No zOffset needed: proxyGeometry.ts's shapes are already
+  // anchored per originAtTop, so the mesh sits directly at hover.position.z.
   const resolved = resolveType(armedType);
-  const halfHeightUE = resolved.size[2] / 2;
-  const zOffsetUE = resolved.originAtTop ? -halfHeightUE : halfHeightUE;
-  const posUE: Vec3 = { x: hover.position.x, y: hover.position.y, z: hover.position.z + zOffsetUE };
+  const posUE: Vec3 = hover.position;
   const position = ueVecToThree(posUE).sub(centroidThree);
   const quaternion = ueQuatToThree(hover.rotation);
-  const boxArgs = ueSizeToThreeBoxArgs(resolved.size);
+  const geometry = getProxyGeometry(armedType, resolved.size, resolved.originAtTop, resolved.isUnknownDims);
 
   return (
-    <mesh position={position} quaternion={quaternion} raycast={() => null}>
-      <boxGeometry args={boxArgs} />
-      <meshStandardMaterial color={resolved.color} transparent opacity={0.4} depthWrite={false} />
+    <mesh position={position} quaternion={quaternion} geometry={geometry} raycast={() => null}>
+      <meshStandardMaterial
+        color={resolved.color}
+        transparent
+        opacity={resolved.materialOpacity ?? 0.4}
+        depthWrite={false}
+        side={THREE.DoubleSide}
+        flatShading
+      />
       <Outlines thickness={1.5} color="#5be3ff" />
     </mesh>
   );
