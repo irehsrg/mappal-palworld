@@ -6,8 +6,10 @@ import { useMemo } from "react";
 import * as THREE from "three";
 import { Html, Outlines } from "@react-three/drei";
 import type { PlacedObject } from "../model/types";
+import { useEditorStore } from "../model/store";
 import { ueVecToThree, ueQuatToThree, ueSizeToThreeBoxArgs } from "./coords";
 import { getTypeEntry, resolveType } from "./objectTypes";
+import { usePlaceModeStore } from "./placeModeStore";
 
 export interface ObjectBoxProps {
   object: PlacedObject;
@@ -66,6 +68,22 @@ export function ObjectBox({ object, centroidThree, selected, showLabel, onSelect
         // Stop propagation so this doesn't also trigger the Canvas's
         // onPointerMissed (which clears selection on empty-space clicks).
         e.stopPropagation();
+        // Place mode (CLAUDE.md §6): clicking on top of an existing object
+        // while armed still places the new piece at the ghost's ground
+        // position — it must never select the object underneath instead.
+        // See PlaceMode.tsx / Scene.tsx's onPointerMissed for the other half
+        // of this (clicking empty space while armed).
+        const { armedType, hover, setHover } = usePlaceModeStore.getState();
+        if (armedType) {
+          if (hover) {
+            useEditorStore.getState().placeObject(armedType, hover.position, hover.rotation);
+            // See Scene.tsx's onPointerMissed for why the ghost is hidden
+            // immediately after a placement click (auto-select vs. ghost
+            // overlap on the same frame).
+            setHover(null);
+          }
+          return;
+        }
         onSelect(object.id, e.shiftKey);
       }}
     >

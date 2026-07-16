@@ -6,6 +6,7 @@ import { useEditorStore } from "../model/store";
 import { CATEGORY_COLOR, CATEGORY_LABEL, countByCategory, unknownDimensionTypes } from "../scene/objectTypes";
 import { countOutsideRadius, findPalbox } from "../scene/campGeometry";
 import { RelocateBasePanel } from "./RelocateBasePanel";
+import { Palette } from "./Palette";
 
 function round(n: number): number {
   return Math.round(n);
@@ -136,10 +137,13 @@ function KeyboardCheatSheet() {
     ["Delete / Backspace", "Delete selection"],
     ["Ctrl+D", "Duplicate selection"],
     ["Ctrl+A", "Select all"],
-    ["Shift+drag empty space", "Box-select (adds to selection)"],
+    ["Shift+drag empty space", "Box-select (adds to selection); disabled while placing"],
     ["Ctrl+Z", "Undo"],
     ["Ctrl+Y / Ctrl+Shift+Z", "Redo"],
-    ["Escape", "Clear selection"],
+    ["Escape", "Stop placing, else clear selection"],
+    ["Palette button", "Arm/disarm place mode for that object"],
+    ["Click (while placing)", "Stamp a piece; stays armed for repeats"],
+    ["Alt (while placing)", "Disable grid snap for that placement"],
   ];
   return (
     <section className="sidebar__section">
@@ -159,6 +163,7 @@ function KeyboardCheatSheet() {
 export function Sidebar() {
   return (
     <div className="sidebar">
+      <Palette />
       <CategoryCounts />
       <SelectionInfo />
       <RadiusGuardrail />

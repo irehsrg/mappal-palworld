@@ -176,6 +176,14 @@ a real save → load the game → verify in-game. The JSON diff test alone does 
 PST's importer remaps IDs on import, so "file that diffs clean" and "file PST imports
 correctly" are different claims, and only the in-game loop tests the second one.
 
+> **Gate decision 2026-07-16:** Alex waived the ten-round-trip count after the first
+> cross-world verification, because the placement machinery is the same clone-bundle
+> path as Duplicate — which the in-game evidence specifically validated (the duplicate
+> was the only imported building object the game accepted during the same-world-import
+> incident; see docs/CALIBRATION.md). Placement ships covered by
+> `src/model/placement.test.ts`; each new donor type still needs one in-game
+> verification before it's considered trusted.
+
 The blocker is §0.2's linkage question. To synthesize a *new* chest, we likely must also
 synthesize its container entry, its ID, and its registration with the base camp — and
 those may live in parts of the save the blueprint export doesn't even carry.

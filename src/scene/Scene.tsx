@@ -25,6 +25,8 @@ import { ueVecToThree } from "./coords";
 import { ObjectBox } from "./ObjectBox";
 import { RadiusRing } from "./RadiusRing";
 import { MarqueeSelect } from "./MarqueeSelect";
+import { PlaceMode } from "./PlaceMode";
+import { usePlaceModeStore } from "./placeModeStore";
 
 /** Labels get gnarly with a huge selection — cap concurrent 3D labels silently (sidebar still lists full selection info). */
 const MAX_LABELS = 20;
@@ -37,6 +39,7 @@ export function Scene() {
   const setSelection = useEditorStore((s) => s.setSelection);
   const toggleSelect = useEditorStore((s) => s.toggleSelect);
   const clearSelection = useEditorStore((s) => s.clearSelection);
+  const placeObject = useEditorStore((s) => s.placeObject);
 
   // Recentre the whole base on the three.js origin (task brief: "compute the
   // centroid of all object positions and subtract it"). Deliberately keyed
@@ -72,6 +75,13 @@ export function Scene() {
   // pointer travelled in between). Without this guard, every camera orbit
   // would silently clear the selection. Track the pointerdown position and
   // only treat it as an empty-space "click" if the pointer barely moved.
+  //
+  // Place mode (CLAUDE.md §6) piggybacks on this same guard: while armed, a
+  // real click on empty space places the ghost's current position instead of
+  // clearing selection, and — critically — does NOT disarm, so repeated
+  // clicks stamp multiple pieces. See PlaceMode.tsx for the ghost/snap math
+  // and ObjectBox.tsx for the other click path (clicking where an existing
+  // object already is).
   const pointerDownPos = useRef<{ x: number; y: number } | null>(null);
   const DRAG_THRESHOLD_PX = 6;
 
@@ -88,6 +98,19 @@ export function Scene() {
         if (down) {
           const dist = Math.hypot(e.clientX - down.x, e.clientY - down.y);
           if (dist > DRAG_THRESHOLD_PX) return; // was an orbit/pan drag, not a click
+        }
+        const { armedType, hover, setHover } = usePlaceModeStore.getState();
+        if (armedType) {
+          if (hover) {
+            placeObject(armedType, hover.position, hover.rotation);
+            // Hide the ghost until the next pointer move: the store
+            // auto-selects the just-placed object (highlighted, opaque), and
+            // without this the translucent ghost would sit exactly on top of
+            // it for one frame — a real "fighting" visual, not just
+            // theoretical (see task brief §4).
+            setHover(null);
+          }
+          return; // stays armed — repeated clicks stamp multiple pieces
         }
         clearSelection();
       }}
@@ -124,6 +147,12 @@ export function Scene() {
           first (belt-and-suspenders; the enabled-flag trick doesn't
           strictly depend on this ordering, see that file). */}
       <MarqueeSelect objects={objects} centroidThree={centroidThree} />
+
+      {/* Phase 2 place-mode ghost preview (CLAUDE.md §6) — renders nothing
+          while nothing is armed. The actual placement click is handled above
+          (onPointerMissed) and in ObjectBox.tsx, not here — see PlaceMode.tsx
+          header. */}
+      <PlaceMode objects={objects} centroidThree={centroidThree} />
 
       <OrbitControls makeDefault />
     </Canvas>

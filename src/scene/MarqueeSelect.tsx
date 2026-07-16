@@ -8,6 +8,16 @@
 // on release, unions any objects whose screen-space projection falls inside
 // the rectangle into the current selection.
 //
+// Interaction hygiene with Phase 2 place mode (CLAUDE.md §6): shift+drag
+// marquee is disabled entirely while a palette entry is armed (see the
+// armedType check in onPointerDown below) rather than made to coexist with
+// placement. Design choice, not a limitation of either feature — armed mode
+// already repurposes plain click for "place, don't select", so a
+// shift+drag-to-select gesture during the same session would be a second,
+// harder-to-discover exception to "clicks place" rather than a clarifying
+// one. Escape (or clicking the armed palette button again) disarms and
+// marquee immediately works again.
+//
 // Orbit controls are disabled for the duration of the drag by setting
 // `controls.enabled = false` synchronously in the pointerdown handler.
 // OrbitControls itself only *applies* rotation in its pointermove handler
@@ -20,6 +30,7 @@ import { useThree } from "@react-three/fiber";
 import type { PlacedObject } from "../model/types";
 import { useEditorStore } from "../model/store";
 import { ueVecToThree } from "./coords";
+import { usePlaceModeStore } from "./placeModeStore";
 
 export interface MarqueeSelectProps {
   objects: PlacedObject[];
@@ -70,6 +81,7 @@ export function MarqueeSelect({ objects, centroidThree }: MarqueeSelectProps) {
 
     function onPointerDown(e: PointerEvent) {
       if (!e.shiftKey || e.button !== 0) return;
+      if (usePlaceModeStore.getState().armedType) return; // disabled while armed — see file header
       dragging = true;
       startX = e.clientX;
       startY = e.clientY;

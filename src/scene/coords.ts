@@ -45,6 +45,18 @@ export function ueVecToThree(v: Vec3): THREE.Vector3 {
   return new THREE.Vector3(v.x * UNIT_SCALE, v.z * UNIT_SCALE, v.y * UNIT_SCALE);
 }
 
+/**
+ * Inverse of ueVecToThree: a three.js position (m) back to Unreal space (cm).
+ * Used by PlaceMode.tsx to turn a ground-plane raycast hit (computed in the
+ * scene's recentred three.js space) back into Unreal coordinates for
+ * placeObject(). No recentring here either — callers add centroidThree back
+ * onto the three.js point before calling this, mirroring ueVecToThree's
+ * "no recentring" contract in the other direction.
+ */
+export function threeVecToUe(v: THREE.Vector3): Vec3 {
+  return { x: v.x / UNIT_SCALE, y: v.z / UNIT_SCALE, z: v.y / UNIT_SCALE };
+}
+
 /** Convert an Unreal-space rotation quaternion to its three.js equivalent. See file header for the derivation/verification. */
 export function ueQuatToThree(q: Quat): THREE.Quaternion {
   return new THREE.Quaternion(q.x, q.z, q.y, -q.w).normalize();

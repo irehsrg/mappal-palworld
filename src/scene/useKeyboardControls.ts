@@ -10,6 +10,7 @@ import { useEffect } from "react";
 import { useEditorStore, type TransformEdit } from "../model/store";
 import { GRID_PITCH, VERTICAL_PITCH, type Quat } from "../model/types";
 import { localAxesFromYaw, quatMultiply, yawFromQuat } from "./coords";
+import { usePlaceModeStore } from "./placeModeStore";
 
 function isTypingTarget(target: EventTarget | null): boolean {
   const el = target as HTMLElement | null;
@@ -62,6 +63,13 @@ export function useKeyboardControls(): void {
 
       if (e.key === "Escape") {
         e.preventDefault();
+        // Place mode (CLAUDE.md §6) takes priority: the first Escape while
+        // armed cancels placement, not selection — pressing Escape again
+        // (now nothing is armed) clears selection as usual.
+        if (usePlaceModeStore.getState().armedType) {
+          usePlaceModeStore.getState().disarm();
+          return;
+        }
         clearSelection();
         return;
       }
