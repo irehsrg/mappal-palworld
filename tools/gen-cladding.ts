@@ -14,11 +14,18 @@ import type { PlacedObject } from "../src/model/types";
 import donorsJson from "../src/data/donors.json";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
-const [inPath, planPath, outPath] = process.argv.slice(2);
+const [inPath, planPath, outPath, cladTypeArg, capTypeArg] = process.argv.slice(2);
 if (!inPath || !planPath || !outPath) {
-  console.error("usage: npx tsx tools/gen-cladding.ts <in.json> <plan_faces.json> <out.json>");
+  console.error(
+    "usage: npx tsx tools/gen-cladding.ts <in.json> <plan_faces.json> <out.json> [cladWallType=SF_wall] [capRoofType=Glass_roof]"
+  );
   process.exit(1);
 }
+// The plan's "clean" kit maps to different type families per build: the
+// user's tower uses the Ancient set (the game's white/cyan "clean" look
+// exports as Ancient_*; SF_* is a different kit). Parameterized 2026-07-18.
+const CLAD_WALL = cladTypeArg ?? "SF_wall";
+const CAP_ROOF = capTypeArg ?? "Glass_roof";
 
 const DONORS = (donorsJson as unknown as { donors: DonorLibrary }).donors;
 const GRID = 400;
@@ -78,7 +85,7 @@ for (const [face, def] of Object.entries(FACES)) {
       const cell = grid[level][col];
       if (cell !== "G" && cell !== "B") continue;
       const off = cell === "G" ? GLASS_OFFSET : SF_OFFSET;
-      const typeId = cell === "G" ? "Glass_wall" : "SF_wall";
+      const typeId = cell === "G" ? "Glass_wall" : CLAD_WALL;
       const lat = (col - 6.5) * GRID;
       const pos = {
         x: P.x + def.out.x * off + def.lat.x * lat,
@@ -145,8 +152,8 @@ for (const [face, def] of Object.entries(FACES)) {
       if (!isB && runStart !== null) {
         const runEnd = col - 1;
         const z = P.z + level * V;
-        if (runStart > 0 && place("SF_wall", RETURN_OFF, (runStart - 7) * GRID, z, def.yawOff + 90)) returns++;
-        if (runEnd < grid[level].length - 1 && place("SF_wall", RETURN_OFF, (runEnd - 6) * GRID, z, def.yawOff + 90)) returns++;
+        if (runStart > 0 && place(CLAD_WALL, RETURN_OFF, (runStart - 7) * GRID, z, def.yawOff + 90)) returns++;
+        if (runEnd < grid[level].length - 1 && place(CLAD_WALL, RETURN_OFF, (runEnd - 6) * GRID, z, def.yawOff + 90)) returns++;
         runStart = null;
       }
     }
@@ -159,8 +166,8 @@ for (const [face, def] of Object.entries(FACES)) {
       if (isB && runBottom === null) runBottom = level;
       if (!isB && runBottom !== null) {
         const lat = (col - 6.5) * GRID;
-        if (place("Glass_roof", RETURN_OFF, lat, P.z + level * V, 0)) caps++;
-        if (runBottom > 0 && place("Glass_roof", RETURN_OFF, lat, P.z + runBottom * V, 0)) caps++;
+        if (place(CAP_ROOF, RETURN_OFF, lat, P.z + level * V, 0)) caps++;
+        if (runBottom > 0 && place(CAP_ROOF, RETURN_OFF, lat, P.z + runBottom * V, 0)) caps++;
         runBottom = null;
       }
     }
