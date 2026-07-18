@@ -205,9 +205,16 @@ export const useEditorStore = create<EditorState>((set, get) => {
         .map((o): PlacedObject => ({
           ...o,
           id: mintGuid(),
-          origin: "duplicate",
-          // Chained duplicates still clone from the real raw entry.
-          sourceId: o.origin === "original" ? o.id : o.sourceId,
+          // A copy of a palette-placed piece is just another placed piece
+          // (donor-cloned at export). Only copies of file objects are
+          // "duplicate" — chained duplicates keep cloning the real raw entry.
+          origin: o.origin === "placed" ? "placed" : "duplicate",
+          sourceId:
+            o.origin === "original"
+              ? o.id
+              : o.origin === "duplicate"
+                ? o.sourceId
+                : undefined,
           position: {
             x: o.position.x + offset.x,
             y: o.position.y + offset.y,

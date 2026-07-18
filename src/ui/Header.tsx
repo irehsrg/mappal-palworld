@@ -22,7 +22,19 @@ export function Header({ onExported }: HeaderProps) {
   const handleSelectAll = () => setSelection(objects.map((o) => o.id));
 
   const handleExport = () => {
-    const result = exportBlueprint();
+    // Never fail silently: an export error means the user's work looks
+    // trapped. Surface the reason in the notes panel instead.
+    let result: ReturnType<typeof exportBlueprint>;
+    try {
+      result = exportBlueprint();
+    } catch (err) {
+      onExported([
+        "⚠ EXPORT FAILED — nothing was downloaded. Your edits are still in the editor.",
+        err instanceof Error ? err.message : String(err),
+        "Tip: Ctrl+Z past the last action often clears the state the export choked on. Then report this message.",
+      ]);
+      return;
+    }
     if (!result) return;
     // Trigger a browser download of the exported text via a throwaway <a>.
     const blob = new Blob([result.text], { type: "application/json" });

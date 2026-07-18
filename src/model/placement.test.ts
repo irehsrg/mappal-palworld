@@ -108,6 +108,31 @@ describe("palette placement (donor pattern)", () => {
     expect(trimmed).toEqual(before);
   });
 
+  it("exports duplicates of palette-placed pieces (the column-stacking flow)", () => {
+    // Regression: Ctrl+D on a placed piece used to create a broken
+    // origin:"duplicate" with no sourceId, making export throw.
+    const bp = loadBlueprint(FIXTURE);
+    const objects = extractObjects(bp.raw);
+    const placed = {
+      id: mintGuid(),
+      typeId: "Wooden_pillar",
+      position: POS,
+      rotation: ROT,
+      scale: { x: 1, y: 1, z: 1 },
+      origin: "placed" as const,
+    };
+    // what duplicateSelection now produces for a placed source:
+    const copy = { ...placed, id: mintGuid(), sourceId: undefined, position: { ...POS, z: POS.z + 325 } };
+    const before = JSON.parse(FIXTURE);
+    const { raw } = reconcileExport(bp.raw, [...objects, placed, copy], DONORS);
+    const after = JSON.parse(serializeBlueprint({ raw, warnings: [] }));
+    expect(after.map_objects).toHaveLength(before.map_objects.length + 2);
+    const added = after.map_objects.slice(-2);
+    expect(added.map((m: any) => m.MapObjectId.value)).toEqual(["Wooden_pillar", "Wooden_pillar"]);
+    const ids = added.map((m: any) => m.Model.value.RawData.value.instance_id);
+    expect(new Set(ids).size).toBe(2);
+  });
+
   it("refuses to place a palbox or an unknown type", () => {
     const bp = loadBlueprint(FIXTURE);
     const objects = extractObjects(bp.raw);
