@@ -29,7 +29,12 @@ const CAP_ROOF = capTypeArg ?? "Glass_roof";
 // 6th arg "lining": also place a second CLAD_WALL on every cladding cell,
 // rotated 180°, so the finished wall face shows on the channel's inside too
 // (in-game double-walling: two walls back-to-back on one edge).
-const LINING = process.argv[7] === "lining";
+const LINING = process.argv.includes("lining");
+// "innershell": complete the INNER ring — wherever the plan has cladding (B)
+// but no glass, place a CLAD_WALL on the glass ring (cols 1..12, glass levels
+// only) so interiors never look into the cladding channel.
+const INNER_SHELL = process.argv.includes("innershell");
+const GLASS_LEVELS = 48;
 
 const DONORS = (donorsJson as unknown as { donors: DonorLibrary }).donors;
 const GRID = 400;
@@ -126,6 +131,30 @@ for (const [face, def] of Object.entries(FACES)) {
       } else {
         c.skipped++;
       }
+      // Inner shell: at cladding cells within the glass ring's span, close
+      // the inner ring with a cladding wall (interiors see wall, not channel).
+      if (INNER_SHELL && cell === "B" && col >= 1 && col <= 12 && level < GLASS_LEVELS) {
+        const spos = {
+          x: P.x + def.out.x * GLASS_OFFSET + def.lat.x * lat,
+          y: P.y + def.out.y * GLASS_OFFSET + def.lat.y * lat,
+          z: P.z + level * V,
+        };
+        const srot = qz(def.yawOff);
+        const skey = `${posKey(spos)}:${yawQuadrant(srot)}`;
+        if (!existing.has(skey)) {
+          existing.add(skey);
+          placed.push({
+            id: mintGuid(),
+            typeId: CLAD_WALL,
+            position: spos,
+            rotation: srot,
+            scale: { x: 1, y: 1, z: 1 },
+            origin: "placed",
+          });
+          (c as any).innershell = ((c as any).innershell ?? 0) + 1;
+        }
+      }
+
       // Inner lining: a back-to-back second wall on every cladding cell,
       // facing the channel interior. Placed even when the outer wall already
       // existed (topping up a previously generated facade).
