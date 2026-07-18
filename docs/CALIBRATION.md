@@ -113,6 +113,20 @@ Confirmed reference graph, all by GUID:
   importer skips objects with dangling refs; orphaned works/containers ride
   along silently.
 
+## Large-scale import verification (2026-07-18)
+
+A ~450-piece editor-built tower (circle-filled platform, cloned pillar
+column, vertically-stacked shaft walls, group-rotated stair wrap, palette-
+placed SF/glass pieces) was imported cross-world and spawned **fully intact**:
+
+- **The "~16-tile vertical build limit" community figure is refuted for
+  imports on game v1.0.1** — the tower is ~47 wall-heights and every level
+  spawned. (In-game *placement* may still enforce a limit; imports don't.)
+- One editor defect found: the stair proxy geometry's ascent direction was
+  mirrored versus the real game mesh, so stairs oriented by eye in the editor
+  spawned backwards. Fixed in proxyGeometry (steps now rise toward −X);
+  `tools/rotate-type.ts` repairs affected exports (rotate "stair" 180°).
+
 ## Surprises worth remembering
 
 - The export includes **non-player-built objects** inside the radius: dropped

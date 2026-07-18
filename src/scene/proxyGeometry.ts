@@ -382,7 +382,12 @@ function slopedRoofCornerGeo(lenM: number, thickM: number, reverse: boolean): TH
   return trisToGeometry(tris);
 }
 
-/** Actual steps: 4 boxes of ascending height, merged, rising from 0 to the full registry height across the footprint's "y" (thickness) axis per the task brief. */
+/** Actual steps: 4 boxes of ascending height, merged, rising across the
+ *  footprint's "thickness" axis. ASCENT DIRECTION MATTERS: verified in-game
+ *  2026-07-18 — the original (+X-rising) version was MIRRORED versus the real
+ *  Palworld stair mesh, so users aimed stairs backwards. Steps now rise
+ *  toward -X, matching the game. If stairs ever look backwards in-game
+ *  again, this sign is the suspect. */
 function stairGeo(lenM: number, thickM: number, heightM: number): THREE.BufferGeometry {
   const steps = 4;
   const stepHeight = heightM / steps;
@@ -391,7 +396,7 @@ function stairGeo(lenM: number, thickM: number, heightM: number): THREE.BufferGe
   for (let i = 0; i < steps; i++) {
     const h = stepHeight * (i + 1);
     const g = new THREE.BoxGeometry(stepDepth, h, lenM);
-    g.translate(-thickM / 2 + stepDepth * (i + 0.5), h / 2, 0);
+    g.translate(thickM / 2 - stepDepth * (i + 0.5), h / 2, 0);
     geometries.push(g);
   }
   return mergeGeometries(geometries) ?? geometries[0];
