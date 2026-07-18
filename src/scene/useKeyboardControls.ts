@@ -74,6 +74,20 @@ export function useKeyboardControls(): void {
         return;
       }
 
+      // "R" while armed (Phase 2 place mode, CLAUDE.md §6): cycles the ghost
+      // rotation 0/90/180/270 — see placeModeStore.ts's ghostRotationSteps
+      // and PlaceMode.tsx's snapLattice.ts usage for what each lattice kind
+      // does with it. Checked ahead of the below "requires a live selection"
+      // logic, since placing doesn't require anything selected; !ctrlOrCmd
+      // keeps it out of the way of any future Ctrl+R browser-reload habit.
+      if ((e.key === "r" || e.key === "R") && !ctrlOrCmd) {
+        if (usePlaceModeStore.getState().armedType) {
+          e.preventDefault();
+          usePlaceModeStore.getState().rotateGhost();
+          return;
+        }
+      }
+
       const { objects, selection } = useEditorStore.getState();
       const selected = objects.filter((o) => selection.includes(o.id));
 

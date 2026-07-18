@@ -16,7 +16,8 @@
 //   compute Shift/Ctrl+Shift array fills (see arrayStamp.ts and those files).
 // - src/scene/MarqueeSelect.tsx: bails out of shift+drag while armed.
 // - src/scene/useKeyboardControls.ts: Escape disarms (checked before the
-//   normal clear-selection Escape handling).
+//   normal clear-selection Escape handling); "R" while armed cycles
+//   ghostRotationSteps (see snapLattice.ts for how PlaceMode.tsx applies it).
 import { create } from "zustand";
 import type { Quat, Vec3 } from "../model/types";
 
@@ -57,28 +58,42 @@ interface PlaceModeState {
    * disarmed (task brief: "changing armed type resets the last-stamp anchor").
    */
   lastStampPos: Vec3 | null;
+  /**
+   * Ghost rotation control ("R" key while armed — see useKeyboardControls.ts
+   * and PlaceMode.tsx's snapLattice.ts usage). 0-3, each step = +90° about Z.
+   * For CENTER/CORNER lattice pieces this rotates the placed rotation
+   * directly; for EDGE pieces (walls) it only breaks a tie when the hover
+   * point is ambiguous between two edges (near a corner) — the edge-implied
+   * orientation wins otherwise. Reset to 0 on arm/type change, same as
+   * lastStampPos (task brief: "reset on arm/type change").
+   */
+  ghostRotationSteps: number;
   arm(typeId: string): void;
   disarm(): void;
   /** Palette button behaviour: click arms; clicking the already-armed button again disarms. */
   toggle(typeId: string): void;
   setHover(hover: PlaceHover | null): void;
   setLastStampPos(pos: Vec3 | null): void;
+  /** "R" while armed: cycles the ghost rotation 0deg -> 90deg -> 180deg -> 270deg -> 0deg. */
+  rotateGhost(): void;
 }
 
 export const usePlaceModeStore = create<PlaceModeState>((set, get) => ({
   armedType: null,
   hover: null,
   lastStampPos: null,
-  arm: (typeId) => set({ armedType: typeId, hover: null, lastStampPos: null }),
-  disarm: () => set({ armedType: null, hover: null, lastStampPos: null }),
+  ghostRotationSteps: 0,
+  arm: (typeId) => set({ armedType: typeId, hover: null, lastStampPos: null, ghostRotationSteps: 0 }),
+  disarm: () => set({ armedType: null, hover: null, lastStampPos: null, ghostRotationSteps: 0 }),
   toggle: (typeId) => {
     const { armedType } = get();
     set(
       armedType === typeId
-        ? { armedType: null, hover: null, lastStampPos: null }
-        : { armedType: typeId, hover: null, lastStampPos: null },
+        ? { armedType: null, hover: null, lastStampPos: null, ghostRotationSteps: 0 }
+        : { armedType: typeId, hover: null, lastStampPos: null, ghostRotationSteps: 0 },
     );
   },
   setHover: (hover) => set({ hover }),
   setLastStampPos: (pos) => set({ lastStampPos: pos }),
+  rotateGhost: () => set((s) => ({ ghostRotationSteps: (s.ghostRotationSteps + 1) % 4 })),
 }));

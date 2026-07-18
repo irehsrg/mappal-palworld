@@ -21,13 +21,13 @@ import * as THREE from "three";
 import { useThree } from "@react-three/fiber";
 import { Html, Outlines } from "@react-three/drei";
 import type { PlacedObject, Quat, Vec3 } from "../model/types";
-import { GRID_PITCH } from "../model/types";
 import { usePlaceModeStore } from "./placeModeStore";
 import { findPalbox } from "./campGeometry";
 import { getTypeEntry, resolveType } from "./objectTypes";
 import { getProxyGeometry } from "./proxyGeometry";
 import { UNIT_SCALE, localAxesFromYaw, threeVecToUe, ueQuatToThree, ueVecToThree, yawFromQuat } from "./coords";
 import { computeStampFill, stampFillNewCount, stampModeFromModifiers } from "./arrayStamp";
+import { classifyLattice, edgeYawOffsetDeg, rotateQuatByDeg, snapCenterLattice, snapCornerLattice, snapEdgeLattice } from "./snapLattice";
 
 export interface PlaceModeProps {
   objects: PlacedObject[];
@@ -67,6 +67,11 @@ export function PlaceMode({ objects, centroidThree }: PlaceModeProps) {
       usePlaceModeStore.getState().setHover(null);
       return;
     }
+    // Narrowed, non-null local: onPointerMove below is a nested function
+    // (invoked later, asynchronously, via addEventListener) so TS can't
+    // carry the `if (!armedType)` narrowing above across that closure
+    // boundary on its own — capture the narrowed value once instead.
+    const armed: string = armedType;
 
     const dom = gl.domElement;
     const raycaster = new THREE.Raycaster();
@@ -152,30 +157,76 @@ export function PlaceMode({ objects, centroidThree }: PlaceModeProps) {
         if (reHit) hitUE = reHit;
       }
 
+      // Per-type snap lattice (bug fix, docs/CALIBRATION.md "Wall placement"):
+      // walls/fences/gates sit on tile EDGES, pillars on tile CORNERS, and
+      // everything else (foundations, roofs, furniture, unknown-dims types)
+      // keeps the original tile-CENTER lattice — see snapLattice.ts's header
+      // for the numeric derivation of the EDGE yaw convention.
+      const armedSize = resolveType(armed).size;
+      const lattice = classifyLattice(armedSize);
+      const ghostRotationSteps = usePlaceModeStore.getState().ghostRotationSteps;
+
       // Cursor hint (task "1.": "Show the active anchor in the cursor hint").
       // Alt overrides the label to "free" even though z above still tracks
       // the active anchor — see the free-placement comment below for why.
-      const anchorLabel = e.altKey
-        ? "free"
-        : nearest
-          ? `snap: ${getTypeEntry(nearest.typeId)?.name ?? nearest.typeId}`
-          : palbox
-            ? "snap: palbox grid"
-            : "snap: world grid";
+      // Ghost-rotation suffix (R key) shown whenever a non-zero rotation is
+      // dialed in, regardless of lattice — for EDGE pieces this only affects
+      // corner-ambiguity tie-breaking (see snapLattice.ts), but showing the
+      // raw dialed value is still useful feedback.
+      const anchorLabel =
+        (e.altKey
+          ? "free"
+          : nearest
+            ? `snap: ${getTypeEntry(nearest.typeId)?.name ?? nearest.typeId}`
+            : palbox
+              ? "snap: palbox grid"
+              : "snap: world grid") + (ghostRotationSteps !== 0 ? ` · R: ${ghostRotationSteps * 90}°` : "");
 
       let x = hitUE.x;
       let y = hitUE.y;
+      // Manual ghost rotation (R key) is the default/fallback rotation:
+      // applies as-is for CENTER/CORNER lattice pieces and whenever Alt
+      // (free placement) bypasses grid snap entirely, since there's no
+      // lattice-implied orientation to derive in that case. EDGE pieces
+      // overwrite this below with their snap-derived orientation whenever
+      // grid snap is active.
+      let finalRotation: Quat = rotateQuatByDeg(rotation, ghostRotationSteps * 90);
       if (!e.altKey) {
         // Snap to the active anchor's own grid (task brief): project the hit
-        // point onto its local forward/right axes, round each component to
-        // the nearest GRID_PITCH, reproject. Same rotated-frame technique as
-        // ArrowKey nudging in useKeyboardControls.ts, just anchored at the
-        // active anchor instead of at the moving object's own prior position.
+        // point onto its local forward/right axes, then snap per the armed
+        // type's lattice (center/edge/corner — see snapLattice.ts), reproject.
+        // Same rotated-frame technique as ArrowKey nudging in
+        // useKeyboardControls.ts, just anchored at the active anchor instead
+        // of at the moving object's own prior position.
         const { forward, right } = localAxesFromYaw(yaw);
         const relX = hitUE.x - anchorUE.x;
         const relY = hitUE.y - anchorUE.y;
-        const rf = Math.round((relX * forward.x + relY * forward.y) / GRID_PITCH) * GRID_PITCH;
-        const rr = Math.round((relX * right.x + relY * right.y) / GRID_PITCH) * GRID_PITCH;
+        const rfRaw = relX * forward.x + relY * forward.y;
+        const rrRaw = relX * right.x + relY * right.y;
+
+        let rf: number;
+        let rr: number;
+        if (lattice === "edge") {
+          // R (ghostRotationSteps odd/even) only matters here as the
+          // corner-ambiguity tiebreak (snapEdgeLattice's preferForwardOffset)
+          // — the edge-implied orientation wins whenever the hit point isn't
+          // exactly equidistant between two edges.
+          const preferForwardOffset = ghostRotationSteps % 2 === 0;
+          const snap = snapEdgeLattice(rfRaw, rrRaw, preferForwardOffset);
+          rf = snap.rf;
+          rr = snap.rr;
+          finalRotation = rotateQuatByDeg(rotation, edgeYawOffsetDeg(snap.axis, snap.sign));
+        } else if (lattice === "corner") {
+          const snap = snapCornerLattice(rfRaw, rrRaw);
+          rf = snap.rf;
+          rr = snap.rr;
+          // finalRotation already set above: manual R rotation, per task brief.
+        } else {
+          const snap = snapCenterLattice(rfRaw, rrRaw);
+          rf = snap.rf;
+          rr = snap.rr;
+          // finalRotation already set above: manual R rotation, per task brief.
+        }
         x = anchorUE.x + forward.x * rf + right.x * rr;
         y = anchorUE.y + forward.y * rf + right.y * rr;
       }
@@ -192,19 +243,26 @@ export function PlaceMode({ objects, centroidThree }: PlaceModeProps) {
       // Array-stamp preview (task "B. Array stamping"): only while
       // Shift/Ctrl+Shift is held and a prior stamp exists this session to
       // fill from — see arrayStamp.ts for the line/rect math, shared with
-      // the actual placement click in Scene.tsx / ObjectBox.tsx.
+      // the actual placement click in Scene.tsx / ObjectBox.tsx. Uses
+      // finalRotation's yaw (not the raw anchor `yaw`) so the preview matches
+      // what Scene.tsx/ObjectBox.tsx actually stamp — they derive their fill
+      // axes from `yawFromQuat(hover.rotation)`, and for EDGE pieces
+      // finalRotation differs from the anchor's own rotation by a 90°
+      // multiple (still grid-aligned — see snapLattice.ts — but must be the
+      // SAME yaw on both sides or preview and click could disagree).
       const { lastStampPos } = usePlaceModeStore.getState();
       const stampMode = stampModeFromModifiers(e.shiftKey, e.ctrlKey);
+      const fillYaw = yawFromQuat(finalRotation);
       let fillPositions: Vec3[] | undefined;
       let fillCountFull: number | undefined;
       if (stampMode !== "single" && lastStampPos) {
-        fillPositions = computeStampFill(lastStampPos, targetPos, yaw, stampMode);
-        fillCountFull = stampFillNewCount(lastStampPos, targetPos, yaw, stampMode);
+        fillPositions = computeStampFill(lastStampPos, targetPos, fillYaw, stampMode);
+        fillCountFull = stampFillNewCount(lastStampPos, targetPos, fillYaw, stampMode);
       }
 
       usePlaceModeStore.getState().setHover({
         position: targetPos,
-        rotation,
+        rotation: finalRotation,
         anchorLabel,
         fillPositions,
         fillCountFull,
