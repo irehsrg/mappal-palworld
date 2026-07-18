@@ -55,10 +55,13 @@ const FACES: Record<string, { out: { x: number; y: number }; lat: { x: number; y
   west: { out: { x: -r.x, y: -r.y }, lat: { x: f.x, y: f.y }, yawOff: 270 },
 };
 
-// Dedup against walls already in the file (e.g. hand-placed glass ring rows).
+// Dedup against walls/roofs already in the file (hand-placed rows, reruns).
 const existing = new Set(
   objects
-    .filter((o) => o.typeId.toLowerCase().includes("wall"))
+    .filter((o) => {
+      const t = o.typeId.toLowerCase();
+      return t.includes("wall") || t.includes("roof");
+    })
     .map((o) => `${Math.round(o.position.x / 50)},${Math.round(o.position.y / 50)},${Math.round(o.position.z / 50)}`)
 );
 
@@ -101,6 +104,69 @@ for (const [face, def] of Object.entries(FACES)) {
     }
   }
   counts[face] = c;
+
+  // --- connectors tying the cladding back to the glass shell -------------
+  // 1. RETURN WALLS: at every interior horizontal end of a cladding run, a
+  //    perpendicular SF wall bridges the one-tile gap (out 2400 -> 2800),
+  //    i.e. an edge-lattice wall centered at out=2600 on the run's boundary.
+  //    Ends that reach the face boundary (col 0 / col 13) pair into corners
+  //    with the adjacent face and need no return.
+  // 2. GAP CAPS: at the top of every vertical cladding run, a Glass_roof
+  //    tile covers the gap (centered between the shells); floating run
+  //    bottoms get a floor tile the same way (skip level 0 — the platform).
+  const RETURN_OFF = 6.5 * GRID; // 2600, midpoint between the shells
+  let returns = 0;
+  let caps = 0;
+  const place = (typeId: string, ox: number, lx: number, z: number, yawDeg: number) => {
+    const pos = {
+      x: P.x + def.out.x * ox + def.lat.x * lx,
+      y: P.y + def.out.y * ox + def.lat.y * lx,
+      z,
+    };
+    const key = `${Math.round(pos.x / 50)},${Math.round(pos.y / 50)},${Math.round(pos.z / 50)}`;
+    if (existing.has(key)) return false;
+    existing.add(key);
+    placed.push({
+      id: mintGuid(),
+      typeId,
+      position: pos,
+      rotation: qz(yawDeg),
+      scale: { x: 1, y: 1, z: 1 },
+      origin: "placed",
+    });
+    return true;
+  };
+
+  for (let level = 0; level < grid.length; level++) {
+    let runStart: number | null = null;
+    for (let col = 0; col <= grid[level].length; col++) {
+      const isB = col < grid[level].length && grid[level][col] === "B";
+      if (isB && runStart === null) runStart = col;
+      if (!isB && runStart !== null) {
+        const runEnd = col - 1;
+        const z = P.z + level * V;
+        if (runStart > 0 && place("SF_wall", RETURN_OFF, (runStart - 7) * GRID, z, def.yawOff + 90)) returns++;
+        if (runEnd < grid[level].length - 1 && place("SF_wall", RETURN_OFF, (runEnd - 6) * GRID, z, def.yawOff + 90)) returns++;
+        runStart = null;
+      }
+    }
+  }
+  const nCols = grid[0].length;
+  for (let col = 0; col < nCols; col++) {
+    let runBottom: number | null = null;
+    for (let level = 0; level <= grid.length; level++) {
+      const isB = level < grid.length && grid[level][col] === "B";
+      if (isB && runBottom === null) runBottom = level;
+      if (!isB && runBottom !== null) {
+        const lat = (col - 6.5) * GRID;
+        if (place("Glass_roof", RETURN_OFF, lat, P.z + level * V, 0)) caps++;
+        if (runBottom > 0 && place("Glass_roof", RETURN_OFF, lat, P.z + runBottom * V, 0)) caps++;
+        runBottom = null;
+      }
+    }
+  }
+  (counts[face] as any).returns = returns;
+  (counts[face] as any).caps = caps;
 }
 
 console.log("per-face:", JSON.stringify(counts, null, 1));
