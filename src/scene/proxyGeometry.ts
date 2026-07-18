@@ -92,6 +92,24 @@ function classifyShape(typeId: string): ShapeKind {
 const geometryCache = new Map<string, THREE.BufferGeometry>();
 
 /**
+ * Piece-boundary overlay (placement UX fix: "no idea where pieces end or
+ * start" with hundreds of identical flat-shaded pieces). Cached under the
+ * SAME key as geometryCache above — see geometryKey() below — so hundreds of
+ * ObjectBox instances of the same shape+size share one edges buffer too,
+ * same rationale as the proxy geometry cache itself.
+ */
+const edgesCache = new Map<string, THREE.EdgesGeometry>();
+
+/** Threshold angle (degrees) for EdgesGeometry: only draw an edge where adjacent faces meet at >= this angle, so a flat box's 4 side faces don't get a seam drawn down their (coplanar, 0°) shared edges — only real silhouette/crease edges. */
+const EDGES_THRESHOLD_DEG = 25;
+
+/** Cache key shared by getProxyGeometry and getProxyEdges — MUST stay identical between the two so a shape+size always shares one geometry AND one edges buffer, never two independent lookups that could drift. */
+function geometryKey(typeId: string, size: readonly [number, number, number], originAtTop: boolean, isUnknownDims: boolean): string {
+  const kind = isUnknownDims ? "box" : classifyShape(typeId);
+  return `${kind}|${size[0]}|${size[1]}|${size[2]}|${originAtTop}`;
+}
+
+/**
  * Build (or return the cached) proxy geometry for a typeId, in metres,
  * already positioned per the anchor convention above.
  *
@@ -109,12 +127,35 @@ export function getProxyGeometry(
   isUnknownDims: boolean,
 ): THREE.BufferGeometry {
   const kind = isUnknownDims ? "box" : classifyShape(typeId);
-  const key = `${kind}|${size[0]}|${size[1]}|${size[2]}|${originAtTop}`;
+  const key = geometryKey(typeId, size, originAtTop, isUnknownDims);
   const cached = geometryCache.get(key);
   if (cached) return cached;
   const geo = build(kind, size, originAtTop);
   geometryCache.set(key, geo);
   return geo;
+}
+
+/**
+ * Thin dark edge overlay for a placed object's proxy geometry (ObjectBox.tsx
+ * only — NOT the translucent ghost or fill-preview ghosts in PlaceMode.tsx,
+ * where it's just visual noise on top of an already-translucent shape and
+ * pure wasted cost on the fill-preview's N ghost copies). Built once per
+ * shape+size (via getProxyGeometry's own cache) and cached again here so
+ * hundreds of same-shape ObjectBox instances share one EdgesGeometry buffer.
+ */
+export function getProxyEdges(
+  typeId: string,
+  size: readonly [number, number, number],
+  originAtTop: boolean,
+  isUnknownDims: boolean,
+): THREE.EdgesGeometry {
+  const key = geometryKey(typeId, size, originAtTop, isUnknownDims);
+  const cached = edgesCache.get(key);
+  if (cached) return cached;
+  const proxy = getProxyGeometry(typeId, size, originAtTop, isUnknownDims);
+  const edges = new THREE.EdgesGeometry(proxy, EDGES_THRESHOLD_DEG);
+  edgesCache.set(key, edges);
+  return edges;
 }
 
 function build(kind: ShapeKind, size: readonly [number, number, number], originAtTop: boolean): THREE.BufferGeometry {

@@ -23,3 +23,6 @@ calibration_01_roundtrip.json
 
 # locally extracted game assets — never committed
 assets-local/
+
+# editor work-in-progress checkpoints
+wip/

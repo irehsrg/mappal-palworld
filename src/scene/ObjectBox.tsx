@@ -11,7 +11,7 @@ import type { PlacedObject } from "../model/types";
 import { useEditorStore } from "../model/store";
 import { ueVecToThree, ueQuatToThree, yawFromQuat } from "./coords";
 import { getTypeEntry, resolveType } from "./objectTypes";
-import { getProxyGeometry } from "./proxyGeometry";
+import { getProxyGeometry, getProxyEdges } from "./proxyGeometry";
 import { usePlaceModeStore } from "./placeModeStore";
 import { computeStampFill, stampModeFromModifiers } from "./arrayStamp";
 
@@ -54,6 +54,16 @@ export function ObjectBox({ object, centroidThree, selected, showLabel, onSelect
   // the same shape+size), so this lookup is cheap — a Map hit, not a build.
   const geometry = useMemo(
     () => getProxyGeometry(object.typeId, resolved.size, resolved.originAtTop, resolved.isUnknownDims),
+    [object.typeId, resolved.size, resolved.originAtTop, resolved.isUnknownDims],
+  );
+  // Piece-boundary overlay (placement UX fix: hundreds of identical
+  // flat-shaded pieces read as a featureless mass — "no idea where pieces
+  // end or start"). Cached alongside `geometry` above (proxyGeometry.ts's
+  // edgesCache, same key) so this is a Map hit, not a rebuild, for every
+  // instance of a shape already seen. Real placed objects only — the
+  // translucent ghost/fill-preview in PlaceMode.tsx deliberately skip this.
+  const edgesGeometry = useMemo(
+    () => getProxyEdges(object.typeId, resolved.size, resolved.originAtTop, resolved.isUnknownDims),
     [object.typeId, resolved.size, resolved.originAtTop, resolved.isUnknownDims],
   );
   // Label floats just above the shape's local top. Bottom-anchored shapes
@@ -117,6 +127,18 @@ export function ObjectBox({ object, centroidThree, selected, showLabel, onSelect
         emissive={selected ? "#ffffff" : "#000000"}
         emissiveIntensity={selected ? 0.45 : 0}
       />
+      {/* Thin dark edge overlay (piece-boundary fix above) — a child of this
+          mesh so it inherits the same position/quaternion for free and lines
+          up exactly with the proxy geometry's own local-space edges.
+          raycast disabled: a hairline LineSegments should never compete with
+          the parent mesh for the click/select hit-test. depthWrite={false}
+          avoids z-fighting artifacts against the solid faces it's drawn on
+          top of; low opacity keeps it a subtle seam, not a bold outline
+          (that's Outlines below, selection-only). */}
+      <lineSegments geometry={edgesGeometry} raycast={() => null}>
+        <lineBasicMaterial color="#050505" transparent opacity={0.35} depthWrite={false} />
+      </lineSegments>
+
       {/* drei Outlines draws a screen-space outline mesh around this shape's
           geometry — the "Unity SelectionOutline" equivalent — without us
           hand-rolling a second scaled-up mesh. Works on arbitrary

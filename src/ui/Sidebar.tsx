@@ -174,6 +174,7 @@ function KeyboardCheatSheet() {
     ["Click (while placing)", "Stamp a piece; stays armed for repeats"],
     ["R (while placing)", "Rotate ghost +90°; for walls, breaks a tie near a corner"],
     ["PageUp / PageDown (while placing)", "Raise/lower the ghost 1 level (325cm); hovering a roof/foundation near a wall defaults to capping it"],
+    ["Tab (while placing)", "Lock/unlock the active anchor — freezes frame + level on a dense build; Tab again, Escape, or switching type unlocks"],
     ["Alt (while placing)", "Disable grid snap for that placement"],
     ["Shift+click (while placing)", "Fill a line from the last stamp to here, at the ghost's current level"],
     ["Ctrl+Shift+click (while placing)", "Fill a rectangle from the last stamp to here, at the ghost's current level"],

@@ -128,8 +128,14 @@ export function Scene() {
         clearSelection();
       }}
     >
-      <ambientLight intensity={0.8} />
-      <directionalLight position={[10, 20, 10]} intensity={0.6} />
+      {/* Lower ambient / raking directional angle (piece-boundary fix,
+          optional half): flat-shaded facets pick up more contrast from a
+          more grazing key light than the near-overhead 10/20/10 default —
+          cheap complement to the edge-overlay above, not a substitute for
+          it (edges still carry the "where does this piece end" legibility
+          on facets that face the light dead-on). */}
+      <ambientLight intensity={0.65} />
+      <directionalLight position={[18, 22, -9]} intensity={0.85} />
 
       <Grid
         args={[100, 100]}

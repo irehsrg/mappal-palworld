@@ -102,6 +102,29 @@ export function useKeyboardControls(): void {
         }
       }
 
+      // "Tab" while armed (anchor-stability fix, placeModeStore.ts's
+      // lockedAnchorId): toggles a lock on whatever PlaceMode.tsx's hover
+      // last reported as the active anchor (hover.anchorId) — pins the
+      // frame/z/cap so hovering near other pieces can't steal it, until Tab
+      // is pressed again (or disarm/type-change, handled by
+      // placeModeStore.ts's reset-on-arm-change). preventDefault so Tab
+      // never moves focus off the canvas while placing. If nothing is
+      // currently anchored (hover null, or anchorId undefined — e.g. no
+      // palbox and nothing in range) there's nothing to lock onto; Tab is a
+      // no-op rather than locking to "nothing".
+      if (e.key === "Tab") {
+        if (usePlaceModeStore.getState().armedType) {
+          e.preventDefault();
+          const { lockedAnchorId, hover, setAnchorLock } = usePlaceModeStore.getState();
+          if (lockedAnchorId) {
+            setAnchorLock(null);
+          } else if (hover?.anchorId) {
+            setAnchorLock(hover.anchorId);
+          }
+          return;
+        }
+      }
+
       const { objects, selection } = useEditorStore.getState();
       const selected = objects.filter((o) => selection.includes(o.id));
 

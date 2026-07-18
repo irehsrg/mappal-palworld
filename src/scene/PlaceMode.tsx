@@ -40,6 +40,22 @@ export interface PlaceModeProps {
 const WORLD_ANCHOR: Vec3 = { x: 0, y: 0, z: 0 };
 const IDENTITY_QUAT: Quat = { x: 0, y: 0, z: 0, w: 1 };
 
+// Anchor-stability tuning (placement UX fix: on a dense multi-level build the
+// ghost used to flicker between adjacent structures/levels because the
+// active anchor was re-picked from scratch, as the raw nearest structure,
+// every single pointermove — see the "ANCHOR SELECTION" block in
+// onPointerMove below for how these combine).
+/** Horizontal search radius (UE units) for anchor candidates. */
+const SNAP_SEARCH_RADIUS = 1200;
+/** A candidate only steals the anchor from the current one when its scored distance beats the current's by this ratio (lower = harder to steal = less flapping). */
+const HYSTERESIS_SWITCH_RATIO = 0.6;
+/** Anchor selection is skipped entirely unless the pass-1 hit has moved this many UE units since it was last (re)evaluated — absorbs pixel-level cursor jitter. */
+const REEVAL_DAMP_DIST = 100;
+/** Effective-distance penalty added to a candidate whose target level differs from the current target level by more than LEVEL_TOLERANCE — keeps a level-2 build from snapping to level-1 pieces just because they're horizontally closer. */
+const LEVEL_PENALTY = 800;
+/** UE units of Z difference still considered "the same level" for the penalty above. */
+const LEVEL_TOLERANCE = 50;
+
 export function PlaceMode({ objects, centroidThree }: PlaceModeProps) {
   const { camera, gl } = useThree();
   const armedType = usePlaceModeStore((s) => s.armedType);
@@ -78,6 +94,15 @@ export function PlaceMode({ objects, centroidThree }: PlaceModeProps) {
     const raycaster = new THREE.Raycaster();
     const ndc = new THREE.Vector2();
     const hitThree = new THREE.Vector3();
+
+    // Anchor-stability state (hysteresis + damped re-evaluation, see the
+    // "ANCHOR SELECTION" block below). Plain closure variables, not refs:
+    // like raycaster/ndc/hitThree above, they only need to persist across
+    // pointermoves WITHIN this armed session — this effect reattaches (and
+    // these get freshly reset) on every arm/disarm/type change, which is
+    // exactly when we want anchor tracking to start over anyway.
+    let currentAnchorId: string | null = null;
+    let lastEvalPoint: { x: number; y: number } | null = null;
 
     function onPointerMove(e: PointerEvent) {
       // Named distinctly from the component's own `objects` prop (which this
@@ -124,61 +149,128 @@ export function PlaceMode({ objects, centroidThree }: PlaceModeProps) {
         return;
       }
 
-      // Nearest-structure snapping (task "1."): the nearest "structure"
-      // category object within 1200 UE units (horizontal) of the approx hit
-      // becomes the active anchor — its position/yaw/z define the local grid
-      // this placement snaps to, not just the palbox's. Palbox is itself
-      // category "structure" (objects.json), so when it's the nearest thing
-      // in range this naturally reduces to the old palbox-only behavior;
-      // the explicit palboxAnchorUE fallback below only fires when NOTHING
-      // (not even the palbox) is within range.
-      const SNAP_SEARCH_RADIUS = 1200;
-      let nearest: PlacedObject | null = null;
-      let nearestDist = Infinity;
-      for (const o of liveObjects) {
-        if (resolveType(o.typeId).category !== "structure") continue;
-        const d = Math.hypot(o.position.x - approxHitUE.x, o.position.y - approxHitUE.y);
-        if (d <= SNAP_SEARCH_RADIUS && d < nearestDist) {
-          nearest = o;
-          nearestDist = d;
+      // Per-type snap lattice (bug fix, docs/CALIBRATION.md "Wall placement"):
+      // walls/fences/gates sit on tile EDGES, pillars on tile CORNERS, and
+      // everything else (foundations, roofs, furniture, unknown-dims types)
+      // keeps the original tile-CENTER lattice — see snapLattice.ts's header
+      // for the numeric derivation of the EDGE yaw convention. Computed here
+      // (ahead of anchor selection, not just for the snap math below)
+      // because targetZFor's wall-cap rule, used for level-preference
+      // scoring during anchor selection, needs it too.
+      const armedSize = resolveType(armed).size;
+      const lattice = classifyLattice(armedSize);
+      const ghostRotationSteps = usePlaceModeStore.getState().ghostRotationSteps;
+
+      // Smart cap default (vertical-placement fix, "cap the wall") + armed-
+      // mode level offset (PageUp/PageDown while armed), combined: given an
+      // anchor's raw z/typeId, returns whether the wall-cap rule fired and
+      // the final target z (cap, then + levelOffset*VERTICAL_PITCH stacked
+      // on top — "cap this wall, then go up 2 more floors" composes). Shared
+      // by both the level-preference scoring below (candidates need to know
+      // THEIR target z to compare against the current anchor's) and the
+      // final ghost z later, so the two can never disagree about what "this
+      // anchor's target level" means. See the pre-fix version of this file
+      // for the wall-cap rule's own rationale (anchor is a THIN/edge-lattice
+      // wall, armed type is a >=300x300 CENTER-lattice slab).
+      function targetZFor(anchorZ: number, anchorTypeId: string | null): { capActive: boolean; targetZ: number } {
+        const anchorLattice = anchorTypeId ? classifyLattice(resolveType(anchorTypeId).size) : null;
+        const isArmedSlab = lattice === "center" && armedSize[0] >= 300 && armedSize[1] >= 300;
+        const capActive = anchorLattice === "edge" && isArmedSlab;
+        const baseAnchorZ = capActive ? anchorZ + VERTICAL_PITCH : anchorZ;
+        const { levelOffset } = usePlaceModeStore.getState();
+        return { capActive, targetZ: baseAnchorZ + levelOffset * VERTICAL_PITCH };
+      }
+
+      // ANCHOR SELECTION (anchor-stability fix — "the ghost spazzes out":
+      // flickers between levels and jumps across snap areas as the cursor
+      // moves on a dense build). Three layers, checked in order:
+      //  1. Anchor lock (Tab — placeModeStore.ts's lockedAnchorId,
+      //     useKeyboardControls.ts): skips everything below, frame/z/cap all
+      //     come from the locked object alone. Auto-unlocks if that object
+      //     was deleted out from under the lock.
+      //  2. Damped re-evaluation: the search in (3) only runs when the
+      //     pass-1 hit has moved more than REEVAL_DAMP_DIST since the anchor
+      //     was last evaluated — otherwise keep the current anchor as-is.
+      //     Pixel-level cursor jitter must not re-open the decision.
+      //  3. Hysteresis + level preference: score every in-range structure by
+      //     horizontal distance, +LEVEL_PENALTY if its target level (via
+      //     targetZFor above) differs from the CURRENT anchor's target level
+      //     by more than LEVEL_TOLERANCE — this is what keeps a level-2 pass
+      //     snapping to level-2 pieces instead of a horizontally-nearer
+      //     ground piece. The current anchor is kept unless a candidate's
+      //     scored distance beats it by the HYSTERESIS_SWITCH_RATIO margin —
+      //     no flapping between two roughly-equidistant/co-level pieces.
+      const structures = liveObjects.filter((o) => resolveType(o.typeId).category === "structure");
+
+      const { lockedAnchorId } = usePlaceModeStore.getState();
+      let lockedObj: PlacedObject | null = null;
+      if (lockedAnchorId) {
+        lockedObj = liveObjects.find((o) => o.id === lockedAnchorId) ?? null;
+        if (!lockedObj) {
+          // Locked object no longer exists (deleted, or undone away) —
+          // auto-unlock rather than silently freezing on a ghost forever.
+          usePlaceModeStore.getState().setAnchorLock(null);
         }
+      }
+
+      let nearest: PlacedObject | null;
+      if (lockedObj) {
+        nearest = lockedObj; // locked: selection skipped entirely, hysteresis state below untouched
+      } else {
+        const currentObj = currentAnchorId ? (structures.find((o) => o.id === currentAnchorId) ?? null) : null;
+        const refAnchor = currentObj
+          ? { z: currentObj.position.z, typeId: currentObj.typeId as string | null }
+          : { z: palboxAnchorUE.z, typeId: palbox?.typeId ?? null };
+        const refZ = targetZFor(refAnchor.z, refAnchor.typeId).targetZ;
+
+        const effectiveDist = (o: PlacedObject, horizDist: number): number => {
+          const z = targetZFor(o.position.z, o.typeId).targetZ;
+          return Math.abs(z - refZ) > LEVEL_TOLERANCE ? horizDist + LEVEL_PENALTY : horizDist;
+        };
+
+        const movedEnough =
+          !lastEvalPoint ||
+          Math.hypot(approxHitUE.x - lastEvalPoint.x, approxHitUE.y - lastEvalPoint.y) > REEVAL_DAMP_DIST;
+
+        if (!movedEnough && currentObj) {
+          // Damped: cursor barely moved since the anchor was last decided —
+          // keep it without even looking at candidates.
+          nearest = currentObj;
+        } else {
+          lastEvalPoint = { x: approxHitUE.x, y: approxHitUE.y };
+          let best: PlacedObject | null = null;
+          let bestEff = Infinity;
+          for (const o of structures) {
+            const d = Math.hypot(o.position.x - approxHitUE.x, o.position.y - approxHitUE.y);
+            if (d > SNAP_SEARCH_RADIUS) continue;
+            const eff = effectiveDist(o, d);
+            if (eff < bestEff) {
+              bestEff = eff;
+              best = o;
+            }
+          }
+          if (currentObj) {
+            const currentHorizDist = Math.hypot(
+              currentObj.position.x - approxHitUE.x,
+              currentObj.position.y - approxHitUE.y,
+            );
+            const currentInRange = currentHorizDist <= SNAP_SEARCH_RADIUS;
+            const currentEff = effectiveDist(currentObj, currentHorizDist);
+            // Keep current unless it's fallen out of range, or a candidate
+            // decisively beats it (below the hysteresis ratio).
+            nearest = currentInRange && (!best || bestEff >= HYSTERESIS_SWITCH_RATIO * currentEff) ? currentObj : best;
+          } else {
+            nearest = best;
+          }
+        }
+        currentAnchorId = nearest ? nearest.id : null;
       }
 
       const anchorUE: Vec3 = nearest ? nearest.position : palboxAnchorUE;
       const rotation: Quat = nearest ? nearest.rotation : palboxRotation;
       const yaw = yawFromQuat(rotation);
 
-      // Per-type snap lattice (bug fix, docs/CALIBRATION.md "Wall placement"):
-      // walls/fences/gates sit on tile EDGES, pillars on tile CORNERS, and
-      // everything else (foundations, roofs, furniture, unknown-dims types)
-      // keeps the original tile-CENTER lattice — see snapLattice.ts's header
-      // for the numeric derivation of the EDGE yaw convention.
-      const armedSize = resolveType(armed).size;
-      const lattice = classifyLattice(armedSize);
-      const ghostRotationSteps = usePlaceModeStore.getState().ghostRotationSteps;
-
-      // Smart cap default (vertical-placement fix, "cap the wall"): when the
-      // active anchor is a THIN/wall piece (its OWN typeId classifies as
-      // EDGE lattice) and the armed type is a CENTER-lattice slab (roofs/
-      // foundations — footprint >= 300 on both horizontal axes, not
-      // furniture-sized), default the anchor z to one floor above the
-      // anchor instead of level with it: hovering a roof near a wall means
-      // "cap this wall", not "sink into the wall's own floor". Walls
-      // anchored on OTHER walls (armed type is itself EDGE lattice, e.g.
-      // continuing a wall run) are NOT slabs, so this rule doesn't fire for
-      // them — that case keeps the pre-existing same-z behavior; stacking a
-      // second wall directly above the first is what PageUp is for.
-      const anchorLattice = nearest ? classifyLattice(resolveType(nearest.typeId).size) : null;
-      const isArmedSlab = lattice === "center" && armedSize[0] >= 300 && armedSize[1] >= 300;
-      const capActive = anchorLattice === "edge" && isArmedSlab;
-      const baseAnchorZ = capActive ? anchorUE.z + VERTICAL_PITCH : anchorUE.z;
-
-      // Armed-mode level offset (PageUp/PageDown while armed — see
-      // useKeyboardControls.ts / placeModeStore.ts): stacks on TOP of the
-      // smart-cap default above, so "cap this wall, then go up 2 more
-      // floors" composes as expected.
-      const { levelOffset } = usePlaceModeStore.getState();
-      const targetZ = baseAnchorZ + levelOffset * VERTICAL_PITCH;
+      const { capActive, targetZ } = targetZFor(anchorUE.z, nearest ? nearest.typeId : null);
       lastAnchorZRef.current = targetZ;
 
       // Pass 2: if the ghost's actual target z (cap + level offset applied)
@@ -193,8 +285,11 @@ export function PlaceMode({ objects, centroidThree }: PlaceModeProps) {
       }
 
       // Cursor hint (task "1.": "Show the active anchor in the cursor hint").
-      // Alt overrides the label to "free" even though z above still tracks
-      // the active anchor — see the free-placement comment below for why.
+      // Locked (Tab, anchor-stability fix) takes priority over everything
+      // else — "locked: <name>" is a deliberate promise that nothing below
+      // (not even Alt) will move the frame off this object. Otherwise Alt
+      // overrides the label to "free" even though z above still tracks the
+      // active anchor — see the free-placement comment below for why.
       // "cap: <wall name>" shown whenever the smart-cap default above is
       // active; ghost-rotation suffix (R key) shown whenever a non-zero
       // rotation is dialed in, regardless of lattice — for EDGE pieces this
@@ -202,16 +297,19 @@ export function PlaceMode({ objects, centroidThree }: PlaceModeProps) {
       // showing the raw dialed value is still useful feedback; level-offset
       // suffix shown whenever PageUp/PageDown has been used this armed
       // session.
-      const baseLabel = e.altKey
-        ? "free"
-        : nearest
-          ? `snap: ${getTypeEntry(nearest.typeId)?.name ?? nearest.typeId}`
-          : palbox
-            ? "snap: palbox grid"
-            : "snap: world grid";
+      const baseLabel = lockedObj
+        ? `locked: ${getTypeEntry(lockedObj.typeId)?.name ?? lockedObj.typeId}`
+        : e.altKey
+          ? "free"
+          : nearest
+            ? `snap: ${getTypeEntry(nearest.typeId)?.name ?? nearest.typeId}`
+            : palbox
+              ? "snap: palbox grid"
+              : "snap: world grid";
       const labelParts = [baseLabel];
       if (capActive) labelParts.push(`cap: ${getTypeEntry(nearest!.typeId)?.name ?? nearest!.typeId}`);
       if (ghostRotationSteps !== 0) labelParts.push(`R: ${ghostRotationSteps * 90}°`);
+      const { levelOffset } = usePlaceModeStore.getState();
       if (levelOffset !== 0) labelParts.push(`${levelOffset > 0 ? "+" : ""}${levelOffset} level${Math.abs(levelOffset) === 1 ? "" : "s"}`);
       const anchorLabel = labelParts.join(" · ");
 
@@ -302,6 +400,7 @@ export function PlaceMode({ objects, centroidThree }: PlaceModeProps) {
         position: targetPos,
         rotation: finalRotation,
         anchorLabel,
+        anchorId: nearest?.id,
         fillPositions,
         fillCountFull,
       });
