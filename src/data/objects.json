@@ -3516,6 +3516,56 @@
         150
       ],
       "sizeSource": "rough furniture estimate — display only"
+    },
+    "SF_roof": {
+      "name": "SF roof",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "SF_TriangleStairsCorner": {
+      "name": "SF Triangle Stairs Corner",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "SF_SlopedRoofCornerReverse": {
+      "name": "SF Sloped Roof Corner Reverse",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "SF_SlantedRoof": {
+      "name": "SF Slanted Roof",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "SF_PyramidRoof": {
+      "name": "SF Pyramid Roof",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
     }
   }
 }
