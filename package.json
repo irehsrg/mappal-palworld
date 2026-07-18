@@ -1,9 +1,14 @@
 {
   "name": "mappal-palworld",
   "private": true,
-  "version": "0.0.1",
+  "version": "0.1.0",
   "type": "module",
-  "description": "Browser-based spatial editor for Palworld base layouts. Phase 0: calibration.",
+  "description": "Browser-based 3D editor for Palworld base layouts. Load a PalworldSaveTools base export, move/rotate/duplicate/delete objects, export it back.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/irehsrg/mappal-palworld.git"
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",

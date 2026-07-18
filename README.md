@@ -69,3 +69,7 @@ Stack: Vite, TypeScript (strict), React, @react-three/fiber, zustand, vitest.
   (cheahjs) — the community-standard GVAS parser underpinning the ecosystem.
 - Not affiliated with Pocketpair. No game assets are included in this
   repository.
+
+## License
+
+[MIT](LICENSE)
