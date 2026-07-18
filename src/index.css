@@ -459,6 +459,20 @@ body,
 
 /* Array-stamp fill-count badge (PlaceMode.tsx) — floats above the cursor
    ghost while a Shift/Ctrl+Shift line/rect fill is previewed. */
+/* Active-anchor hint (PlaceMode.tsx) — floats just above the cursor ghost
+   at all times while placing, showing which grid ("snap: <name>" / "snap:
+   palbox grid" / "free") the next click will use. */
+.place-anchor-hint {
+  padding: 2px 8px;
+  background: rgba(20, 22, 26, 0.85);
+  border: 1px solid #4a4f58;
+  border-radius: 10px;
+  color: #cfd3da;
+  font-size: 11px;
+  white-space: nowrap;
+  user-select: none;
+}
+
 .place-fill-badge {
   padding: 2px 8px;
   background: rgba(20, 22, 26, 0.9);

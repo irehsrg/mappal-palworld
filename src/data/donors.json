@@ -356,8 +356,7 @@
    "Signboard": "fixtures/sampler_03.json",
    "Headstone": "fixtures/sampler_03.json"
   },
-  "harvestedAt": "2026-07-16T23:09:46.960Z",
-  "verifiedInGame": "2026-07-16 — two mixed-type placement imports verified in throwaway worlds (242-type batch, then full 353-type batch incl. furniture/lighting/traps/gates). All donor types trusted."
+  "harvestedAt": "2026-07-18T15:32:33.174Z"
  },
  "donors": {
   "Wooden_foundation": {

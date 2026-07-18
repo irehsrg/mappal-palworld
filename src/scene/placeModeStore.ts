@@ -25,6 +25,14 @@ export interface PlaceHover {
   position: Vec3;
   rotation: Quat;
   /**
+   * Which grid this hover snapped to, for the on-screen cursor hint (task
+   * "1. Nearest-structure snapping"): "snap: <display name>" for a nearby
+   * placed structure, "snap: palbox grid" / "snap: world grid" for the
+   * fallback anchor, or "free" while Alt bypasses snapping. See
+   * PlaceMode.tsx for how this is derived.
+   */
+  anchorLabel: string;
+  /**
    * Array-stamp preview (task "B. Array stamping"): populated only while
    * Shift or Ctrl+Shift is held AND a lastStampPos anchor exists from
    * earlier in this armed session. The NEW cells a click would stamp right

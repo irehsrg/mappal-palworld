@@ -3,10 +3,12 @@
 // warnings + load error + unknown/magenta typeIds), and a keyboard
 // cheat-sheet. Only shown once a blueprint is loaded (App.tsx).
 import { useEditorStore } from "../model/store";
+import { VERTICAL_PITCH } from "../model/types";
 import { CATEGORY_COLOR, CATEGORY_LABEL, countByCategory, unknownDimensionTypes } from "../scene/objectTypes";
 import { countOutsideRadius, findPalbox } from "../scene/campGeometry";
 import { RelocateBasePanel } from "./RelocateBasePanel";
 import { Palette } from "./Palette";
+import { FillCirclePanel } from "./FillCirclePanel";
 
 function round(n: number): number {
   return Math.round(n);
@@ -65,6 +67,13 @@ function SelectionInfo() {
   );
 }
 
+// Community figure (task brief), not derived from a calibration fixture —
+// vertical build limit is said to be ~16 tiles (16 * VERTICAL_PITCH). Kept as
+// its own named constant so the "unverified" caveat in the label and the
+// number it's based on live next to each other.
+const HEIGHT_LIMIT_TILES = 16;
+const HEIGHT_LIMIT_UNITS = HEIGHT_LIMIT_TILES * VERTICAL_PITCH; // 5200
+
 // Live, warn-don't-block radius check (CLAUDE.md §5/§11). Uses the palbox's
 // LIVE position, not camp.position — the camp anchor follows the palbox at
 // export, so a base moved during editing should be judged by where the
@@ -84,16 +93,35 @@ function RadiusGuardrail() {
       ) : (
         (() => {
           const count = countOutsideRadius(objects, palbox.position, camp.areaRange);
+          // Height guardrail (task "3."): objects sitting more than
+          // HEIGHT_LIMIT_UNITS above the LIVE palbox z — same "warn, don't
+          // block" pattern and the same palbox-live-position rationale as
+          // the radius check above.
+          const aboveHeightCount = objects.reduce(
+            (n, o) => (o.position.z - palbox.position.z > HEIGHT_LIMIT_UNITS ? n + 1 : n),
+            0,
+          );
           return (
-            <div className={`radius-guardrail${count > 0 ? " radius-guardrail--warn" : ""}`}>
-              <div className="radius-guardrail__row">
-                <span>Objects outside base radius</span>
-                <span className="radius-guardrail__count">{count}</span>
+            <>
+              <div className={`radius-guardrail${count > 0 ? " radius-guardrail--warn" : ""}`}>
+                <div className="radius-guardrail__row">
+                  <span>Objects outside base radius</span>
+                  <span className="radius-guardrail__count">{count}</span>
+                </div>
+                {count > 0 && (
+                  <p className="radius-guardrail__warning">these may not import correctly — untested</p>
+                )}
               </div>
-              {count > 0 && (
-                <p className="radius-guardrail__warning">these may not import correctly — untested</p>
-              )}
-            </div>
+              <div
+                className={`radius-guardrail${aboveHeightCount > 0 ? " radius-guardrail--warn" : ""}`}
+                style={{ marginTop: 8 }}
+              >
+                <div className="radius-guardrail__row">
+                  <span>above ~{HEIGHT_LIMIT_TILES}-tile height limit (community figure, unverified)</span>
+                  <span className="radius-guardrail__count">{aboveHeightCount}</span>
+                </div>
+              </div>
+            </>
           );
         })()
       )}
@@ -166,6 +194,7 @@ export function Sidebar() {
   return (
     <div className="sidebar">
       <Palette />
+      <FillCirclePanel />
       <CategoryCounts />
       <SelectionInfo />
       <RadiusGuardrail />

@@ -24,7 +24,7 @@ import type { PlacedObject, Quat, Vec3 } from "../model/types";
 import { GRID_PITCH } from "../model/types";
 import { usePlaceModeStore } from "./placeModeStore";
 import { findPalbox } from "./campGeometry";
-import { resolveType } from "./objectTypes";
+import { getTypeEntry, resolveType } from "./objectTypes";
 import { getProxyGeometry } from "./proxyGeometry";
 import { UNIT_SCALE, localAxesFromYaw, threeVecToUe, ueQuatToThree, ueVecToThree, yawFromQuat } from "./coords";
 import { computeStampFill, stampFillNewCount, stampModeFromModifiers } from "./arrayStamp";
@@ -52,6 +52,13 @@ export function PlaceMode({ objects, centroidThree }: PlaceModeProps) {
   objectsRef.current = objects;
   const centroidRef = useRef(centroidThree);
   centroidRef.current = centroidThree;
+  // Seeds the ground-plane height for the FIRST raycast pass each pointer
+  // move (see onPointerMove below) — without a decent guess we'd have to
+  // raycast against some arbitrary plane before we even know which anchor
+  // is active. Persists frame-to-frame (not reset on re-arm) since "last
+  // known anchor Z" is still a reasonable guess for the next frame even
+  // across a re-arm; it self-corrects within one pointermove regardless.
+  const lastAnchorZRef = useRef<number | null>(null);
 
   // Effect re-attaches whenever armed state flips so we can cleanly clear the
   // hover on disarm (and skip listening entirely while nothing is armed).
@@ -67,43 +74,103 @@ export function PlaceMode({ objects, centroidThree }: PlaceModeProps) {
     const hitThree = new THREE.Vector3();
 
     function onPointerMove(e: PointerEvent) {
-      const { palbox } = findPalbox(objectsRef.current);
-      // Ground plane height + snap-grid anchor/yaw/rotation all come from the
-      // palbox (task brief: "derive yaw from the palbox object's rotation",
-      // "place with rotation = the palbox's rotation quaternion", "Placement
-      // z = palbox z"). No palbox → world origin/identity, so placement still
-      // works (just unsnapped-to-any-base) rather than being unusable.
-      const anchorUE: Vec3 = palbox ? palbox.position : WORLD_ANCHOR;
-      const rotation: Quat = palbox ? palbox.rotation : IDENTITY_QUAT;
-      const yaw = palbox ? yawFromQuat(palbox.rotation) : 0;
+      // Named distinctly from the component's own `objects` prop (which this
+      // closure must NOT read — see the refs comment above) to avoid any
+      // accidental shadowing confusion.
+      const liveObjects = objectsRef.current;
+      const { palbox } = findPalbox(liveObjects);
+      // Palbox-frame fallback (used when no other structure is in range, or
+      // when there's no palbox at all — world origin/identity, so placement
+      // still works, just unsnapped-to-any-base, rather than being unusable).
+      const palboxAnchorUE: Vec3 = palbox ? palbox.position : WORLD_ANCHOR;
+      const palboxRotation: Quat = palbox ? palbox.rotation : IDENTITY_QUAT;
 
       const rect = dom.getBoundingClientRect();
       ndc.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
       ndc.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
       raycaster.setFromCamera(ndc, camera);
 
-      // Ground plane in the scene's recentred three.js space: UE z=anchorUE.z
-      // converted to three-Y, minus the same centroid offset every rendered
-      // object is placed with (Scene.tsx / ObjectBox.tsx).
-      const planeHeightThree = anchorUE.z * UNIT_SCALE - centroidRef.current.y;
-      const plane = new THREE.Plane(new THREE.Vector3(0, 1, 0), -planeHeightThree);
+      // Raycast the pointer against a horizontal plane at a given UE z,
+      // returning the hit in UE space (or null if the ray is parallel to
+      // the plane, e.g. camera looking at the horizon). Ground plane is in
+      // the scene's recentred three.js space: UE z converted to three-Y,
+      // minus the same centroid offset every rendered object is placed with
+      // (Scene.tsx / ObjectBox.tsx).
+      function raycastAtZ(zUE: number): Vec3 | null {
+        const planeHeightThree = zUE * UNIT_SCALE - centroidRef.current.y;
+        const plane = new THREE.Plane(new THREE.Vector3(0, 1, 0), -planeHeightThree);
+        const hit = raycaster.ray.intersectPlane(plane, hitThree);
+        if (!hit) return null;
+        return threeVecToUe(hitThree.clone().add(centroidRef.current));
+      }
 
-      const hit = raycaster.ray.intersectPlane(plane, hitThree);
-      if (!hit) {
+      // Pass 1: raycast at our best guess of the active anchor's Z (last
+      // frame's anchor, or the palbox as a first-ever guess) just to get an
+      // approximate XY — good enough to search for a nearby structure below.
+      // This resolves the chicken-and-egg problem of "which anchor sets the
+      // plane height" vs "the anchor search needs a hit point": a stacked
+      // foundation one floor up will correct itself in pass 2 (below) once
+      // we know it's the active anchor, so being one floor off for the
+      // search itself doesn't matter — horizontal distance is all pass 1 needs.
+      const approxHitUE = raycastAtZ(lastAnchorZRef.current ?? palboxAnchorUE.z);
+      if (!approxHitUE) {
         usePlaceModeStore.getState().setHover(null);
         return;
       }
 
-      const hitUE = threeVecToUe(hitThree.clone().add(centroidRef.current));
+      // Nearest-structure snapping (task "1."): the nearest "structure"
+      // category object within 1200 UE units (horizontal) of the approx hit
+      // becomes the active anchor — its position/yaw/z define the local grid
+      // this placement snaps to, not just the palbox's. Palbox is itself
+      // category "structure" (objects.json), so when it's the nearest thing
+      // in range this naturally reduces to the old palbox-only behavior;
+      // the explicit palboxAnchorUE fallback below only fires when NOTHING
+      // (not even the palbox) is within range.
+      const SNAP_SEARCH_RADIUS = 1200;
+      let nearest: PlacedObject | null = null;
+      let nearestDist = Infinity;
+      for (const o of liveObjects) {
+        if (resolveType(o.typeId).category !== "structure") continue;
+        const d = Math.hypot(o.position.x - approxHitUE.x, o.position.y - approxHitUE.y);
+        if (d <= SNAP_SEARCH_RADIUS && d < nearestDist) {
+          nearest = o;
+          nearestDist = d;
+        }
+      }
+
+      const anchorUE: Vec3 = nearest ? nearest.position : palboxAnchorUE;
+      const rotation: Quat = nearest ? nearest.rotation : palboxRotation;
+      const yaw = yawFromQuat(rotation);
+      lastAnchorZRef.current = anchorUE.z;
+
+      // Pass 2: if the active anchor sits on a different floor than our pass-1
+      // guess, redo the raycast against ITS z plane so the ghost tracks the
+      // correct floor (e.g. hovering near a foundation stacked one level up).
+      let hitUE = approxHitUE;
+      if (Math.abs(anchorUE.z - approxHitUE.z) > 1e-6) {
+        const reHit = raycastAtZ(anchorUE.z);
+        if (reHit) hitUE = reHit;
+      }
+
+      // Cursor hint (task "1.": "Show the active anchor in the cursor hint").
+      // Alt overrides the label to "free" even though z above still tracks
+      // the active anchor — see the free-placement comment below for why.
+      const anchorLabel = e.altKey
+        ? "free"
+        : nearest
+          ? `snap: ${getTypeEntry(nearest.typeId)?.name ?? nearest.typeId}`
+          : palbox
+            ? "snap: palbox grid"
+            : "snap: world grid";
 
       let x = hitUE.x;
       let y = hitUE.y;
       if (!e.altKey) {
-        // Snap to the base's own grid (task brief): project the hit point
-        // onto the palbox's local forward/right axes, round each component
-        // to the nearest GRID_PITCH, reproject. Same rotated-frame technique
-        // as ArrowKey nudging in useKeyboardControls.ts, just anchored at the
-        // palbox instead of at the moving object's own prior position.
+        // Snap to the active anchor's own grid (task brief): project the hit
+        // point onto its local forward/right axes, round each component to
+        // the nearest GRID_PITCH, reproject. Same rotated-frame technique as
+        // ArrowKey nudging in useKeyboardControls.ts, just anchored at the
+        // active anchor instead of at the moving object's own prior position.
         const { forward, right } = localAxesFromYaw(yaw);
         const relX = hitUE.x - anchorUE.x;
         const relY = hitUE.y - anchorUE.y;
@@ -112,6 +179,13 @@ export function PlaceMode({ objects, centroidThree }: PlaceModeProps) {
         x = anchorUE.x + forward.x * rf + right.x * rr;
         y = anchorUE.y + forward.y * rf + right.y * rr;
       }
+      // Alt (free placement): x/y are the raw hit point, unsnapped. z is
+      // still taken from the active anchor (nearest in-range structure, or
+      // the palbox) rather than always the palbox — DECISION: this keeps the
+      // ghost glued to whichever floor you're hovering near even with Alt
+      // held, instead of jumping back to the palbox's floor, which reads as
+      // a bug ("why did my free-placed piece end up on the wrong level")
+      // more than a feature. Documented per task brief ("pick and document").
 
       const targetPos: Vec3 = { x, y, z: anchorUE.z };
 
@@ -131,6 +205,7 @@ export function PlaceMode({ objects, centroidThree }: PlaceModeProps) {
       usePlaceModeStore.getState().setHover({
         position: targetPos,
         rotation,
+        anchorLabel,
         fillPositions,
         fillCountFull,
       });
@@ -199,12 +274,24 @@ export function PlaceMode({ objects, centroidThree }: PlaceModeProps) {
           <Outlines thickness={1.5} color="#5be3ff" />
         </mesh>
       ))}
+      {/* Active-anchor hint (task "1.": always visible while placing, so the
+          user always knows which grid a click will snap to). Sits just above
+          the ghost; the fill-count badge (below) sits above THIS when both
+          are showing, so they never overlap. */}
+      <Html
+        position={ueVecToThree(hover.position).sub(centroidThree)}
+        center
+        pointerEvents="none"
+        style={{ transform: "translateY(-28px)" }}
+      >
+        <div className="place-anchor-hint">{hover.anchorLabel}</div>
+      </Html>
       {showBadge && (
         <Html
           position={ueVecToThree(hover.position).sub(centroidThree)}
           center
           pointerEvents="none"
-          style={{ transform: "translateY(-28px)" }}
+          style={{ transform: "translateY(-46px)" }}
         >
           <div className="place-fill-badge">
             {hover.fillPositions!.length}
