@@ -92,6 +92,18 @@ body,
   background: #326bbd !important;
 }
 
+.header__autosave {
+  align-self: center;
+  font-size: 11px;
+  color: #7a8290;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.header__autosave--warn {
+  color: #ffb454;
+}
+
 /* ------------------------------------------------------------------ Body */
 
 .app__body {
@@ -544,6 +556,66 @@ body,
   max-width: 480px;
   color: #ff6b6b;
   font-size: 13px;
+}
+
+/* ---------------------------------------------------------- AutosaveBanner */
+
+.autosave-banner {
+  position: absolute;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  max-width: 90vw;
+  padding: 10px 16px;
+  background: #1b1e24;
+  border: 1px solid #3a3f47;
+  border-radius: 6px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  font-size: 13px;
+  color: #e6e6e6;
+  pointer-events: auto;
+}
+
+.autosave-banner__text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.autosave-banner__text span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.autosave-banner__text small {
+  color: #7a8290;
+  font-size: 11px;
+}
+
+.autosave-banner__actions {
+  display: flex;
+  gap: 8px;
+  flex: 0 0 auto;
+}
+
+.autosave-banner__actions button {
+  padding: 6px 12px;
+  background: #2a2d33;
+  color: #e6e6e6;
+  border: 1px solid #3a3f47;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.autosave-banner__actions button:hover {
+  background: #34383f;
 }
 
 /* ------------------------------------------------------------ ExportNotes */

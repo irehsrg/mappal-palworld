@@ -1,10 +1,33 @@
 // Top bar: current file, live object count (+ the honest "build limit:
 // unknown" guardrail note — CLAUDE.md §5, "the tool warns; the user
 // decides", never invent a number we don't have), undo/redo, export.
+import { useEffect, useState } from "react";
 import { useEditorStore } from "../model/store";
+import { formatRelativeTime, useAutosaveUi } from "./autosave";
 
 export interface HeaderProps {
   onExported: (notes: string[]) => void;
+}
+
+/** Subtle "autosaved 12s ago" text, right of Export — proof-of-life for a
+ *  loop the user otherwise never sees run. */
+function AutosaveIndicator() {
+  const status = useAutosaveUi((s) => s.status);
+  const lastSavedAt = useAutosaveUi((s) => s.lastSavedAt);
+
+  // Tick every second so the relative timestamp stays live without a save
+  // actually having to happen.
+  const [, tick] = useState(0);
+  useEffect(() => {
+    const id = setInterval(() => tick((n) => n + 1), 1000);
+    return () => clearInterval(id);
+  }, []);
+
+  if (status === "unavailable") {
+    return <span className="header__autosave header__autosave--warn">autosave unavailable</span>;
+  }
+  if (status === "idle" || lastSavedAt === null) return null;
+  return <span className="header__autosave">autosaved {formatRelativeTime(lastSavedAt)}</span>;
 }
 
 export function Header({ onExported }: HeaderProps) {
@@ -82,6 +105,7 @@ export function Header({ onExported }: HeaderProps) {
           <button type="button" className="header__export" onClick={handleExport}>
             Export
           </button>
+          <AutosaveIndicator />
         </div>
       )}
     </header>

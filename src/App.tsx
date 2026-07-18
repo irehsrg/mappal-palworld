@@ -1,11 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Header } from "./ui/Header";
 import { DropZone } from "./ui/DropZone";
+import { AutosaveBanner } from "./ui/AutosaveBanner";
 import { Sidebar } from "./ui/Sidebar";
 import { ExportNotesPanel } from "./ui/ExportNotesPanel";
 import { Scene } from "./scene/Scene";
 import { useKeyboardControls } from "./scene/useKeyboardControls";
 import { useEditorStore } from "./model/store";
+import { startAutosave } from "./ui/autosave";
 
 export function App() {
   const blueprint = useEditorStore((s) => s.blueprint);
@@ -14,6 +16,10 @@ export function App() {
   // Arrow-key nudge, Q/E rotate, delete, undo/redo, duplicate, escape — all
   // attached to `window` and self-disabling when nothing is loaded.
   useKeyboardControls();
+
+  // Autosave loop: subscribes to the store, writes to IndexedDB every 20s
+  // while dirty, flushes best-effort on tab close. See src/ui/autosave.ts.
+  useEffect(() => startAutosave(), []);
 
   return (
     <div className="app">
@@ -27,6 +33,7 @@ export function App() {
         {/* Until a blueprint is loaded, the drop zone covers the viewport.
             Once loaded, it steps aside for the sidebar. */}
         {!blueprint && <DropZone />}
+        {!blueprint && <AutosaveBanner />}
 
         {blueprint && (
           <div className="app__sidebar">
