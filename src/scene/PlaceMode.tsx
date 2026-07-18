@@ -21,6 +21,7 @@ import * as THREE from "three";
 import { useThree } from "@react-three/fiber";
 import { Html, Outlines } from "@react-three/drei";
 import type { PlacedObject, Quat, Vec3 } from "../model/types";
+import { VERTICAL_PITCH } from "../model/types";
 import { usePlaceModeStore } from "./placeModeStore";
 import { findPalbox } from "./campGeometry";
 import { getTypeEntry, resolveType } from "./objectTypes";
@@ -146,16 +147,6 @@ export function PlaceMode({ objects, centroidThree }: PlaceModeProps) {
       const anchorUE: Vec3 = nearest ? nearest.position : palboxAnchorUE;
       const rotation: Quat = nearest ? nearest.rotation : palboxRotation;
       const yaw = yawFromQuat(rotation);
-      lastAnchorZRef.current = anchorUE.z;
-
-      // Pass 2: if the active anchor sits on a different floor than our pass-1
-      // guess, redo the raycast against ITS z plane so the ghost tracks the
-      // correct floor (e.g. hovering near a foundation stacked one level up).
-      let hitUE = approxHitUE;
-      if (Math.abs(anchorUE.z - approxHitUE.z) > 1e-6) {
-        const reHit = raycastAtZ(anchorUE.z);
-        if (reHit) hitUE = reHit;
-      }
 
       // Per-type snap lattice (bug fix, docs/CALIBRATION.md "Wall placement"):
       // walls/fences/gates sit on tile EDGES, pillars on tile CORNERS, and
@@ -166,21 +157,63 @@ export function PlaceMode({ objects, centroidThree }: PlaceModeProps) {
       const lattice = classifyLattice(armedSize);
       const ghostRotationSteps = usePlaceModeStore.getState().ghostRotationSteps;
 
+      // Smart cap default (vertical-placement fix, "cap the wall"): when the
+      // active anchor is a THIN/wall piece (its OWN typeId classifies as
+      // EDGE lattice) and the armed type is a CENTER-lattice slab (roofs/
+      // foundations — footprint >= 300 on both horizontal axes, not
+      // furniture-sized), default the anchor z to one floor above the
+      // anchor instead of level with it: hovering a roof near a wall means
+      // "cap this wall", not "sink into the wall's own floor". Walls
+      // anchored on OTHER walls (armed type is itself EDGE lattice, e.g.
+      // continuing a wall run) are NOT slabs, so this rule doesn't fire for
+      // them — that case keeps the pre-existing same-z behavior; stacking a
+      // second wall directly above the first is what PageUp is for.
+      const anchorLattice = nearest ? classifyLattice(resolveType(nearest.typeId).size) : null;
+      const isArmedSlab = lattice === "center" && armedSize[0] >= 300 && armedSize[1] >= 300;
+      const capActive = anchorLattice === "edge" && isArmedSlab;
+      const baseAnchorZ = capActive ? anchorUE.z + VERTICAL_PITCH : anchorUE.z;
+
+      // Armed-mode level offset (PageUp/PageDown while armed — see
+      // useKeyboardControls.ts / placeModeStore.ts): stacks on TOP of the
+      // smart-cap default above, so "cap this wall, then go up 2 more
+      // floors" composes as expected.
+      const { levelOffset } = usePlaceModeStore.getState();
+      const targetZ = baseAnchorZ + levelOffset * VERTICAL_PITCH;
+      lastAnchorZRef.current = targetZ;
+
+      // Pass 2: if the ghost's actual target z (cap + level offset applied)
+      // sits on a different plane than our pass-1 guess, redo the raycast
+      // against THAT plane so the cursor tracks correctly at the floor the
+      // ghost will actually render on (e.g. hovering near a foundation
+      // stacked one level up, or a roof capping a wall two floors above).
+      let hitUE = approxHitUE;
+      if (Math.abs(targetZ - approxHitUE.z) > 1e-6) {
+        const reHit = raycastAtZ(targetZ);
+        if (reHit) hitUE = reHit;
+      }
+
       // Cursor hint (task "1.": "Show the active anchor in the cursor hint").
       // Alt overrides the label to "free" even though z above still tracks
       // the active anchor — see the free-placement comment below for why.
-      // Ghost-rotation suffix (R key) shown whenever a non-zero rotation is
-      // dialed in, regardless of lattice — for EDGE pieces this only affects
-      // corner-ambiguity tie-breaking (see snapLattice.ts), but showing the
-      // raw dialed value is still useful feedback.
-      const anchorLabel =
-        (e.altKey
-          ? "free"
-          : nearest
-            ? `snap: ${getTypeEntry(nearest.typeId)?.name ?? nearest.typeId}`
-            : palbox
-              ? "snap: palbox grid"
-              : "snap: world grid") + (ghostRotationSteps !== 0 ? ` · R: ${ghostRotationSteps * 90}°` : "");
+      // "cap: <wall name>" shown whenever the smart-cap default above is
+      // active; ghost-rotation suffix (R key) shown whenever a non-zero
+      // rotation is dialed in, regardless of lattice — for EDGE pieces this
+      // only affects corner-ambiguity tie-breaking (see snapLattice.ts), but
+      // showing the raw dialed value is still useful feedback; level-offset
+      // suffix shown whenever PageUp/PageDown has been used this armed
+      // session.
+      const baseLabel = e.altKey
+        ? "free"
+        : nearest
+          ? `snap: ${getTypeEntry(nearest.typeId)?.name ?? nearest.typeId}`
+          : palbox
+            ? "snap: palbox grid"
+            : "snap: world grid";
+      const labelParts = [baseLabel];
+      if (capActive) labelParts.push(`cap: ${getTypeEntry(nearest!.typeId)?.name ?? nearest!.typeId}`);
+      if (ghostRotationSteps !== 0) labelParts.push(`R: ${ghostRotationSteps * 90}°`);
+      if (levelOffset !== 0) labelParts.push(`${levelOffset > 0 ? "+" : ""}${levelOffset} level${Math.abs(levelOffset) === 1 ? "" : "s"}`);
+      const anchorLabel = labelParts.join(" · ");
 
       let x = hitUE.x;
       let y = hitUE.y;
@@ -237,8 +270,13 @@ export function PlaceMode({ objects, centroidThree }: PlaceModeProps) {
       // held, instead of jumping back to the palbox's floor, which reads as
       // a bug ("why did my free-placed piece end up on the wrong level")
       // more than a feature. Documented per task brief ("pick and document").
+      // z itself is targetZ (anchor z, plus the wall-cap default, plus the
+      // armed-mode level offset — see above) for both snapped and free (Alt)
+      // placement alike, purely so the offset composes with every other
+      // interaction (R rotation, Alt, edge/corner lattices) without special-
+      // casing any of them.
 
-      const targetPos: Vec3 = { x, y, z: anchorUE.z };
+      const targetPos: Vec3 = { x, y, z: targetZ };
 
       // Array-stamp preview (task "B. Array stamping"): only while
       // Shift/Ctrl+Shift is held and a prior stamp exists this session to

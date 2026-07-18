@@ -88,6 +88,20 @@ export function useKeyboardControls(): void {
         }
       }
 
+      // PageUp/PageDown while armed (Phase 2 place mode, CLAUDE.md §6):
+      // adjusts the ghost's levelOffset instead of nudging a selection —
+      // armed mode takes precedence over the unarmed PageUp/PageDown case
+      // further down (which moves the current selection). Checked ahead of
+      // the "requires a live selection" logic for the same reason as "R"
+      // above: placing doesn't require anything selected.
+      if (e.key === "PageUp" || e.key === "PageDown") {
+        if (usePlaceModeStore.getState().armedType) {
+          e.preventDefault();
+          usePlaceModeStore.getState().adjustLevelOffset(e.key === "PageUp" ? 1 : -1);
+          return;
+        }
+      }
+
       const { objects, selection } = useEditorStore.getState();
       const selected = objects.filter((o) => selection.includes(o.id));
 

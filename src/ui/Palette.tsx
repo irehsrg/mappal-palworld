@@ -253,9 +253,10 @@ export function Palette() {
 
       {armedType && (
         <p className="palette__armed-hint">
-          Placing {getTypeEntry(armedType)?.name ?? armedType} — click in the viewport to stamp, hold Alt to
-          disable grid snap, Shift+click to fill a line / Ctrl+Shift+click to fill a rectangle from the last
-          stamp (each piece is its own undo step — Ctrl+Z spam works), Escape to stop.
+          Placing {getTypeEntry(armedType)?.name ?? armedType} — click in the viewport to stamp, PageUp/PageDown
+          to raise/lower the ghost a level, hold Alt to disable grid snap, Shift+click to fill a line /
+          Ctrl+Shift+click to fill a rectangle from the last stamp at the ghost's current level (each piece is
+          its own undo step — Ctrl+Z spam works), Escape to stop.
         </p>
       )}
     </section>

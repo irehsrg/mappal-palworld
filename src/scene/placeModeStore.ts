@@ -17,7 +17,10 @@
 // - src/scene/MarqueeSelect.tsx: bails out of shift+drag while armed.
 // - src/scene/useKeyboardControls.ts: Escape disarms (checked before the
 //   normal clear-selection Escape handling); "R" while armed cycles
-//   ghostRotationSteps (see snapLattice.ts for how PlaceMode.tsx applies it).
+//   ghostRotationSteps (see snapLattice.ts for how PlaceMode.tsx applies it);
+//   PageUp/PageDown while armed adjust levelOffset instead of nudging a
+//   selection (armed mode takes precedence over the unarmed PageUp/PageDown
+//   selection-move behavior).
 import { create } from "zustand";
 import type { Quat, Vec3 } from "../model/types";
 
@@ -68,6 +71,15 @@ interface PlaceModeState {
    * lastStampPos (task brief: "reset on arm/type change").
    */
   ghostRotationSteps: number;
+  /**
+   * Vertical level control (PageUp/PageDown while armed — see
+   * useKeyboardControls.ts and PlaceMode.tsx). Integer, positive = up,
+   * negative = down, each unit = one VERTICAL_PITCH (325cm). Applied ON TOP
+   * of PlaceMode.tsx's anchor-derived z (including the wall-cap default —
+   * see snapLattice.ts-adjacent logic in PlaceMode.tsx). Reset to 0 on
+   * arm/type change, same as ghostRotationSteps/lastStampPos.
+   */
+  levelOffset: number;
   arm(typeId: string): void;
   disarm(): void;
   /** Palette button behaviour: click arms; clicking the already-armed button again disarms. */
@@ -76,6 +88,8 @@ interface PlaceModeState {
   setLastStampPos(pos: Vec3 | null): void;
   /** "R" while armed: cycles the ghost rotation 0deg -> 90deg -> 180deg -> 270deg -> 0deg. */
   rotateGhost(): void;
+  /** PageUp/PageDown while armed: adjust the ghost's level offset by +-1 (see levelOffset doc above). */
+  adjustLevelOffset(delta: number): void;
 }
 
 export const usePlaceModeStore = create<PlaceModeState>((set, get) => ({
@@ -83,17 +97,19 @@ export const usePlaceModeStore = create<PlaceModeState>((set, get) => ({
   hover: null,
   lastStampPos: null,
   ghostRotationSteps: 0,
-  arm: (typeId) => set({ armedType: typeId, hover: null, lastStampPos: null, ghostRotationSteps: 0 }),
-  disarm: () => set({ armedType: null, hover: null, lastStampPos: null, ghostRotationSteps: 0 }),
+  levelOffset: 0,
+  arm: (typeId) => set({ armedType: typeId, hover: null, lastStampPos: null, ghostRotationSteps: 0, levelOffset: 0 }),
+  disarm: () => set({ armedType: null, hover: null, lastStampPos: null, ghostRotationSteps: 0, levelOffset: 0 }),
   toggle: (typeId) => {
     const { armedType } = get();
     set(
       armedType === typeId
-        ? { armedType: null, hover: null, lastStampPos: null, ghostRotationSteps: 0 }
-        : { armedType: typeId, hover: null, lastStampPos: null, ghostRotationSteps: 0 },
+        ? { armedType: null, hover: null, lastStampPos: null, ghostRotationSteps: 0, levelOffset: 0 }
+        : { armedType: typeId, hover: null, lastStampPos: null, ghostRotationSteps: 0, levelOffset: 0 },
     );
   },
   setHover: (hover) => set({ hover }),
   setLastStampPos: (pos) => set({ lastStampPos: pos }),
   rotateGhost: () => set((s) => ({ ghostRotationSteps: (s.ghostRotationSteps + 1) % 4 })),
+  adjustLevelOffset: (delta) => set((s) => ({ levelOffset: s.levelOffset + delta })),
 }));

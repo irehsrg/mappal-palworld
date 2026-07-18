@@ -160,7 +160,7 @@ function KeyboardCheatSheet() {
     ["Click / Shift-click", "Select / add to selection"],
     ["Click empty space", "Clear selection"],
     ["Arrow keys", "Nudge 1 grid unit (400cm) along selection's local axes"],
-    ["PageUp / PageDown", "Move up/down 1 floor (325cm)"],
+    ["PageUp / PageDown", "Move selection up/down 1 floor (325cm); while placing, adjusts the ghost's level instead"],
     ["Q / E", "Rotate ±90° about vertical axis"],
     ["Delete / Backspace", "Delete selection"],
     ["Ctrl+D", "Duplicate selection"],
@@ -173,9 +173,10 @@ function KeyboardCheatSheet() {
     ["Palette button", "Arm/disarm place mode for that object"],
     ["Click (while placing)", "Stamp a piece; stays armed for repeats"],
     ["R (while placing)", "Rotate ghost +90°; for walls, breaks a tie near a corner"],
+    ["PageUp / PageDown (while placing)", "Raise/lower the ghost 1 level (325cm); hovering a roof/foundation near a wall defaults to capping it"],
     ["Alt (while placing)", "Disable grid snap for that placement"],
-    ["Shift+click (while placing)", "Fill a line from the last stamp to here"],
-    ["Ctrl+Shift+click (while placing)", "Fill a rectangle from the last stamp to here"],
+    ["Shift+click (while placing)", "Fill a line from the last stamp to here, at the ghost's current level"],
+    ["Ctrl+Shift+click (while placing)", "Fill a rectangle from the last stamp to here, at the ghost's current level"],
   ];
   return (
     <section className="sidebar__section">
