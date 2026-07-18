@@ -94,9 +94,31 @@ export function useKeyboardControls(): void {
       // further down (which moves the current selection). Checked ahead of
       // the "requires a live selection" logic for the same reason as "R"
       // above: placing doesn't require anything selected.
+      //
+      // Shift+PageUp/Shift+PageDown while armed (vertical stacking fast
+      // path — see src/ui/VerticalStackPanel.tsx for the bulk-N version of
+      // the same operation): stamps ONE copy of the armed type one
+      // VERTICAL_PITCH above/below the last stamp, using that stamp's own
+      // rotation, and advances lastStampPos/lastStampRotation to the piece
+      // just placed — so repeated presses climb/descend a shaft one floor
+      // per tap. A no-op (still preventDefault, so nothing else eats the
+      // key) until at least one piece has been stamped this armed session:
+      // there is no "last stamp" to stack from yet. Plain PageUp/PageDown
+      // (no Shift) keeps its existing ghost-level-offset behavior below —
+      // only the Shift variant stamps.
       if (e.key === "PageUp" || e.key === "PageDown") {
         if (usePlaceModeStore.getState().armedType) {
           e.preventDefault();
+          if (e.shiftKey) {
+            const { armedType, lastStampPos, lastStampRotation, setLastStamp } = usePlaceModeStore.getState();
+            if (armedType && lastStampPos && lastStampRotation) {
+              const dir = e.key === "PageUp" ? 1 : -1;
+              const nextPos = { x: lastStampPos.x, y: lastStampPos.y, z: lastStampPos.z + dir * VERTICAL_PITCH };
+              useEditorStore.getState().placeObject(armedType, nextPos, lastStampRotation);
+              setLastStamp(nextPos, lastStampRotation);
+            }
+            return;
+          }
           usePlaceModeStore.getState().adjustLevelOffset(e.key === "PageUp" ? 1 : -1);
           return;
         }

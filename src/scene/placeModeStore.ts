@@ -15,6 +15,13 @@
 // - src/scene/Scene.tsx / ObjectBox.tsx: read armedType/hover/lastStampPos
 //   via getState() at click time to place instead of select/clear, and to
 //   compute Shift/Ctrl+Shift array fills (see arrayStamp.ts and those files).
+//   Both call setLastStamp() (pos + rotation) after every stamp.
+// - src/ui/VerticalStackPanel.tsx: reads armedType/lastStampPos/
+//   lastStampRotation to stamp N copies straight up/down (VERTICAL_PITCH per
+//   copy), advancing lastStampPos/lastStampRotation to the last one placed.
+// - src/scene/useKeyboardControls.ts: Shift+PageUp/Shift+PageDown while armed
+//   is the same vertical-stack operation as VerticalStackPanel, one copy at a
+//   time (see that file's PageUp/PageDown block).
 // - src/scene/MarqueeSelect.tsx: bails out of shift+drag while armed.
 // - src/scene/useKeyboardControls.ts: Escape disarms (checked before the
 //   normal clear-selection Escape handling); "R" while armed cycles
@@ -74,6 +81,16 @@ interface PlaceModeState {
    */
   lastStampPos: Vec3 | null;
   /**
+   * Rotation actually placed on that same most-recent stamp (vertical
+   * stacking, src/ui/VerticalStackPanel.tsx + Shift+PageUp/PageDown below) —
+   * kept alongside lastStampPos rather than re-derived, since the placed
+   * rotation can differ from the raw anchor rotation (ghost rotation R key,
+   * edge-lattice snap orientation — see PlaceMode.tsx's finalRotation). Same
+   * null-before-first-stamp / reset-on-arm-change lifecycle as lastStampPos;
+   * the two are always set together via setLastStamp.
+   */
+  lastStampRotation: Quat | null;
+  /**
    * Ghost rotation control ("R" key while armed — see useKeyboardControls.ts
    * and PlaceMode.tsx's snapLattice.ts usage). 0-3, each step = +90° about Z.
    * For CENTER/CORNER lattice pieces this rotates the placed rotation
@@ -107,7 +124,8 @@ interface PlaceModeState {
   /** Palette button behaviour: click arms; clicking the already-armed button again disarms. */
   toggle(typeId: string): void;
   setHover(hover: PlaceHover | null): void;
-  setLastStampPos(pos: Vec3 | null): void;
+  /** Records both the position and rotation of the most recent stamp in one call — see lastStampPos/lastStampRotation docs above. Pass (null, null) to clear both. */
+  setLastStamp(pos: Vec3 | null, rotation: Quat | null): void;
   /** "R" while armed: cycles the ghost rotation 0deg -> 90deg -> 180deg -> 270deg -> 0deg. */
   rotateGhost(): void;
   /** PageUp/PageDown while armed: adjust the ghost's level offset by +-1 (see levelOffset doc above). */
@@ -116,12 +134,20 @@ interface PlaceModeState {
   setAnchorLock(id: string | null): void;
 }
 
-const RESET_ON_ARM_CHANGE = { hover: null, lastStampPos: null, ghostRotationSteps: 0, levelOffset: 0, lockedAnchorId: null };
+const RESET_ON_ARM_CHANGE = {
+  hover: null,
+  lastStampPos: null,
+  lastStampRotation: null,
+  ghostRotationSteps: 0,
+  levelOffset: 0,
+  lockedAnchorId: null,
+};
 
 export const usePlaceModeStore = create<PlaceModeState>((set, get) => ({
   armedType: null,
   hover: null,
   lastStampPos: null,
+  lastStampRotation: null,
   ghostRotationSteps: 0,
   levelOffset: 0,
   lockedAnchorId: null,
@@ -136,7 +162,7 @@ export const usePlaceModeStore = create<PlaceModeState>((set, get) => ({
     );
   },
   setHover: (hover) => set({ hover }),
-  setLastStampPos: (pos) => set({ lastStampPos: pos }),
+  setLastStamp: (pos, rotation) => set({ lastStampPos: pos, lastStampRotation: rotation }),
   rotateGhost: () => set((s) => ({ ghostRotationSteps: (s.ghostRotationSteps + 1) % 4 })),
   adjustLevelOffset: (delta) => set((s) => ({ levelOffset: s.levelOffset + delta })),
   setAnchorLock: (id) => set({ lockedAnchorId: id }),

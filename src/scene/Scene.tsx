@@ -100,7 +100,7 @@ export function Scene() {
           const dist = Math.hypot(e.clientX - down.x, e.clientY - down.y);
           if (dist > DRAG_THRESHOLD_PX) return; // was an orbit/pan drag, not a click
         }
-        const { armedType, hover, setHover, lastStampPos, setLastStampPos } = usePlaceModeStore.getState();
+        const { armedType, hover, setHover, lastStampPos, setLastStamp } = usePlaceModeStore.getState();
         if (armedType) {
           if (hover) {
             // Array stamping (task "B. Array stamping"): Shift = fill a
@@ -115,7 +115,7 @@ export function Scene() {
                 ? [hover.position]
                 : computeStampFill(lastStampPos, hover.position, yawFromQuat(hover.rotation), mode);
             for (const pos of positions) placeObject(armedType, pos, hover.rotation);
-            setLastStampPos(hover.position);
+            setLastStamp(hover.position, hover.rotation);
             // Hide the ghost until the next pointer move: the store
             // auto-selects the just-placed object (highlighted, opaque), and
             // without this the translucent ghost would sit exactly on top of

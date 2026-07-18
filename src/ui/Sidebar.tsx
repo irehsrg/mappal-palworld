@@ -9,6 +9,7 @@ import { countOutsideRadius, findPalbox } from "../scene/campGeometry";
 import { RelocateBasePanel } from "./RelocateBasePanel";
 import { Palette } from "./Palette";
 import { FillCirclePanel } from "./FillCirclePanel";
+import { VerticalStackPanel } from "./VerticalStackPanel";
 
 function round(n: number): number {
   return Math.round(n);
@@ -178,6 +179,7 @@ function KeyboardCheatSheet() {
     ["Alt (while placing)", "Disable grid snap for that placement"],
     ["Shift+click (while placing)", "Fill a line from the last stamp to here, at the ghost's current level"],
     ["Ctrl+Shift+click (while placing)", "Fill a rectangle from the last stamp to here, at the ghost's current level"],
+    ["Shift+PageUp / Shift+PageDown (while placing)", "Stamp one copy of the armed type a floor above/below the last stamp (325cm)"],
   ];
   return (
     <section className="sidebar__section">
@@ -199,6 +201,7 @@ export function Sidebar() {
     <div className="sidebar">
       <Palette />
       <FillCirclePanel />
+      <VerticalStackPanel />
       <CategoryCounts />
       <SelectionInfo />
       <RadiusGuardrail />

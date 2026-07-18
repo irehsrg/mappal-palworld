@@ -94,7 +94,7 @@ export function ObjectBox({ object, centroidThree, selected, showLabel, onSelect
         // position — it must never select the object underneath instead.
         // See PlaceMode.tsx / Scene.tsx's onPointerMissed for the other half
         // of this (clicking empty space while armed).
-        const { armedType, hover, setHover, lastStampPos, setLastStampPos } = usePlaceModeStore.getState();
+        const { armedType, hover, setHover, lastStampPos, setLastStamp } = usePlaceModeStore.getState();
         if (armedType) {
           if (hover) {
             // Array stamping (task "B. Array stamping") — same Shift/
@@ -107,7 +107,7 @@ export function ObjectBox({ object, centroidThree, selected, showLabel, onSelect
                 ? [hover.position]
                 : computeStampFill(lastStampPos, hover.position, yawFromQuat(hover.rotation), mode);
             for (const pos of positions) useEditorStore.getState().placeObject(armedType, pos, hover.rotation);
-            setLastStampPos(hover.position);
+            setLastStamp(hover.position, hover.rotation);
             // See Scene.tsx's onPointerMissed for why the ghost is hidden
             // immediately after a placement click (auto-select vs. ghost
             // overlap on the same frame).
