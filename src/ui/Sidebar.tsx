@@ -166,6 +166,7 @@ function KeyboardCheatSheet() {
     ["Ctrl+D", "Duplicate selection"],
     ["Ctrl+A", "Select all"],
     ["Shift+drag empty space", "Box-select (adds to selection); disabled while placing"],
+    ["Delete", "Delete selection — the palbox is always protected"],
     ["Ctrl+Z", "Undo"],
     ["Ctrl+Y / Ctrl+Shift+Z", "Redo"],
     ["Escape", "Stop placing, else clear selection"],

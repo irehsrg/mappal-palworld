@@ -185,9 +185,11 @@ export const useEditorStore = create<EditorState>((set, get) => {
     deleteSelection() {
       const { objects, selection } = get();
       const sel = new Set(selection);
+      // The palbox IS the base (camp anchor, map icon, import identity) — a
+      // blueprint without one is broken. It survives any mass-delete sweep.
       const removed = objects
         .map((object, index) => ({ object, index }))
-        .filter((r) => sel.has(r.object.id));
+        .filter((r) => sel.has(r.object.id) && r.object.typeId !== "PalBoxV2");
       if (removed.length === 0) return;
       push({ kind: "delete", removed });
       set({ selection: [] });
@@ -197,7 +199,9 @@ export const useEditorStore = create<EditorState>((set, get) => {
       const { objects, selection } = get();
       const sel = new Set(selection);
       const created = objects
-        .filter((o) => sel.has(o.id))
+        // A duplicated palbox would mean two camp anchors in one file —
+        // the exact identity conflict that breaks imports. Skip it.
+        .filter((o) => sel.has(o.id) && o.typeId !== "PalBoxV2")
         .map((o): PlacedObject => ({
           ...o,
           id: mintGuid(),
