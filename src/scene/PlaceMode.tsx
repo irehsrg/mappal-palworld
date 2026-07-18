@@ -60,6 +60,17 @@ export function PlaceMode({ objects, centroidThree }: PlaceModeProps) {
   const { camera, gl } = useThree();
   const armedType = usePlaceModeStore((s) => s.armedType);
   const hover = usePlaceModeStore((s) => s.hover);
+  // Subscribed purely to drive the "forced recompute" effect below (stale-
+  // ghost fix: R / PageUp/PageDown / Tab while armed used to leave the ghost
+  // showing the PREVIOUS rotation/level/anchor until the cursor physically
+  // crossed a tile, because hover was only ever recomputed inside the native
+  // pointermove listener — these key presses don't fire one). The values
+  // themselves are read fresh from usePlaceModeStore.getState() inside
+  // computeHover (see below); these subscriptions exist only to fire the
+  // effect, not to feed values into the computation directly.
+  const ghostRotationSteps = usePlaceModeStore((s) => s.ghostRotationSteps);
+  const levelOffset = usePlaceModeStore((s) => s.levelOffset);
+  const lockedAnchorId = usePlaceModeStore((s) => s.lockedAnchorId);
 
   // Read via refs inside the native listener (same technique as
   // MarqueeSelect.tsx) so a moving palbox / edited object list is always
@@ -76,6 +87,21 @@ export function PlaceMode({ objects, centroidThree }: PlaceModeProps) {
   // known anchor Z" is still a reasonable guess for the next frame even
   // across a re-arm; it self-corrects within one pointermove regardless.
   const lastAnchorZRef = useRef<number | null>(null);
+  // Latest raw pointermove event (stale-ghost fix, see the ghostRotationSteps
+  // subscription comment above): computeHover reads every input it needs
+  // (clientX/Y, altKey, shiftKey, ctrlKey) off a PointerEvent, so storing the
+  // event itself is enough to replay the exact same computation later with
+  // fresh store state, no need to duplicate its fields into a separate shape.
+  // Null until the first real pointermove of this armed session.
+  const lastPointerEventRef = useRef<PointerEvent | null>(null);
+  // The current effect run's computeHover closure (rebuilt every time the
+  // effect below re-runs, i.e. on armed/camera/gl change) — stashed here so
+  // the SECOND effect (forced-recompute-on-key-change, declared after this
+  // one) can call it without itself needing to duplicate any raycasting
+  // state. Always non-null by the time the second effect can possibly fire
+  // for a given armed session (both effects list `armedType`, and this one
+  // is declared first, so React finishes rebuilding this one first).
+  const computeHoverRef = useRef<((e: PointerEvent, force: boolean) => void) | null>(null);
 
   // Effect re-attaches whenever armed state flips so we can cleanly clear the
   // hover on disarm (and skip listening entirely while nothing is armed).
@@ -104,7 +130,14 @@ export function PlaceMode({ objects, centroidThree }: PlaceModeProps) {
     let currentAnchorId: string | null = null;
     let lastEvalPoint: { x: number; y: number } | null = null;
 
-    function onPointerMove(e: PointerEvent) {
+    // Extracted from the pointermove listener (stale-ghost fix) so it can be
+    // invoked from two places: a real pointermove (force=false, normal
+    // anchor-reevaluation damping applies) and the forced-recompute effect
+    // below, replaying the LAST pointer event whenever ghostRotationSteps /
+    // levelOffset / lockedAnchorId / armedType changes without the cursor
+    // itself moving (force=true, damping bypassed — see the "movedEnough"
+    // line for exactly what that skips).
+    function computeHover(e: PointerEvent, force: boolean) {
       // Named distinctly from the component's own `objects` prop (which this
       // closure must NOT read — see the refs comment above) to avoid any
       // accidental shadowing confusion.
@@ -228,7 +261,16 @@ export function PlaceMode({ objects, centroidThree }: PlaceModeProps) {
           return Math.abs(z - refZ) > LEVEL_TOLERANCE ? horizDist + LEVEL_PENALTY : horizDist;
         };
 
+        // `force` (stale-ghost fix: a forced recompute replaying the exact
+        // same pointer event after e.g. R changed ghostRotationSteps) always
+        // counts as "moved enough" — the 100u damping exists to absorb pixel-
+        // level cursor jitter between REAL pointermoves, not to suppress a
+        // recompute the user explicitly triggered via a key press. The
+        // candidate search below re-running against an unchanged hit point
+        // is still hysteresis-protected (currentObj wins ties), so this
+        // can't cause the anchor to flap just because a key was pressed.
         const movedEnough =
+          force ||
           !lastEvalPoint ||
           Math.hypot(approxHitUE.x - lastEvalPoint.x, approxHitUE.y - lastEvalPoint.y) > REEVAL_DAMP_DIST;
 
@@ -406,6 +448,16 @@ export function PlaceMode({ objects, centroidThree }: PlaceModeProps) {
       });
     }
 
+    // computeHoverRef is how the forced-recompute effect (declared after
+    // this one, below) reaches this specific effect run's computeHover
+    // closure — see that effect and the ref's own declaration for why.
+    computeHoverRef.current = computeHover;
+
+    function onPointerMove(e: PointerEvent) {
+      lastPointerEventRef.current = e;
+      computeHover(e, false);
+    }
+
     function onPointerLeave() {
       usePlaceModeStore.getState().setHover(null);
     }
@@ -416,6 +468,7 @@ export function PlaceMode({ objects, centroidThree }: PlaceModeProps) {
       dom.removeEventListener("pointermove", onPointerMove);
       dom.removeEventListener("pointerleave", onPointerLeave);
       usePlaceModeStore.getState().setHover(null);
+      computeHoverRef.current = null;
     };
     // objects/centroidThree deliberately excluded: the listener reads them
     // via the refs above (kept fresh every render), not this closure, so the
@@ -423,6 +476,22 @@ export function PlaceMode({ objects, centroidThree }: PlaceModeProps) {
     // edit — only when arming flips or the render target changes.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [armedType, camera, gl]);
+
+  // Stale-ghost fix: forces a hover recompute (replaying the last real
+  // pointer event, see computeHover's `force` param above) whenever the
+  // player changes something that affects the ghost WITHOUT moving the
+  // mouse — R (ghostRotationSteps), PageUp/PageDown while armed
+  // (levelOffset), Tab (lockedAnchorId), or re-arming a different type.
+  // Declared AFTER the effect above so that on an armedType change React
+  // finishes rebuilding computeHoverRef with the NEW armed session's
+  // closure (fresh anchor-selection state, etc.) before this one fires —
+  // effects run in declaration order within a component.
+  useEffect(() => {
+    if (!armedType) return;
+    const lastEvent = lastPointerEventRef.current;
+    if (!lastEvent) return; // nothing to replay yet — no pointermove this armed session
+    computeHoverRef.current?.(lastEvent, true);
+  }, [armedType, ghostRotationSteps, levelOffset, lockedAnchorId]);
 
   if (!armedType || !hover) return null;
 

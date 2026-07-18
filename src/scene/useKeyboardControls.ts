@@ -10,6 +10,7 @@ import { useEffect } from "react";
 import { useEditorStore, type TransformEdit } from "../model/store";
 import { GRID_PITCH, VERTICAL_PITCH, type Quat } from "../model/types";
 import { localAxesFromYaw, quatMultiply, yawFromQuat } from "./coords";
+import { findPalbox } from "./campGeometry";
 import { usePlaceModeStore } from "./placeModeStore";
 
 function isTypingTarget(target: EventTarget | null): boolean {
@@ -145,6 +146,86 @@ export function useKeyboardControls(): void {
           }
           return;
         }
+      }
+
+      // Shift+Q / Shift+E (radial symmetry gesture): rotates the ENTIRE
+      // selection +-90 degrees about the PALBOX's position (vertical axis),
+      // in one transformObjects() call — one undo step. Unlike plain Q/E
+      // (below, in-place per-object rotation about each object's OWN
+      // position), this orbits positions around a shared pivot AND applies
+      // the same qz to each object's own rotation, so a wrap-around-the-
+      // shaft assembly (pieces placed via repeated Q/E around a center)
+      // rotates as a rigid body and lands exactly on the next side.
+      //
+      // Checked via e.shiftKey explicitly, not key casing: e.key is already
+      // "Q" (not "q") whenever Shift is held, same as CapsLock — casing
+      // alone can't distinguish "Shift+Q" from "q with CapsLock on", so the
+      // plain Q/E case below (in-place rotate) matches BOTH cases and this
+      // block must run first and return early to claim the Shift variant
+      // before falling through.
+      //
+      // Pivot: the single PalBoxV2's position (x, y — z is untouched, see
+      // below) when present; degrades to the selection's own centroid,
+      // rounded to the nearest 200 on x/y (task brief — keeps the pivot
+      // lattice-aligned so orbited positions don't drift off-grid), when
+      // there's no unique palbox (none, or more than one — see
+      // campGeometry.ts's findPalbox).
+      //
+      // Rotation math verified numerically (throwaway node script against
+      // fixtures/calibration_01.json's foundations/palbox, not guessed):
+      // rotating a position's (x,y) offset from the pivot by the standard
+      // Rz(theta) matrix — newX = pivot.x + dx*cos(theta) - dy*sin(theta),
+      // newY = pivot.y + dx*sin(theta) + dy*cos(theta) — is EXACTLY the
+      // vector obtained by sandwich-rotating that offset with the same qz
+      // quaternion used below for the object's own orientation (diff ~1e-14
+      // at both +90 and -90), so position and rotation can never disagree.
+      // Confirmed: 4x +90 round-trips positions with zero drift and returns
+      // the identical rotation (quaternion double-cover: q_after ==
+      // -q_before component-wise, |dot| == 1 — same rotation, not a bug);
+      // 2x(+90)+2x(-90) round-trips with zero drift; and projecting 5
+      // calibration foundations into the palbox's own local frame shows the
+      // post-rotation residual-from-200 exactly equals
+      // (old rr-residual, -old rf-residual) for every foundation (err
+      // 0.0e+0) — i.e. a 90-degree group rotation about ANY pivot maps a
+      // square lattice exactly onto itself, so this can never knock a
+      // selection off its snap grid. Q uses theta=+90 (matches plain Q's qz
+      // below exactly), E uses theta=-90 (matches plain E's qz exactly).
+      if (!ctrlOrCmd && e.shiftKey && (e.key === "q" || e.key === "Q" || e.key === "e" || e.key === "E")) {
+        const { objects: allObjects, selection: sel } = useEditorStore.getState();
+        const selected = allObjects.filter((o) => sel.includes(o.id));
+        if (selected.length === 0) return;
+        e.preventDefault();
+
+        const deg = e.key.toLowerCase() === "q" ? 90 : -90;
+        const half = (deg * Math.PI) / 360; // (deg/2) in radians — same qz builder as plain Q/E below
+        const qz: Quat = { x: 0, y: 0, z: Math.sin(half), w: Math.cos(half) };
+
+        const { palbox } = findPalbox(allObjects);
+        const pivot = palbox
+          ? { x: palbox.position.x, y: palbox.position.y }
+          : {
+              x: Math.round((selected.reduce((s, o) => s + o.position.x, 0) / selected.length) / 200) * 200,
+              y: Math.round((selected.reduce((s, o) => s + o.position.y, 0) / selected.length) / 200) * 200,
+            };
+
+        const rad = (deg * Math.PI) / 180;
+        const cos = Math.cos(rad);
+        const sin = Math.sin(rad);
+        const groupEdits: TransformEdit[] = selected.map((o) => {
+          const relX = o.position.x - pivot.x;
+          const relY = o.position.y - pivot.y;
+          return {
+            id: o.id,
+            position: {
+              x: pivot.x + relX * cos - relY * sin,
+              y: pivot.y + relX * sin + relY * cos,
+              z: o.position.z, // z stays — pivot rotation is about the vertical axis only
+            },
+            rotation: quatMultiply(qz, o.rotation),
+          };
+        });
+        transformObjects(groupEdits); // one call = one undo step for the whole selection
+        return;
       }
 
       const { objects, selection } = useEditorStore.getState();
