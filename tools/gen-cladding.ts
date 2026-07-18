@@ -26,6 +26,10 @@ if (!inPath || !planPath || !outPath) {
 // exports as Ancient_*; SF_* is a different kit). Parameterized 2026-07-18.
 const CLAD_WALL = cladTypeArg ?? "SF_wall";
 const CAP_ROOF = capTypeArg ?? "Glass_roof";
+// 6th arg "lining": also place a second CLAD_WALL on every cladding cell,
+// rotated 180°, so the finished wall face shows on the channel's inside too
+// (in-game double-walling: two walls back-to-back on one edge).
+const LINING = process.argv[7] === "lining";
 
 const DONORS = (donorsJson as unknown as { donors: DonorLibrary }).donors;
 const GRID = 400;
@@ -63,13 +67,26 @@ const FACES: Record<string, { out: { x: number; y: number }; lat: { x: number; y
 };
 
 // Dedup against walls/roofs already in the file (hand-placed rows, reruns).
+// Wall keys include the facing quadrant: two walls may legitimately share an
+// edge back-to-back (outer face + inner lining), so position alone is not
+// identity for walls. Roofs stay position-only.
+const yawQuadrant = (rot: { z: number; w: number }) => {
+  const yawDeg = (2 * Math.atan2(rot.z, rot.w) * 180) / Math.PI;
+  return ((Math.round(yawDeg / 90) % 4) + 4) % 4;
+};
+const posKey = (p: { x: number; y: number; z: number }) =>
+  `${Math.round(p.x / 50)},${Math.round(p.y / 50)},${Math.round(p.z / 50)}`;
 const existing = new Set(
   objects
     .filter((o) => {
       const t = o.typeId.toLowerCase();
       return t.includes("wall") || t.includes("roof");
     })
-    .map((o) => `${Math.round(o.position.x / 50)},${Math.round(o.position.y / 50)},${Math.round(o.position.z / 50)}`)
+    .map((o) =>
+      o.typeId.toLowerCase().includes("wall")
+        ? `${posKey(o.position)}:${yawQuadrant(o.rotation)}`
+        : posKey(o.position)
+    )
 );
 
 const plan: Record<string, string[][]> = JSON.parse(readFileSync(planPath, "utf8"));
@@ -92,22 +109,42 @@ for (const [face, def] of Object.entries(FACES)) {
         y: P.y + def.out.y * off + def.lat.y * lat,
         z: P.z + level * V,
       };
-      const key = `${Math.round(pos.x / 50)},${Math.round(pos.y / 50)},${Math.round(pos.z / 50)}`;
-      if (existing.has(key)) {
+      const rot = qz(def.yawOff);
+      const key = `${posKey(pos)}:${yawQuadrant(rot)}`;
+      if (!existing.has(key)) {
+        existing.add(key);
+        placed.push({
+          id: mintGuid(),
+          typeId,
+          position: pos,
+          rotation: rot,
+          scale: { x: 1, y: 1, z: 1 },
+          origin: "placed",
+        });
+        if (cell === "G") c.glass++;
+        else c.sf++;
+      } else {
         c.skipped++;
-        continue;
       }
-      existing.add(key);
-      placed.push({
-        id: mintGuid(),
-        typeId,
-        position: pos,
-        rotation: qz(def.yawOff),
-        scale: { x: 1, y: 1, z: 1 },
-        origin: "placed",
-      });
-      if (cell === "G") c.glass++;
-      else c.sf++;
+      // Inner lining: a back-to-back second wall on every cladding cell,
+      // facing the channel interior. Placed even when the outer wall already
+      // existed (topping up a previously generated facade).
+      if (LINING && cell === "B") {
+        const lrot = qz(def.yawOff + 180);
+        const lkey = `${posKey(pos)}:${yawQuadrant(lrot)}`;
+        if (!existing.has(lkey)) {
+          existing.add(lkey);
+          placed.push({
+            id: mintGuid(),
+            typeId: CLAD_WALL,
+            position: pos,
+            rotation: lrot,
+            scale: { x: 1, y: 1, z: 1 },
+            origin: "placed",
+          });
+          (c as any).lining = ((c as any).lining ?? 0) + 1;
+        }
+      }
     }
   }
   counts[face] = c;
@@ -130,14 +167,17 @@ for (const [face, def] of Object.entries(FACES)) {
       y: P.y + def.out.y * ox + def.lat.y * lx,
       z,
     };
-    const key = `${Math.round(pos.x / 50)},${Math.round(pos.y / 50)},${Math.round(pos.z / 50)}`;
+    const rot = qz(yawDeg);
+    const key = typeId.toLowerCase().includes("wall")
+      ? `${posKey(pos)}:${yawQuadrant(rot)}`
+      : posKey(pos);
     if (existing.has(key)) return false;
     existing.add(key);
     placed.push({
       id: mintGuid(),
       typeId,
       position: pos,
-      rotation: qz(yawDeg),
+      rotation: rot,
       scale: { x: 1, y: 1, z: 1 },
       origin: "placed",
     });
