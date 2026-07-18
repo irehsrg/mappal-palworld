@@ -21,8 +21,9 @@ coverage/
 # generated round-trip artifacts
 calibration_01_roundtrip.json
 
-# locally extracted game assets — never committed
+# locally extracted game assets ï¿½ never committed
 assets-local/
 
 # editor work-in-progress checkpoints
 wip/
+.vercel
