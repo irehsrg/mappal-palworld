@@ -12,6 +12,7 @@ import { GRID_PITCH, VERTICAL_PITCH, type Quat } from "../model/types";
 import { localAxesFromYaw, quatMultiply, yawFromQuat } from "./coords";
 import { findPalbox } from "./campGeometry";
 import { usePlaceModeStore } from "./placeModeStore";
+import { flyCameraState } from "./flyCameraState";
 
 function isTypingTarget(target: EventTarget | null): boolean {
   const el = target as HTMLElement | null;
@@ -35,6 +36,20 @@ export function useKeyboardControls(): void {
 
     function onKeyDown(e: KeyboardEvent) {
       if (isTypingTarget(e.target)) return;
+
+      // RMB flythrough (FlyCamera.tsx, rendered inside <Canvas> — this hook
+      // lives outside it and shares state only via flyCameraState.ts) owns
+      // WASD/Q/E while actively flying: W/A/S/D have no binding of their own
+      // here, but Q/E do (in-place rotate below, and Shift+Q/E group-rotate
+      // above that) and must not fire alongside camera movement. Checked
+      // first and unconditionally for these keys — flight input wins outright
+      // while flying, per the task brief — everything else (Escape, Delete,
+      // Ctrl+Z, arrows, PageUp/Down, R, Tab, Ctrl+D/A) is untouched and keeps
+      // working normally even mid-flight.
+      if (flyCameraState.isFlying) {
+        const k = e.key.toLowerCase();
+        if (k === "w" || k === "a" || k === "s" || k === "d" || k === "q" || k === "e") return;
+      }
 
       // Undo/redo and duplicate don't require a live selection read below,
       // but reading fresh state via getState() (rather than closing over

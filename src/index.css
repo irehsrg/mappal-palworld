@@ -515,6 +515,28 @@ body,
   user-select: none;
 }
 
+/* --------------------------------------------------------------- Fly camera */
+
+/* Speed hint shown briefly on scroll while right-drag-flying (FlyCamera.tsx)
+   — a plain fixed-position DOM overlay mutated directly from JS (same
+   technique as MarqueeSelect.tsx's drag rectangle), not React-rendered, so a
+   burst of wheel events never forces a render. */
+.fly-speed-hint {
+  position: fixed;
+  left: 16px;
+  bottom: 16px;
+  z-index: 10;
+  padding: 4px 10px;
+  background: rgba(20, 22, 26, 0.85);
+  border: 1px solid #5be3ff;
+  border-radius: 10px;
+  color: #5be3ff;
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  pointer-events: none;
+  user-select: none;
+}
+
 .object-label {
   padding: 2px 6px;
   background: rgba(20, 22, 26, 0.85);

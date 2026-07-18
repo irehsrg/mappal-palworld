@@ -26,6 +26,7 @@ import { ObjectBox } from "./ObjectBox";
 import { RadiusRing } from "./RadiusRing";
 import { MarqueeSelect } from "./MarqueeSelect";
 import { PlaceMode } from "./PlaceMode";
+import { FlyCamera } from "./FlyCamera";
 import { usePlaceModeStore } from "./placeModeStore";
 import { computeStampFill, stampModeFromModifiers } from "./arrayStamp";
 
@@ -90,7 +91,21 @@ export function Scene() {
     <Canvas
       // High top-down-ish default angle, looking roughly at the recentred
       // base origin (OrbitControls' default target is [0,0,0]).
-      camera={{ position: [14, 16, 14], fov: 50 }}
+      //
+      // near/far explicit (fly-camera task): near 0.05 so flying up against
+      // interior cladding clips cleanly instead of the near plane visibly
+      // popping through geometry; far 5000 so a mega-base's full extent never
+      // vanishes. Investigated the "apparent zoom cap on a large scene" from
+      // an earlier session: neither OrbitControls nor this file ever set
+      // maxDistance/far explicitly before, so both silently fell back to
+      // three.js's OWN PerspectiveCamera constructor default of far=2000 (m,
+      // since UNIT_SCALE=0.01 makes these units metres) — not an intentional
+      // limit anywhere. OrbitControls itself has no distance cap (maxDistance
+      // defaults to Infinity); dollying out past ~2000m just pushed the
+      // camera beyond its own far plane, which clips (hides) everything and
+      // reads exactly like a zoom cap even though the control itself never
+      // stopped moving. 5000 gives real headroom over any base's radius.
+      camera={{ position: [14, 16, 14], fov: 50, near: 0.05, far: 5000 }}
       onPointerDown={(e) => {
         pointerDownPos.current = { x: e.clientX, y: e.clientY };
       }}
@@ -172,6 +187,13 @@ export function Scene() {
           (onPointerMissed) and in ObjectBox.tsx, not here — see PlaceMode.tsx
           header. */}
       <PlaceMode objects={objects} centroidThree={centroidThree} />
+
+      {/* Unity-SceneView-style RMB flythrough (task brief) — disables
+          OrbitControls for the duration of the hold and hands it back a
+          sensible target on release. See FlyCamera.tsx header for the full
+          interaction model and why WASD/Q/E are safe to hand it exclusively
+          while flying (useKeyboardControls.ts defers via flyCameraState.ts). */}
+      <FlyCamera />
 
       <OrbitControls makeDefault />
     </Canvas>

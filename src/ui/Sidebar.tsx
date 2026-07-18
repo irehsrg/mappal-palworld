@@ -158,6 +158,7 @@ function WarningsSection() {
 
 function KeyboardCheatSheet() {
   const shortcuts: [string, string][] = [
+    ["Hold right-drag", "Fly (WASD move, Q/E down/up, Shift fast, scroll speed)"],
     ["Click / Shift-click", "Select / add to selection"],
     ["Click empty space", "Clear selection"],
     ["Arrow keys", "Nudge 1 grid unit (400cm) along selection's local axes"],
