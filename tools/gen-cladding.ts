@@ -41,11 +41,18 @@ const qz = (deg: number) => {
 };
 
 // face -> outward axis (unit), lateral axis for increasing column, wall yaw offset (deg)
+// Lateral axes carry the plan's viewed-from-OUTSIDE column order. The rule
+// that makes corners pair (face A's RIGHT edge meets face B's LEFT edge when
+// walking around the building) is a clockwise walk viewed from above:
+//   north: cols run +r   east: cols run -f   south: cols run -r   west: +f
+// The first attempt wound east/west the other way and adjacent faces' corner
+// spike columns landed apart instead of back-to-back (user-verified
+// 2026-07-18).
 const FACES: Record<string, { out: { x: number; y: number }; lat: { x: number; y: number }; yawOff: number }> = {
   north: { out: { x: f.x, y: f.y }, lat: { x: r.x, y: r.y }, yawOff: 180 },
   south: { out: { x: -f.x, y: -f.y }, lat: { x: -r.x, y: -r.y }, yawOff: 0 },
-  east: { out: { x: r.x, y: r.y }, lat: { x: f.x, y: f.y }, yawOff: 90 },
-  west: { out: { x: -r.x, y: -r.y }, lat: { x: -f.x, y: -f.y }, yawOff: 270 },
+  east: { out: { x: r.x, y: r.y }, lat: { x: -f.x, y: -f.y }, yawOff: 90 },
+  west: { out: { x: -r.x, y: -r.y }, lat: { x: f.x, y: f.y }, yawOff: 270 },
 };
 
 // Dedup against walls already in the file (e.g. hand-placed glass ring rows).
