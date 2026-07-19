@@ -597,6 +597,18 @@ body,
   font-size: 13px;
 }
 
+.drop-zone__hint {
+  margin-top: 20px;
+  max-width: 360px;
+  color: #8b909a;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.drop-zone__hint a {
+  color: #5b8def;
+}
+
 /* ---------------------------------------------------------- AutosaveBanner */
 
 .autosave-banner {

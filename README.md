@@ -44,10 +44,27 @@ JSON. Schema understanding builds on the GVAS structure work in
 ## Status
 
 v0.1 — the full loop (load → edit → export → PST import → verified in-game)
-works. Editing is transform-only: you can move, rotate, duplicate, and delete
-objects that exist in the blueprint, but not place new object types from a
-palette (that's Phase 2, see `CLAUDE.md`). Derived format ground truth lives
-in `docs/CALIBRATION.md`.
+works, including placing *new* objects from a palette of 350+ donor types
+(cloned from real exports, not synthesized from scratch — see `CLAUDE.md`
+§6). Derived format ground truth lives in `docs/CALIBRATION.md`.
+
+## Known limitations
+
+- **No terrain.** There's no heightmap — the ground plane is a flat grid, not
+  your actual landscape. Your existing foundations are the elevation
+  reference; there's nothing to snap new pieces to the terrain itself.
+- **Palette placement is donor-limited.** You can only place object types
+  that have been harvested from a real export at least once. Missing a type
+  you need? Export a base that has it and open a GitHub issue with the file —
+  that's literally how the palette grows.
+- **Desktop, WebGL browser required.** No mobile/touch support. Tested on
+  Chrome; other Chromium/Firefox browsers should work but haven't been
+  checked as thoroughly.
+- **"Build limit: unknown" is intentional, not broken.** The game enforces a
+  build cap we haven't derived yet, so the header says so honestly instead of
+  guessing — see the guardrails note in `CLAUDE.md` §5.
+- **Large files can be slow to drag-and-drop through some tools/OSes**, but
+  the editor itself has been tested with 1000+ object bases without issue.
 
 ## Development
 

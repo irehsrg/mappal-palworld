@@ -68,6 +68,17 @@ export function DropZone() {
       <button type="button" onClick={() => fileInputRef.current?.click()}>
         Choose file
       </button>
+      <p className="drop-zone__hint">
+        Don't have one? Export a base with{" "}
+        <a
+          href="https://github.com/deafdudecomputers/PalworldSaveTools"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          PalworldSaveTools
+        </a>{" "}
+        first — Map Viewer → right-click your base → Export Base.
+      </p>
       <input
         ref={fileInputRef}
         type="file"
