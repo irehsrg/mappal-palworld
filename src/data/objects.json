@@ -3566,6 +3566,106 @@
         30
       ],
       "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "SphereFactory_Black_01": {
+      "name": "Sphere Factory Black 01",
+      "category": "production",
+      "size": [
+        171.026106,
+        259.342584,
+        95
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "ElectricCooler": {
+      "name": "Electric Cooler",
+      "category": "decor",
+      "size": [
+        540,
+        540,
+        95
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "ElectricGenerator_Large": {
+      "name": "Electric Generator Large",
+      "category": "decor",
+      "size": [
+        500,
+        500,
+        95
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "Clinic": {
+      "name": "Clinic",
+      "category": "decor",
+      "size": [
+        254.992382,
+        297.344696,
+        138.996086
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "ElectricHeater": {
+      "name": "Electric Heater",
+      "category": "decor",
+      "size": [
+        540,
+        540,
+        95
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "Ancient_Spa": {
+      "name": "Ancient Spa",
+      "category": "production",
+      "size": [
+        300,
+        300,
+        150
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Ancient_Clinic": {
+      "name": "Ancient Clinic",
+      "category": "decor",
+      "size": [
+        254.992382,
+        297.344696,
+        138.996086
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "Spa2": {
+      "name": "Spa2",
+      "category": "production",
+      "size": [
+        300,
+        300,
+        150
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Spa3": {
+      "name": "Spa3",
+      "category": "production",
+      "size": [
+        300,
+        300,
+        150
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Stonepit": {
+      "name": "Stonepit",
+      "category": "production",
+      "size": [
+        640,
+        820,
+        200
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
     }
   }
 }

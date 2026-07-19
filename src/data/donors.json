@@ -359,9 +359,19 @@
    "SF_TriangleStairsCorner": "fixtures/sampler_04.json",
    "SF_SlopedRoofCornerReverse": "fixtures/sampler_04.json",
    "SF_SlantedRoof": "fixtures/sampler_04.json",
-   "SF_PyramidRoof": "fixtures/sampler_04.json"
+   "SF_PyramidRoof": "fixtures/sampler_04.json",
+   "SphereFactory_Black_01": "fixtures/sampler_05.json",
+   "ElectricCooler": "fixtures/sampler_05.json",
+   "ElectricGenerator_Large": "fixtures/sampler_05.json",
+   "Clinic": "fixtures/sampler_05.json",
+   "ElectricHeater": "fixtures/sampler_05.json",
+   "Ancient_Spa": "fixtures/sampler_05.json",
+   "Ancient_Clinic": "fixtures/sampler_05.json",
+   "Spa2": "fixtures/sampler_05.json",
+   "Spa3": "fixtures/sampler_05.json",
+   "Stonepit": "fixtures/sampler_05.json"
   },
-  "harvestedAt": "2026-07-18T20:45:21.610Z"
+  "harvestedAt": "2026-07-19T15:30:27.537Z"
  },
  "donors": {
   "Wooden_foundation": {
@@ -120038,6 +120048,3752 @@
    },
    "works": [],
    "item_containers": []
+  },
+  "SphereFactory_Black_01": {
+   "map_object": {
+    "MapObjectId": {
+     "id": null,
+     "value": "SphereFactory_Black_01",
+     "type": "NameProperty"
+    },
+    "Model": {
+     "struct_type": "PalMapObjectModelSaveData",
+     "struct_id": "00000000-0000-0000-0000-000000000000",
+     "id": null,
+     "value": {
+      "BuildProcess": {
+       "struct_type": "PalMapObjectBuildProcessSaveData",
+       "struct_id": "00000000-0000-0000-0000-000000000000",
+       "id": null,
+       "value": {
+        "RawData": {
+         "array_type": "ByteProperty",
+         "id": null,
+         "value": {
+          "state": 1,
+          "id": "00000000-0000-0000-0000-000000000000",
+          "trailing_bytes": {
+           "~b": "AAAAAA=="
+          }
+         },
+         "type": "ArrayProperty"
+        },
+        "CustomVersionData": {
+         "array_type": "ByteProperty",
+         "id": null,
+         "value": {
+          "values": {
+           "~b": "AQAAADgLAN5JSdfOl98tmcDBw2kBAAAA"
+          }
+         },
+         "type": "ArrayProperty"
+        }
+       },
+       "type": "StructProperty"
+      },
+      "Connector": {
+       "struct_type": "PalMapObjectConnectorSaveData",
+       "struct_id": "00000000-0000-0000-0000-000000000000",
+       "id": null,
+       "value": {
+        "RawData": {
+         "array_type": "ByteProperty",
+         "id": null,
+         "value": {
+          "supported_level": -1,
+          "connect": {
+           "index": 254,
+           "any_place": [
+            {
+             "connect_to_model_instance_id": "043ddbc7-4b96-f5b7-e428-1784c0c54639",
+             "index": 254
+            }
+           ]
+          },
+          "unknown_bytes": [
+           0,
+           0,
+           0,
+           0
+          ]
+         },
+         "type": "ArrayProperty"
+        },
+        "CustomVersionData": {
+         "array_type": "ByteProperty",
+         "id": null,
+         "value": {
+          "values": {
+           "~b": "AQAAADgLAN5JSdfOl98tmcDBw2kBAAAA"
+          }
+         },
+         "type": "ArrayProperty"
+        }
+       },
+       "type": "StructProperty"
+      },
+      "EffectMap": {
+       "key_type": "EnumProperty",
+       "value_type": "StructProperty",
+       "key_struct_type": null,
+       "value_struct_type": "StructProperty",
+       "id": null,
+       "value": [],
+       "type": "MapProperty"
+      },
+      "Paint": {
+       "struct_type": "PalMapObjectPaintSaveData",
+       "struct_id": "00000000-0000-0000-0000-000000000000",
+       "id": null,
+       "value": {
+        "RawData": {
+         "array_type": "ByteProperty",
+         "id": null,
+         "value": {
+          "values": {
+           "~b": ""
+          }
+         },
+         "type": "ArrayProperty"
+        },
+        "CustomVersionData": {
+         "array_type": "ByteProperty",
+         "id": null,
+         "value": {
+          "values": {
+           "~b": ""
+          }
+         },
+         "type": "ArrayProperty"
+        }
+       },
+       "type": "StructProperty"
+      },
+      "RawData": {
+       "array_type": "ByteProperty",
+       "id": null,
+       "value": {
+        "instance_id": "f12ad690-4e32-c196-f147-c694404a5e01",
+        "concrete_model_instance_id": "61eab822-45f8-b1de-5680-2d88ebb1e3c1",
+        "base_camp_id_belong_to": "1412334b-4fe4-0581-10eb-1eb4c99e7f44",
+        "group_id_belong_to": "d567c4aa-40be-b199-c9cc-c0a53389c1c8",
+        "hp": {
+         "current": 2000,
+         "max": 2000
+        },
+        "initital_transform_cache": {
+         "rotation": {
+          "x": -0.000006617746488472769,
+          "y": -0.0000081030527827761,
+          "z": -0.9967481459264607,
+          "w": 0.0805799818981672
+         },
+         "translation": {
+          "x": -297373.26383307885,
+          "y": 252199.99207495808,
+          "z": -1082.152599286016
+         },
+         "scale3d": {
+          "x": 1,
+          "y": 1,
+          "z": 1
+         }
+        },
+        "repair_work_id": "00000000-0000-0000-0000-000000000000",
+        "owner_spawner_level_object_instance_id": "00000000-0000-0000-0000-000000000000",
+        "owner_instance_id": "00000000-0000-0000-0000-000000000000",
+        "build_player_uid": "00000000-0000-0000-0000-000000000001",
+        "interact_restrict_type": 1,
+        "deterioration_damage": 0,
+        "stage_instance_id_belong_to": {
+         "id": "00000000-0000-0000-0000-000000000000",
+         "valid": 3962489216
+        },
+        "unknown_bytes": [
+         229,
+         0,
+         0,
+         0,
+         160,
+         124,
+         11,
+         51,
+         4,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0
+        ]
+       },
+       "type": "ArrayProperty"
+      },
+      "CustomVersionData": {
+       "array_type": "ByteProperty",
+       "id": null,
+       "value": {
+        "values": {
+         "~b": "AgAAAMJrb2PZTsTVCMQ6mWKLnkEDAAAAOAsA3klJ186X3y2ZwMHDaQEAAAA="
+        }
+       },
+       "type": "ArrayProperty"
+      }
+     },
+     "type": "StructProperty"
+    },
+    "ConcreteModel": {
+     "struct_type": "PalMapObjectConcreteModelSaveData",
+     "struct_id": "00000000-0000-0000-0000-000000000000",
+     "id": null,
+     "value": {
+      "ModuleMap": {
+       "key_type": "EnumProperty",
+       "value_type": "StructProperty",
+       "key_struct_type": null,
+       "value_struct_type": "StructProperty",
+       "id": null,
+       "value": [
+        {
+         "key": "EPalMapObjectConcreteModelModuleType::ItemContainer",
+         "value": {
+          "RawData": {
+           "array_type": "ByteProperty",
+           "id": null,
+           "value": {
+            "target_container_id": "5caacdb4-4a3e-c6dc-7c5d-33bdd8f6a893",
+            "slot_attribute_indexes": [
+             {
+              "attribute": 2,
+              "indexes": [
+               5
+              ]
+             },
+             {
+              "attribute": 4,
+              "indexes": [
+               5
+              ]
+             },
+             {
+              "attribute": 1,
+              "indexes": [
+               0,
+               1,
+               2,
+               3,
+               4
+              ]
+             }
+            ],
+            "all_slot_attribute": [],
+            "drop_item_at_disposed": true,
+            "usage_type": 0,
+            "trailing_bytes": {
+             "~b": "AAAAAA=="
+            }
+           },
+           "type": "ArrayProperty"
+          },
+          "CustomVersionData": {
+           "array_type": "ByteProperty",
+           "id": null,
+           "value": {
+            "values": {
+             "~b": "AQAAADgLAN5JSdfOl98tmcDBw2kBAAAA"
+            }
+           },
+           "type": "ArrayProperty"
+          }
+         }
+        },
+        {
+         "key": "EPalMapObjectConcreteModelModuleType::Workee",
+         "value": {
+          "RawData": {
+           "array_type": "ByteProperty",
+           "id": null,
+           "value": {
+            "target_work_id": "a89a6336-46fd-1d53-92cb-8abd3e1b0e28",
+            "trailing_bytes": {
+             "~b": "AAAAAA=="
+            }
+           },
+           "type": "ArrayProperty"
+          },
+          "CustomVersionData": {
+           "array_type": "ByteProperty",
+           "id": null,
+           "value": {
+            "values": {
+             "~b": "AQAAADgLAN5JSdfOl98tmcDBw2kBAAAA"
+            }
+           },
+           "type": "ArrayProperty"
+          }
+         }
+        },
+        {
+         "key": "EPalMapObjectConcreteModelModuleType::Energy",
+         "value": {
+          "RawData": {
+           "array_type": "ByteProperty",
+           "id": null,
+           "value": {
+            "values": []
+           },
+           "type": "ArrayProperty"
+          },
+          "CustomVersionData": {
+           "array_type": "ByteProperty",
+           "id": null,
+           "value": {
+            "values": {
+             "~b": "AAAAAA=="
+            }
+           },
+           "type": "ArrayProperty"
+          }
+         }
+        }
+       ],
+       "type": "MapProperty"
+      },
+      "RawData": {
+       "array_type": "ByteProperty",
+       "id": null,
+       "value": {
+        "instance_id": "61eab822-45f8-b1de-5680-2d88ebb1e3c1",
+        "model_instance_id": "f12ad690-4e32-c196-f147-c694404a5e01",
+        "concrete_model_type": "PalMapObjectConvertItemModel",
+        "leading_bytes": {
+         "~b": "AAAAAA=="
+        },
+        "current_recipe_id": "None",
+        "requested_product_num": 0,
+        "remain_product_num": 0,
+        "work_speed_additional_rate": 1.5,
+        "trailing_bytes": {
+         "~b": "AAAAAAAAAAA="
+        }
+       },
+       "type": "ArrayProperty"
+      },
+      "CustomVersionData": {
+       "array_type": "ByteProperty",
+       "id": null,
+       "value": {
+        "values": {
+         "~b": "AQAAADgLAN5JSdfOl98tmcDBw2kBAAAA"
+        }
+       },
+       "type": "ArrayProperty"
+      }
+     },
+     "type": "StructProperty"
+    }
+   },
+   "works": [
+    {
+     "WorkableType": {
+      "id": null,
+      "value": {
+       "type": "EPalWorkableType",
+       "value": "EPalWorkableType::Progress"
+      },
+      "type": "EnumProperty"
+     },
+     "WorkAssignMap": {
+      "key_type": "IntProperty",
+      "value_type": "StructProperty",
+      "key_struct_type": null,
+      "value_struct_type": "StructProperty",
+      "id": null,
+      "value": [],
+      "type": "MapProperty"
+     },
+     "RawData": {
+      "array_type": "ByteProperty",
+      "id": null,
+      "value": {
+       "id": "a89a6336-46fd-1d53-92cb-8abd3e1b0e28",
+       "workable_bounds": {
+        "location": {
+         "x": 0,
+         "y": 0,
+         "z": 50
+        },
+        "rotation": {
+         "x": 0,
+         "y": 0,
+         "z": 0,
+         "w": 1
+        },
+        "box_sphere_bounds": {
+         "origin": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+         },
+         "box_extent": {
+          "x": 85.513053,
+          "y": 129.671292,
+          "z": 47.5
+         },
+         "sphere_radius": 162.42960383603128
+        }
+       },
+       "base_camp_id_belong_to": "1412334b-4fe4-0581-10eb-1eb4c99e7f44",
+       "owner_map_object_model_id": "f12ad690-4e32-c196-f147-c694404a5e01",
+       "owner_map_object_concrete_model_id": "61eab822-45f8-b1de-5680-2d88ebb1e3c1",
+       "current_state": 1,
+       "assign_locations": [
+        {
+         "location": {
+          "x": 64.357166,
+          "y": 0,
+          "z": 23
+         },
+         "facing_direction": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+         }
+        }
+       ],
+       "behaviour_type": 0,
+       "assign_define_data_id": "SphereFactory_Black_01_0",
+       "override_work_type": 12,
+       "assignable_fixed_type": 0,
+       "assignable_otomo": true,
+       "can_trigger_worker_event": true,
+       "can_steal_assign": true,
+       "required_work_amount": 0,
+       "current_work_amount": -1,
+       "work_exp": 0,
+       "work_exp_calc_type": 2,
+       "auto_work_self_amount_by_sec": 0,
+       "progress_time_since_last_tick": 0,
+       "tick_process_min_interval": 0,
+       "transform": {
+        "type": 2,
+        "map_object_instance_id": "f12ad690-4e32-c196-f147-c694404a5e01",
+        "trailing_bytes": {
+         "~b": "AAAAAAAAAAA="
+        }
+       }
+      },
+      "type": "ArrayProperty"
+     },
+     "CustomVersionData": {
+      "array_type": "ByteProperty",
+      "id": null,
+      "value": {
+       "values": {
+        "~b": "AgAAADgLAN5JSdfOl98tmcDBw2kBAAAA2SXAA/JOiNgTh/qwxwbmagEAAAA="
+       }
+      },
+      "type": "ArrayProperty"
+     }
+    }
+   ],
+   "item_containers": [
+    {
+     "key": {
+      "ID": {
+       "struct_type": "Guid",
+       "struct_id": "00000000-0000-0000-0000-000000000000",
+       "id": null,
+       "value": "5caacdb4-4a3e-c6dc-7c5d-33bdd8f6a893",
+       "type": "StructProperty"
+      }
+     },
+     "value": {
+      "BelongInfo": {
+       "struct_type": "PalItemContainerBelongInfo",
+       "struct_id": "00000000-0000-0000-0000-000000000000",
+       "id": null,
+       "value": {
+        "GroupId": {
+         "struct_type": "Guid",
+         "struct_id": "00000000-0000-0000-0000-000000000000",
+         "id": null,
+         "value": "00000000-0000-0000-0000-000000000000",
+         "type": "StructProperty"
+        },
+        "bControllableOthers": {
+         "value": false,
+         "id": null,
+         "type": "BoolProperty"
+        }
+       },
+       "type": "StructProperty"
+      },
+      "Slots": {
+       "array_type": "StructProperty",
+       "id": null,
+       "value": {
+        "prop_name": "Slots",
+        "prop_type": "StructProperty",
+        "values": [],
+        "type_name": "PalItemSlotSaveData",
+        "id": "00000000-0000-0000-0000-000000000000"
+       },
+       "type": "ArrayProperty"
+      },
+      "SlotNum": {
+       "id": null,
+       "value": 6,
+       "type": "IntProperty"
+      },
+      "RawData": {
+       "array_type": "ByteProperty",
+       "id": null,
+       "value": {
+        "permission": {
+         "type_a": [],
+         "type_b": [],
+         "item_static_ids": []
+        },
+        "trailing_unparsed_data": [
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0
+        ]
+       },
+       "type": "ArrayProperty",
+       "__skip__": false,
+       "custom_type": ".worldSaveData.ItemContainerSaveData.Value.RawData"
+      },
+      "CustomVersionData": {
+       "array_type": "ByteProperty",
+       "id": null,
+       "value": {
+        "values": {
+         "~b": "AgAAADgLAN5JSdfOl98tmcDBw2kBAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAA="
+        }
+       },
+       "type": "ArrayProperty"
+      }
+     }
+    }
+   ]
+  },
+  "ElectricCooler": {
+   "map_object": {
+    "MapObjectId": {
+     "id": null,
+     "value": "ElectricCooler",
+     "type": "NameProperty"
+    },
+    "Model": {
+     "struct_type": "PalMapObjectModelSaveData",
+     "struct_id": "00000000-0000-0000-0000-000000000000",
+     "id": null,
+     "value": {
+      "BuildProcess": {
+       "struct_type": "PalMapObjectBuildProcessSaveData",
+       "struct_id": "00000000-0000-0000-0000-000000000000",
+       "id": null,
+       "value": {
+        "RawData": {
+         "array_type": "ByteProperty",
+         "id": null,
+         "value": {
+          "state": 1,
+          "id": "00000000-0000-0000-0000-000000000000",
+          "trailing_bytes": {
+           "~b": "AAAAAA=="
+          }
+         },
+         "type": "ArrayProperty"
+        },
+        "CustomVersionData": {
+         "array_type": "ByteProperty",
+         "id": null,
+         "value": {
+          "values": {
+           "~b": "AQAAADgLAN5JSdfOl98tmcDBw2kBAAAA"
+          }
+         },
+         "type": "ArrayProperty"
+        }
+       },
+       "type": "StructProperty"
+      },
+      "Connector": {
+       "struct_type": "PalMapObjectConnectorSaveData",
+       "struct_id": "00000000-0000-0000-0000-000000000000",
+       "id": null,
+       "value": {
+        "RawData": {
+         "array_type": "ByteProperty",
+         "id": null,
+         "value": {
+          "supported_level": -1,
+          "connect": {
+           "index": 254,
+           "any_place": [
+            {
+             "connect_to_model_instance_id": "a94d753c-4a1d-0403-66e3-278b08097dae",
+             "index": 254
+            }
+           ]
+          },
+          "unknown_bytes": [
+           0,
+           0,
+           0,
+           0
+          ]
+         },
+         "type": "ArrayProperty"
+        },
+        "CustomVersionData": {
+         "array_type": "ByteProperty",
+         "id": null,
+         "value": {
+          "values": {
+           "~b": "AQAAADgLAN5JSdfOl98tmcDBw2kBAAAA"
+          }
+         },
+         "type": "ArrayProperty"
+        }
+       },
+       "type": "StructProperty"
+      },
+      "EffectMap": {
+       "key_type": "EnumProperty",
+       "value_type": "StructProperty",
+       "key_struct_type": null,
+       "value_struct_type": "StructProperty",
+       "id": null,
+       "value": [],
+       "type": "MapProperty"
+      },
+      "Paint": {
+       "struct_type": "PalMapObjectPaintSaveData",
+       "struct_id": "00000000-0000-0000-0000-000000000000",
+       "id": null,
+       "value": {
+        "RawData": {
+         "array_type": "ByteProperty",
+         "id": null,
+         "value": {
+          "values": {
+           "~b": ""
+          }
+         },
+         "type": "ArrayProperty"
+        },
+        "CustomVersionData": {
+         "array_type": "ByteProperty",
+         "id": null,
+         "value": {
+          "values": {
+           "~b": ""
+          }
+         },
+         "type": "ArrayProperty"
+        }
+       },
+       "type": "StructProperty"
+      },
+      "RawData": {
+       "array_type": "ByteProperty",
+       "id": null,
+       "value": {
+        "instance_id": "41d10a75-4314-bef5-225e-0da8ce0bd7f3",
+        "concrete_model_instance_id": "13dc2f7d-4e21-81bb-04c3-ceac167c065b",
+        "base_camp_id_belong_to": "1412334b-4fe4-0581-10eb-1eb4c99e7f44",
+        "group_id_belong_to": "d567c4aa-40be-b199-c9cc-c0a53389c1c8",
+        "hp": {
+         "current": 5000,
+         "max": 5000
+        },
+        "initital_transform_cache": {
+         "rotation": {
+          "x": -0.000008099245245949115,
+          "y": 0.000006622074649659725,
+          "z": -0.9967036285975093,
+          "w": 0.08112876574377371
+         },
+         "translation": {
+          "x": -299500.7969791023,
+          "y": 253101.30673080997,
+          "z": -1732.1522938983849
+         },
+         "scale3d": {
+          "x": 1,
+          "y": 1,
+          "z": 1
+         }
+        },
+        "repair_work_id": "00000000-0000-0000-0000-000000000000",
+        "owner_spawner_level_object_instance_id": "00000000-0000-0000-0000-000000000000",
+        "owner_instance_id": "00000000-0000-0000-0000-000000000000",
+        "build_player_uid": "00000000-0000-0000-0000-000000000001",
+        "interact_restrict_type": 1,
+        "deterioration_damage": 0,
+        "stage_instance_id_belong_to": {
+         "id": "00000000-0000-0000-0000-000000000000",
+         "valid": 855755904
+        },
+        "unknown_bytes": [
+         176,
+         0,
+         0,
+         0,
+         240,
+         15,
+         106,
+         1,
+         3,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0
+        ]
+       },
+       "type": "ArrayProperty"
+      },
+      "CustomVersionData": {
+       "array_type": "ByteProperty",
+       "id": null,
+       "value": {
+        "values": {
+         "~b": "AgAAAMJrb2PZTsTVCMQ6mWKLnkEDAAAAOAsA3klJ186X3y2ZwMHDaQEAAAA="
+        }
+       },
+       "type": "ArrayProperty"
+      }
+     },
+     "type": "StructProperty"
+    },
+    "ConcreteModel": {
+     "struct_type": "PalMapObjectConcreteModelSaveData",
+     "struct_id": "00000000-0000-0000-0000-000000000000",
+     "id": null,
+     "value": {
+      "ModuleMap": {
+       "key_type": "EnumProperty",
+       "value_type": "StructProperty",
+       "key_struct_type": null,
+       "value_struct_type": "StructProperty",
+       "id": null,
+       "value": [
+        {
+         "key": "EPalMapObjectConcreteModelModuleType::Workee",
+         "value": {
+          "RawData": {
+           "array_type": "ByteProperty",
+           "id": null,
+           "value": {
+            "target_work_id": "6a2ead48-4b51-e890-d912-6486a73f1fe2",
+            "trailing_bytes": {
+             "~b": "AAAAAA=="
+            }
+           },
+           "type": "ArrayProperty"
+          },
+          "CustomVersionData": {
+           "array_type": "ByteProperty",
+           "id": null,
+           "value": {
+            "values": {
+             "~b": "AQAAADgLAN5JSdfOl98tmcDBw2kBAAAA"
+            }
+           },
+           "type": "ArrayProperty"
+          }
+         }
+        },
+        {
+         "key": "EPalMapObjectConcreteModelModuleType::Energy",
+         "value": {
+          "RawData": {
+           "array_type": "ByteProperty",
+           "id": null,
+           "value": {
+            "values": []
+           },
+           "type": "ArrayProperty"
+          },
+          "CustomVersionData": {
+           "array_type": "ByteProperty",
+           "id": null,
+           "value": {
+            "values": {
+             "~b": "AAAAAA=="
+            }
+           },
+           "type": "ArrayProperty"
+          }
+         }
+        },
+        {
+         "key": "EPalMapObjectConcreteModelModuleType::Switch",
+         "value": {
+          "RawData": {
+           "array_type": "ByteProperty",
+           "id": null,
+           "value": {
+            "switch_state": 1,
+            "trailing_bytes": {
+             "~b": "AAAAAA=="
+            }
+           },
+           "type": "ArrayProperty"
+          },
+          "CustomVersionData": {
+           "array_type": "ByteProperty",
+           "id": null,
+           "value": {
+            "values": {
+             "~b": "AQAAADgLAN5JSdfOl98tmcDBw2kBAAAA"
+            }
+           },
+           "type": "ArrayProperty"
+          }
+         }
+        }
+       ],
+       "type": "MapProperty"
+      },
+      "RawData": {
+       "array_type": "ByteProperty",
+       "id": null,
+       "value": {
+        "instance_id": "13dc2f7d-4e21-81bb-04c3-ceac167c065b",
+        "model_instance_id": "41d10a75-4314-bef5-225e-0da8ce0bd7f3",
+        "concrete_model_type": "PalMapObjectHeatSourceModel",
+        "trailing_bytes": {
+         "~b": "AAAAAA=="
+        }
+       },
+       "type": "ArrayProperty"
+      },
+      "CustomVersionData": {
+       "array_type": "ByteProperty",
+       "id": null,
+       "value": {
+        "values": {
+         "~b": "AQAAADgLAN5JSdfOl98tmcDBw2kBAAAA"
+        }
+       },
+       "type": "ArrayProperty"
+      }
+     },
+     "type": "StructProperty"
+    }
+   },
+   "works": [
+    {
+     "WorkableType": {
+      "id": null,
+      "value": {
+       "type": "EPalWorkableType",
+       "value": "EPalWorkableType::OnlyJoin"
+      },
+      "type": "EnumProperty"
+     },
+     "WorkAssignMap": {
+      "key_type": "IntProperty",
+      "value_type": "StructProperty",
+      "key_struct_type": null,
+      "value_struct_type": "StructProperty",
+      "id": null,
+      "value": [],
+      "type": "MapProperty"
+     },
+     "RawData": {
+      "array_type": "ByteProperty",
+      "id": null,
+      "value": {
+       "id": "6a2ead48-4b51-e890-d912-6486a73f1fe2",
+       "workable_bounds": {
+        "location": {
+         "x": 0,
+         "y": 0,
+         "z": 50
+        },
+        "rotation": {
+         "x": 0,
+         "y": 0,
+         "z": 0,
+         "w": 1
+        },
+        "box_sphere_bounds": {
+         "origin": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+         },
+         "box_extent": {
+          "x": 270,
+          "y": 270,
+          "z": 47.5
+         },
+         "sphere_radius": 384.7807817446188
+        }
+       },
+       "base_camp_id_belong_to": "1412334b-4fe4-0581-10eb-1eb4c99e7f44",
+       "owner_map_object_model_id": "41d10a75-4314-bef5-225e-0da8ce0bd7f3",
+       "owner_map_object_concrete_model_id": "13dc2f7d-4e21-81bb-04c3-ceac167c065b",
+       "current_state": 2,
+       "assign_locations": [
+        {
+         "location": {
+          "x": 149.744156,
+          "y": 0,
+          "z": 0
+         },
+         "facing_direction": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+         }
+        }
+       ],
+       "behaviour_type": 0,
+       "assign_define_data_id": "ElectricCooler_0",
+       "override_work_type": 0,
+       "assignable_fixed_type": 0,
+       "assignable_otomo": true,
+       "can_trigger_worker_event": true,
+       "can_steal_assign": true,
+       "required_work_amount": 0,
+       "transform": {
+        "type": 2,
+        "map_object_instance_id": "41d10a75-4314-bef5-225e-0da8ce0bd7f3",
+        "trailing_bytes": {
+         "~b": "AAAAAAAAAAA="
+        }
+       }
+      },
+      "type": "ArrayProperty"
+     },
+     "CustomVersionData": {
+      "array_type": "ByteProperty",
+      "id": null,
+      "value": {
+       "values": {
+        "~b": "AQAAADgLAN5JSdfOl98tmcDBw2kBAAAA"
+       }
+      },
+      "type": "ArrayProperty"
+     }
+    }
+   ],
+   "item_containers": []
+  },
+  "ElectricGenerator_Large": {
+   "map_object": {
+    "MapObjectId": {
+     "id": null,
+     "value": "ElectricGenerator_Large",
+     "type": "NameProperty"
+    },
+    "Model": {
+     "struct_type": "PalMapObjectModelSaveData",
+     "struct_id": "00000000-0000-0000-0000-000000000000",
+     "id": null,
+     "value": {
+      "BuildProcess": {
+       "struct_type": "PalMapObjectBuildProcessSaveData",
+       "struct_id": "00000000-0000-0000-0000-000000000000",
+       "id": null,
+       "value": {
+        "RawData": {
+         "array_type": "ByteProperty",
+         "id": null,
+         "value": {
+          "state": 1,
+          "id": "00000000-0000-0000-0000-000000000000",
+          "trailing_bytes": {
+           "~b": "AAAAAA=="
+          }
+         },
+         "type": "ArrayProperty"
+        },
+        "CustomVersionData": {
+         "array_type": "ByteProperty",
+         "id": null,
+         "value": {
+          "values": {
+           "~b": "AQAAADgLAN5JSdfOl98tmcDBw2kBAAAA"
+          }
+         },
+         "type": "ArrayProperty"
+        }
+       },
+       "type": "StructProperty"
+      },
+      "Connector": {
+       "struct_type": "PalMapObjectConnectorSaveData",
+       "struct_id": "00000000-0000-0000-0000-000000000000",
+       "id": null,
+       "value": {
+        "RawData": {
+         "array_type": "ByteProperty",
+         "id": null,
+         "value": {
+          "supported_level": -1,
+          "connect": {
+           "index": 254,
+           "any_place": [
+            {
+             "connect_to_model_instance_id": "cd1c2dcf-40c7-3411-4626-aab792eee224",
+             "index": 254
+            }
+           ]
+          },
+          "unknown_bytes": [
+           0,
+           0,
+           0,
+           0
+          ]
+         },
+         "type": "ArrayProperty"
+        },
+        "CustomVersionData": {
+         "array_type": "ByteProperty",
+         "id": null,
+         "value": {
+          "values": {
+           "~b": "AQAAADgLAN5JSdfOl98tmcDBw2kBAAAA"
+          }
+         },
+         "type": "ArrayProperty"
+        }
+       },
+       "type": "StructProperty"
+      },
+      "EffectMap": {
+       "key_type": "EnumProperty",
+       "value_type": "StructProperty",
+       "key_struct_type": null,
+       "value_struct_type": "StructProperty",
+       "id": null,
+       "value": [],
+       "type": "MapProperty"
+      },
+      "Paint": {
+       "struct_type": "PalMapObjectPaintSaveData",
+       "struct_id": "00000000-0000-0000-0000-000000000000",
+       "id": null,
+       "value": {
+        "RawData": {
+         "array_type": "ByteProperty",
+         "id": null,
+         "value": {
+          "values": {
+           "~b": ""
+          }
+         },
+         "type": "ArrayProperty"
+        },
+        "CustomVersionData": {
+         "array_type": "ByteProperty",
+         "id": null,
+         "value": {
+          "values": {
+           "~b": ""
+          }
+         },
+         "type": "ArrayProperty"
+        }
+       },
+       "type": "StructProperty"
+      },
+      "RawData": {
+       "array_type": "ByteProperty",
+       "id": null,
+       "value": {
+        "instance_id": "7c5bb977-4a92-7529-d721-538cee9df374",
+        "concrete_model_instance_id": "1a3217b8-455f-a6f7-a1cd-cab3a712e460",
+        "base_camp_id_belong_to": "1412334b-4fe4-0581-10eb-1eb4c99e7f44",
+        "group_id_belong_to": "d567c4aa-40be-b199-c9cc-c0a53389c1c8",
+        "hp": {
+         "current": 100000,
+         "max": 100000
+        },
+        "initital_transform_cache": {
+         "rotation": {
+          "x": -0.000008058155411522052,
+          "y": 0.000006672014507137492,
+          "z": -0.9961830787947503,
+          "w": 0.08728844948538325
+         },
+         "translation": {
+          "x": -298932.5945337695,
+          "y": 252373.2957743101,
+          "z": -1732.1529599227665
+         },
+         "scale3d": {
+          "x": 1,
+          "y": 1,
+          "z": 1
+         }
+        },
+        "repair_work_id": "00000000-0000-0000-0000-000000000000",
+        "owner_spawner_level_object_instance_id": "00000000-0000-0000-0000-000000000000",
+        "owner_instance_id": "00000000-0000-0000-0000-000000000000",
+        "build_player_uid": "00000000-0000-0000-0000-000000000001",
+        "interact_restrict_type": 1,
+        "deterioration_damage": 0,
+        "stage_instance_id_belong_to": {
+         "id": "00000000-0000-0000-0000-000000000000",
+         "valid": 4065690496
+        },
+        "unknown_bytes": [
+         174,
+         0,
+         0,
+         0,
+         16,
+         50,
+         72,
+         250,
+         2,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0
+        ]
+       },
+       "type": "ArrayProperty"
+      },
+      "CustomVersionData": {
+       "array_type": "ByteProperty",
+       "id": null,
+       "value": {
+        "values": {
+         "~b": "AgAAAMJrb2PZTsTVCMQ6mWKLnkEDAAAAOAsA3klJ186X3y2ZwMHDaQEAAAA="
+        }
+       },
+       "type": "ArrayProperty"
+      }
+     },
+     "type": "StructProperty"
+    },
+    "ConcreteModel": {
+     "struct_type": "PalMapObjectConcreteModelSaveData",
+     "struct_id": "00000000-0000-0000-0000-000000000000",
+     "id": null,
+     "value": {
+      "ModuleMap": {
+       "key_type": "EnumProperty",
+       "value_type": "StructProperty",
+       "key_struct_type": null,
+       "value_struct_type": "StructProperty",
+       "id": null,
+       "value": [
+        {
+         "key": "EPalMapObjectConcreteModelModuleType::Workee",
+         "value": {
+          "RawData": {
+           "array_type": "ByteProperty",
+           "id": null,
+           "value": {
+            "target_work_id": "f72aebb3-4a3f-7ced-93a2-e2b62f45853c",
+            "trailing_bytes": {
+             "~b": "AAAAAA=="
+            }
+           },
+           "type": "ArrayProperty"
+          },
+          "CustomVersionData": {
+           "array_type": "ByteProperty",
+           "id": null,
+           "value": {
+            "values": {
+             "~b": "AQAAADgLAN5JSdfOl98tmcDBw2kBAAAA"
+            }
+           },
+           "type": "ArrayProperty"
+          }
+         }
+        }
+       ],
+       "type": "MapProperty"
+      },
+      "RawData": {
+       "array_type": "ByteProperty",
+       "id": null,
+       "value": {
+        "instance_id": "1a3217b8-455f-a6f7-a1cd-cab3a712e460",
+        "model_instance_id": "7c5bb977-4a92-7529-d721-538cee9df374",
+        "concrete_model_type": "PalMapObjectGenerateEnergyModel",
+        "generate_energy_rate_by_worker": 0,
+        "stored_energy_amount": 0,
+        "consume_energy_speed": 0
+       },
+       "type": "ArrayProperty"
+      },
+      "CustomVersionData": {
+       "array_type": "ByteProperty",
+       "id": null,
+       "value": {
+        "values": {
+         "~b": "AQAAADgLAN5JSdfOl98tmcDBw2kBAAAA"
+        }
+       },
+       "type": "ArrayProperty"
+      }
+     },
+     "type": "StructProperty"
+    }
+   },
+   "works": [
+    {
+     "WorkableType": {
+      "id": null,
+      "value": {
+       "type": "EPalWorkableType",
+       "value": "EPalWorkableType::OnlyJoin"
+      },
+      "type": "EnumProperty"
+     },
+     "WorkAssignMap": {
+      "key_type": "IntProperty",
+      "value_type": "StructProperty",
+      "key_struct_type": null,
+      "value_struct_type": "StructProperty",
+      "id": null,
+      "value": [],
+      "type": "MapProperty"
+     },
+     "RawData": {
+      "array_type": "ByteProperty",
+      "id": null,
+      "value": {
+       "id": "f72aebb3-4a3f-7ced-93a2-e2b62f45853c",
+       "workable_bounds": {
+        "location": {
+         "x": 0,
+         "y": 0,
+         "z": 50
+        },
+        "rotation": {
+         "x": 0,
+         "y": 0,
+         "z": 0,
+         "w": 1
+        },
+        "box_sphere_bounds": {
+         "origin": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+         },
+         "box_extent": {
+          "x": 250,
+          "y": 250,
+          "z": 47.5
+         },
+         "sphere_radius": 356.7299398704852
+        }
+       },
+       "base_camp_id_belong_to": "1412334b-4fe4-0581-10eb-1eb4c99e7f44",
+       "owner_map_object_model_id": "7c5bb977-4a92-7529-d721-538cee9df374",
+       "owner_map_object_concrete_model_id": "1a3217b8-455f-a6f7-a1cd-cab3a712e460",
+       "current_state": 1,
+       "assign_locations": [],
+       "behaviour_type": 0,
+       "assign_define_data_id": "ElectricGenerator_Large_0",
+       "override_work_type": 0,
+       "assignable_fixed_type": 0,
+       "assignable_otomo": true,
+       "can_trigger_worker_event": true,
+       "can_steal_assign": true,
+       "required_work_amount": 0,
+       "transform": {
+        "type": 2,
+        "map_object_instance_id": "7c5bb977-4a92-7529-d721-538cee9df374",
+        "trailing_bytes": {
+         "~b": "AAAAAAAAAAA="
+        }
+       }
+      },
+      "type": "ArrayProperty"
+     },
+     "CustomVersionData": {
+      "array_type": "ByteProperty",
+      "id": null,
+      "value": {
+       "values": {
+        "~b": "AQAAADgLAN5JSdfOl98tmcDBw2kBAAAA"
+       }
+      },
+      "type": "ArrayProperty"
+     }
+    }
+   ],
+   "item_containers": []
+  },
+  "Clinic": {
+   "map_object": {
+    "MapObjectId": {
+     "id": null,
+     "value": "Clinic",
+     "type": "NameProperty"
+    },
+    "Model": {
+     "struct_type": "PalMapObjectModelSaveData",
+     "struct_id": "00000000-0000-0000-0000-000000000000",
+     "id": null,
+     "value": {
+      "BuildProcess": {
+       "struct_type": "PalMapObjectBuildProcessSaveData",
+       "struct_id": "00000000-0000-0000-0000-000000000000",
+       "id": null,
+       "value": {
+        "RawData": {
+         "array_type": "ByteProperty",
+         "id": null,
+         "value": {
+          "state": 1,
+          "id": "00000000-0000-0000-0000-000000000000",
+          "trailing_bytes": {
+           "~b": "AAAAAA=="
+          }
+         },
+         "type": "ArrayProperty"
+        },
+        "CustomVersionData": {
+         "array_type": "ByteProperty",
+         "id": null,
+         "value": {
+          "values": {
+           "~b": "AQAAADgLAN5JSdfOl98tmcDBw2kBAAAA"
+          }
+         },
+         "type": "ArrayProperty"
+        }
+       },
+       "type": "StructProperty"
+      },
+      "Connector": {
+       "struct_type": "PalMapObjectConnectorSaveData",
+       "struct_id": "00000000-0000-0000-0000-000000000000",
+       "id": null,
+       "value": {
+        "RawData": {
+         "array_type": "ByteProperty",
+         "id": null,
+         "value": {
+          "supported_level": -1,
+          "connect": {
+           "index": 254,
+           "any_place": [
+            {
+             "connect_to_model_instance_id": "251ec6d2-4e15-181b-00d7-ad845f999209",
+             "index": 254
+            }
+           ]
+          },
+          "unknown_bytes": [
+           0,
+           0,
+           0,
+           0
+          ]
+         },
+         "type": "ArrayProperty"
+        },
+        "CustomVersionData": {
+         "array_type": "ByteProperty",
+         "id": null,
+         "value": {
+          "values": {
+           "~b": "AQAAADgLAN5JSdfOl98tmcDBw2kBAAAA"
+          }
+         },
+         "type": "ArrayProperty"
+        }
+       },
+       "type": "StructProperty"
+      },
+      "EffectMap": {
+       "key_type": "EnumProperty",
+       "value_type": "StructProperty",
+       "key_struct_type": null,
+       "value_struct_type": "StructProperty",
+       "id": null,
+       "value": [],
+       "type": "MapProperty"
+      },
+      "Paint": {
+       "struct_type": "PalMapObjectPaintSaveData",
+       "struct_id": "00000000-0000-0000-0000-000000000000",
+       "id": null,
+       "value": {
+        "RawData": {
+         "array_type": "ByteProperty",
+         "id": null,
+         "value": {
+          "values": {
+           "~b": ""
+          }
+         },
+         "type": "ArrayProperty"
+        },
+        "CustomVersionData": {
+         "array_type": "ByteProperty",
+         "id": null,
+         "value": {
+          "values": {
+           "~b": ""
+          }
+         },
+         "type": "ArrayProperty"
+        }
+       },
+       "type": "StructProperty"
+      },
+      "RawData": {
+       "array_type": "ByteProperty",
+       "id": null,
+       "value": {
+        "instance_id": "d04dd49e-44db-0a7f-9c8e-2e9a0c882263",
+        "concrete_model_instance_id": "45a7f851-4b32-7b54-5fc0-67b09809dc69",
+        "base_camp_id_belong_to": "1412334b-4fe4-0581-10eb-1eb4c99e7f44",
+        "group_id_belong_to": "d567c4aa-40be-b199-c9cc-c0a53389c1c8",
+        "hp": {
+         "current": 4000,
+         "max": 4000
+        },
+        "initital_transform_cache": {
+         "rotation": {
+          "x": -0.000008100302850304661,
+          "y": 0.000006620780917160863,
+          "z": -0.9967165741364497,
+          "w": 0.08096956670409533
+         },
+         "translation": {
+          "x": -297665.57547566877,
+          "y": 253270.36358299805,
+          "z": -1732.1522820987461
+         },
+         "scale3d": {
+          "x": 1,
+          "y": 1,
+          "z": 1
+         }
+        },
+        "repair_work_id": "00000000-0000-0000-0000-000000000000",
+        "owner_spawner_level_object_instance_id": "00000000-0000-0000-0000-000000000000",
+        "owner_instance_id": "00000000-0000-0000-0000-000000000000",
+        "build_player_uid": "00000000-0000-0000-0000-000000000001",
+        "interact_restrict_type": 1,
+        "deterioration_damage": 0,
+        "stage_instance_id_belong_to": {
+         "id": "00000000-0000-0000-0000-000000000000",
+         "valid": 3745625088
+        },
+        "unknown_bytes": [
+         172,
+         0,
+         0,
+         0,
+         176,
+         179,
+         125,
+         238,
+         2,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0
+        ]
+       },
+       "type": "ArrayProperty"
+      },
+      "CustomVersionData": {
+       "array_type": "ByteProperty",
+       "id": null,
+       "value": {
+        "values": {
+         "~b": "AgAAAMJrb2PZTsTVCMQ6mWKLnkEDAAAAOAsA3klJ186X3y2ZwMHDaQEAAAA="
+        }
+       },
+       "type": "ArrayProperty"
+      }
+     },
+     "type": "StructProperty"
+    },
+    "ConcreteModel": {
+     "struct_type": "PalMapObjectConcreteModelSaveData",
+     "struct_id": "00000000-0000-0000-0000-000000000000",
+     "id": null,
+     "value": {
+      "ModuleMap": {
+       "key_type": "EnumProperty",
+       "value_type": "StructProperty",
+       "key_struct_type": null,
+       "value_struct_type": "StructProperty",
+       "id": null,
+       "value": [
+        {
+         "key": "EPalMapObjectConcreteModelModuleType::Workee",
+         "value": {
+          "RawData": {
+           "array_type": "ByteProperty",
+           "id": null,
+           "value": {
+            "target_work_id": "9166ded7-4344-4ed9-1e09-2f9d3cfd1665",
+            "trailing_bytes": {
+             "~b": "AAAAAA=="
+            }
+           },
+           "type": "ArrayProperty"
+          },
+          "CustomVersionData": {
+           "array_type": "ByteProperty",
+           "id": null,
+           "value": {
+            "values": {
+             "~b": "AQAAADgLAN5JSdfOl98tmcDBw2kBAAAA"
+            }
+           },
+           "type": "ArrayProperty"
+          }
+         }
+        }
+       ],
+       "type": "MapProperty"
+      },
+      "RawData": {
+       "array_type": "ByteProperty",
+       "id": null,
+       "value": {
+        "values": {
+         "~b": "UfinRVR7MkuwZ8BfadwJmJ7UTdB/CttEmi6OnGMiiAwAAAAA"
+        }
+       },
+       "type": "ArrayProperty"
+      },
+      "CustomVersionData": {
+       "array_type": "ByteProperty",
+       "id": null,
+       "value": {
+        "values": {
+         "~b": "AQAAADgLAN5JSdfOl98tmcDBw2kBAAAA"
+        }
+       },
+       "type": "ArrayProperty"
+      }
+     },
+     "type": "StructProperty"
+    }
+   },
+   "works": [
+    {
+     "WorkableType": {
+      "id": null,
+      "value": {
+       "type": "EPalWorkableType",
+       "value": "EPalWorkableType::OnlyJoinAndWalkAround"
+      },
+      "type": "EnumProperty"
+     },
+     "WorkAssignMap": {
+      "key_type": "IntProperty",
+      "value_type": "StructProperty",
+      "key_struct_type": null,
+      "value_struct_type": "StructProperty",
+      "id": null,
+      "value": [],
+      "type": "MapProperty"
+     },
+     "RawData": {
+      "array_type": "ByteProperty",
+      "id": null,
+      "value": {
+       "id": "9166ded7-4344-4ed9-1e09-2f9d3cfd1665",
+       "workable_bounds": {
+        "location": {
+         "x": 16.384420795031673,
+         "y": -3.410605131648481e-13,
+         "z": 73.15610928924264
+        },
+        "rotation": {
+         "x": 0,
+         "y": 0,
+         "z": 0,
+         "w": 1
+        },
+        "box_sphere_bounds": {
+         "origin": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+         },
+         "box_extent": {
+          "x": 127.496191,
+          "y": 148.672348,
+          "z": 69.498043
+         },
+         "sphere_radius": 207.81896872078696
+        }
+       },
+       "base_camp_id_belong_to": "1412334b-4fe4-0581-10eb-1eb4c99e7f44",
+       "owner_map_object_model_id": "d04dd49e-44db-0a7f-9c8e-2e9a0c882263",
+       "owner_map_object_concrete_model_id": "45a7f851-4b32-7b54-5fc0-67b09809dc69",
+       "current_state": 1,
+       "assign_locations": [],
+       "behaviour_type": 0,
+       "assign_define_data_id": "Clinic_0",
+       "override_work_type": 0,
+       "assignable_fixed_type": 2,
+       "assignable_otomo": false,
+       "can_trigger_worker_event": false,
+       "can_steal_assign": true,
+       "required_work_amount": 0,
+       "transform": {
+        "type": 2,
+        "map_object_instance_id": "d04dd49e-44db-0a7f-9c8e-2e9a0c882263",
+        "trailing_bytes": {
+         "~b": "AAAAAAAAAAA="
+        }
+       }
+      },
+      "type": "ArrayProperty"
+     },
+     "CustomVersionData": {
+      "array_type": "ByteProperty",
+      "id": null,
+      "value": {
+       "values": {
+        "~b": "AQAAADgLAN5JSdfOl98tmcDBw2kBAAAA"
+       }
+      },
+      "type": "ArrayProperty"
+     }
+    }
+   ],
+   "item_containers": []
+  },
+  "ElectricHeater": {
+   "map_object": {
+    "MapObjectId": {
+     "id": null,
+     "value": "ElectricHeater",
+     "type": "NameProperty"
+    },
+    "Model": {
+     "struct_type": "PalMapObjectModelSaveData",
+     "struct_id": "00000000-0000-0000-0000-000000000000",
+     "id": null,
+     "value": {
+      "BuildProcess": {
+       "struct_type": "PalMapObjectBuildProcessSaveData",
+       "struct_id": "00000000-0000-0000-0000-000000000000",
+       "id": null,
+       "value": {
+        "RawData": {
+         "array_type": "ByteProperty",
+         "id": null,
+         "value": {
+          "state": 1,
+          "id": "00000000-0000-0000-0000-000000000000",
+          "trailing_bytes": {
+           "~b": "AAAAAA=="
+          }
+         },
+         "type": "ArrayProperty"
+        },
+        "CustomVersionData": {
+         "array_type": "ByteProperty",
+         "id": null,
+         "value": {
+          "values": {
+           "~b": "AQAAADgLAN5JSdfOl98tmcDBw2kBAAAA"
+          }
+         },
+         "type": "ArrayProperty"
+        }
+       },
+       "type": "StructProperty"
+      },
+      "Connector": {
+       "struct_type": "PalMapObjectConnectorSaveData",
+       "struct_id": "00000000-0000-0000-0000-000000000000",
+       "id": null,
+       "value": {
+        "RawData": {
+         "array_type": "ByteProperty",
+         "id": null,
+         "value": {
+          "supported_level": -1,
+          "connect": {
+           "index": 254,
+           "any_place": [
+            {
+             "connect_to_model_instance_id": "876048bb-4a0f-5e9d-1f13-7683701fd3c2",
+             "index": 254
+            }
+           ]
+          },
+          "unknown_bytes": [
+           0,
+           0,
+           0,
+           0
+          ]
+         },
+         "type": "ArrayProperty"
+        },
+        "CustomVersionData": {
+         "array_type": "ByteProperty",
+         "id": null,
+         "value": {
+          "values": {
+           "~b": "AQAAADgLAN5JSdfOl98tmcDBw2kBAAAA"
+          }
+         },
+         "type": "ArrayProperty"
+        }
+       },
+       "type": "StructProperty"
+      },
+      "EffectMap": {
+       "key_type": "EnumProperty",
+       "value_type": "StructProperty",
+       "key_struct_type": null,
+       "value_struct_type": "StructProperty",
+       "id": null,
+       "value": [],
+       "type": "MapProperty"
+      },
+      "Paint": {
+       "struct_type": "PalMapObjectPaintSaveData",
+       "struct_id": "00000000-0000-0000-0000-000000000000",
+       "id": null,
+       "value": {
+        "RawData": {
+         "array_type": "ByteProperty",
+         "id": null,
+         "value": {
+          "values": {
+           "~b": ""
+          }
+         },
+         "type": "ArrayProperty"
+        },
+        "CustomVersionData": {
+         "array_type": "ByteProperty",
+         "id": null,
+         "value": {
+          "values": {
+           "~b": ""
+          }
+         },
+         "type": "ArrayProperty"
+        }
+       },
+       "type": "StructProperty"
+      },
+      "RawData": {
+       "array_type": "ByteProperty",
+       "id": null,
+       "value": {
+        "instance_id": "05518ab0-44ef-610c-86fb-bab0f7ff4184",
+        "concrete_model_instance_id": "db11bcfe-443a-7f29-6f6e-b899d02e5777",
+        "base_camp_id_belong_to": "1412334b-4fe4-0581-10eb-1eb4c99e7f44",
+        "group_id_belong_to": "d567c4aa-40be-b199-c9cc-c0a53389c1c8",
+        "hp": {
+         "current": 2000,
+         "max": 2000
+        },
+        "initital_transform_cache": {
+         "rotation": {
+          "x": -0.000008200838850274768,
+          "y": 0.0000064958362334282626,
+          "z": -0.9978406241727651,
+          "w": 0.06568172227535238
+         },
+         "translation": {
+          "x": -299125.5568560012,
+          "y": 253030.72851721084,
+          "z": -1732.1536655775285
+         },
+         "scale3d": {
+          "x": 1,
+          "y": 1,
+          "z": 1
+         }
+        },
+        "repair_work_id": "00000000-0000-0000-0000-000000000000",
+        "owner_spawner_level_object_instance_id": "00000000-0000-0000-0000-000000000000",
+        "owner_instance_id": "00000000-0000-0000-0000-000000000000",
+        "build_player_uid": "00000000-0000-0000-0000-000000000001",
+        "interact_restrict_type": 1,
+        "deterioration_damage": 0,
+        "stage_instance_id_belong_to": {
+         "id": "00000000-0000-0000-0000-000000000000",
+         "valid": 4000723200
+        },
+        "unknown_bytes": [
+         175,
+         0,
+         0,
+         0,
+         160,
+         172,
+         226,
+         255,
+         2,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0
+        ]
+       },
+       "type": "ArrayProperty"
+      },
+      "CustomVersionData": {
+       "array_type": "ByteProperty",
+       "id": null,
+       "value": {
+        "values": {
+         "~b": "AgAAAMJrb2PZTsTVCMQ6mWKLnkEDAAAAOAsA3klJ186X3y2ZwMHDaQEAAAA="
+        }
+       },
+       "type": "ArrayProperty"
+      }
+     },
+     "type": "StructProperty"
+    },
+    "ConcreteModel": {
+     "struct_type": "PalMapObjectConcreteModelSaveData",
+     "struct_id": "00000000-0000-0000-0000-000000000000",
+     "id": null,
+     "value": {
+      "ModuleMap": {
+       "key_type": "EnumProperty",
+       "value_type": "StructProperty",
+       "key_struct_type": null,
+       "value_struct_type": "StructProperty",
+       "id": null,
+       "value": [
+        {
+         "key": "EPalMapObjectConcreteModelModuleType::Workee",
+         "value": {
+          "RawData": {
+           "array_type": "ByteProperty",
+           "id": null,
+           "value": {
+            "target_work_id": "0c74100e-431c-8c9e-3459-52ae257f14a0",
+            "trailing_bytes": {
+             "~b": "AAAAAA=="
+            }
+           },
+           "type": "ArrayProperty"
+          },
+          "CustomVersionData": {
+           "array_type": "ByteProperty",
+           "id": null,
+           "value": {
+            "values": {
+             "~b": "AQAAADgLAN5JSdfOl98tmcDBw2kBAAAA"
+            }
+           },
+           "type": "ArrayProperty"
+          }
+         }
+        },
+        {
+         "key": "EPalMapObjectConcreteModelModuleType::Energy",
+         "value": {
+          "RawData": {
+           "array_type": "ByteProperty",
+           "id": null,
+           "value": {
+            "values": []
+           },
+           "type": "ArrayProperty"
+          },
+          "CustomVersionData": {
+           "array_type": "ByteProperty",
+           "id": null,
+           "value": {
+            "values": {
+             "~b": "AAAAAA=="
+            }
+           },
+           "type": "ArrayProperty"
+          }
+         }
+        },
+        {
+         "key": "EPalMapObjectConcreteModelModuleType::Switch",
+         "value": {
+          "RawData": {
+           "array_type": "ByteProperty",
+           "id": null,
+           "value": {
+            "switch_state": 1,
+            "trailing_bytes": {
+             "~b": "AAAAAA=="
+            }
+           },
+           "type": "ArrayProperty"
+          },
+          "CustomVersionData": {
+           "array_type": "ByteProperty",
+           "id": null,
+           "value": {
+            "values": {
+             "~b": "AQAAADgLAN5JSdfOl98tmcDBw2kBAAAA"
+            }
+           },
+           "type": "ArrayProperty"
+          }
+         }
+        }
+       ],
+       "type": "MapProperty"
+      },
+      "RawData": {
+       "array_type": "ByteProperty",
+       "id": null,
+       "value": {
+        "instance_id": "db11bcfe-443a-7f29-6f6e-b899d02e5777",
+        "model_instance_id": "05518ab0-44ef-610c-86fb-bab0f7ff4184",
+        "concrete_model_type": "PalMapObjectHeatSourceModel",
+        "trailing_bytes": {
+         "~b": "AAAAAA=="
+        }
+       },
+       "type": "ArrayProperty"
+      },
+      "CustomVersionData": {
+       "array_type": "ByteProperty",
+       "id": null,
+       "value": {
+        "values": {
+         "~b": "AQAAADgLAN5JSdfOl98tmcDBw2kBAAAA"
+        }
+       },
+       "type": "ArrayProperty"
+      }
+     },
+     "type": "StructProperty"
+    }
+   },
+   "works": [
+    {
+     "WorkableType": {
+      "id": null,
+      "value": {
+       "type": "EPalWorkableType",
+       "value": "EPalWorkableType::OnlyJoin"
+      },
+      "type": "EnumProperty"
+     },
+     "WorkAssignMap": {
+      "key_type": "IntProperty",
+      "value_type": "StructProperty",
+      "key_struct_type": null,
+      "value_struct_type": "StructProperty",
+      "id": null,
+      "value": [],
+      "type": "MapProperty"
+     },
+     "RawData": {
+      "array_type": "ByteProperty",
+      "id": null,
+      "value": {
+       "id": "0c74100e-431c-8c9e-3459-52ae257f14a0",
+       "workable_bounds": {
+        "location": {
+         "x": 0,
+         "y": 0,
+         "z": 50
+        },
+        "rotation": {
+         "x": 0,
+         "y": 0,
+         "z": 0,
+         "w": 1
+        },
+        "box_sphere_bounds": {
+         "origin": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+         },
+         "box_extent": {
+          "x": 270,
+          "y": 270,
+          "z": 47.5
+         },
+         "sphere_radius": 384.7807817446188
+        }
+       },
+       "base_camp_id_belong_to": "1412334b-4fe4-0581-10eb-1eb4c99e7f44",
+       "owner_map_object_model_id": "05518ab0-44ef-610c-86fb-bab0f7ff4184",
+       "owner_map_object_concrete_model_id": "db11bcfe-443a-7f29-6f6e-b899d02e5777",
+       "current_state": 2,
+       "assign_locations": [
+        {
+         "location": {
+          "x": 149.744156,
+          "y": -2.2751021333533572e-7,
+          "z": 6.008072261920461e-8
+         },
+         "facing_direction": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+         }
+        }
+       ],
+       "behaviour_type": 0,
+       "assign_define_data_id": "ElectricHeater_0",
+       "override_work_type": 0,
+       "assignable_fixed_type": 0,
+       "assignable_otomo": true,
+       "can_trigger_worker_event": true,
+       "can_steal_assign": true,
+       "required_work_amount": 0,
+       "transform": {
+        "type": 2,
+        "map_object_instance_id": "05518ab0-44ef-610c-86fb-bab0f7ff4184",
+        "trailing_bytes": {
+         "~b": "AAAAAAAAAAA="
+        }
+       }
+      },
+      "type": "ArrayProperty"
+     },
+     "CustomVersionData": {
+      "array_type": "ByteProperty",
+      "id": null,
+      "value": {
+       "values": {
+        "~b": "AQAAADgLAN5JSdfOl98tmcDBw2kBAAAA"
+       }
+      },
+      "type": "ArrayProperty"
+     }
+    }
+   ],
+   "item_containers": []
+  },
+  "Ancient_Spa": {
+   "map_object": {
+    "MapObjectId": {
+     "id": null,
+     "value": "Ancient_Spa",
+     "type": "NameProperty"
+    },
+    "Model": {
+     "struct_type": "PalMapObjectModelSaveData",
+     "struct_id": "00000000-0000-0000-0000-000000000000",
+     "id": null,
+     "value": {
+      "BuildProcess": {
+       "struct_type": "PalMapObjectBuildProcessSaveData",
+       "struct_id": "00000000-0000-0000-0000-000000000000",
+       "id": null,
+       "value": {
+        "RawData": {
+         "array_type": "ByteProperty",
+         "id": null,
+         "value": {
+          "state": 1,
+          "id": "00000000-0000-0000-0000-000000000000",
+          "trailing_bytes": {
+           "~b": "AAAAAA=="
+          }
+         },
+         "type": "ArrayProperty"
+        },
+        "CustomVersionData": {
+         "array_type": "ByteProperty",
+         "id": null,
+         "value": {
+          "values": {
+           "~b": "AQAAADgLAN5JSdfOl98tmcDBw2kBAAAA"
+          }
+         },
+         "type": "ArrayProperty"
+        }
+       },
+       "type": "StructProperty"
+      },
+      "Connector": {
+       "struct_type": "PalMapObjectConnectorSaveData",
+       "struct_id": "00000000-0000-0000-0000-000000000000",
+       "id": null,
+       "value": {
+        "RawData": {
+         "array_type": "ByteProperty",
+         "id": null,
+         "value": {
+          "supported_level": -1,
+          "connect": {
+           "index": 254,
+           "any_place": [
+            {
+             "connect_to_model_instance_id": "2662eeda-4683-afd9-71f8-44a559f02936",
+             "index": 254
+            },
+            {
+             "connect_to_model_instance_id": "7aa646eb-4cec-0344-69b3-4c9321014326",
+             "index": 254
+            }
+           ]
+          },
+          "unknown_bytes": [
+           0,
+           0,
+           0,
+           0
+          ]
+         },
+         "type": "ArrayProperty"
+        },
+        "CustomVersionData": {
+         "array_type": "ByteProperty",
+         "id": null,
+         "value": {
+          "values": {
+           "~b": "AQAAADgLAN5JSdfOl98tmcDBw2kBAAAA"
+          }
+         },
+         "type": "ArrayProperty"
+        }
+       },
+       "type": "StructProperty"
+      },
+      "EffectMap": {
+       "key_type": "EnumProperty",
+       "value_type": "StructProperty",
+       "key_struct_type": null,
+       "value_struct_type": "StructProperty",
+       "id": null,
+       "value": [],
+       "type": "MapProperty"
+      },
+      "Paint": {
+       "struct_type": "PalMapObjectPaintSaveData",
+       "struct_id": "00000000-0000-0000-0000-000000000000",
+       "id": null,
+       "value": {
+        "RawData": {
+         "array_type": "ByteProperty",
+         "id": null,
+         "value": {
+          "values": {
+           "~b": ""
+          }
+         },
+         "type": "ArrayProperty"
+        },
+        "CustomVersionData": {
+         "array_type": "ByteProperty",
+         "id": null,
+         "value": {
+          "values": {
+           "~b": ""
+          }
+         },
+         "type": "ArrayProperty"
+        }
+       },
+       "type": "StructProperty"
+      },
+      "RawData": {
+       "array_type": "ByteProperty",
+       "id": null,
+       "value": {
+        "instance_id": "b6a91ec3-4151-0df6-3adb-36b6394db452",
+        "concrete_model_instance_id": "3ad3ec29-49f9-c02e-a08f-20b69607c391",
+        "base_camp_id_belong_to": "1412334b-4fe4-0581-10eb-1eb4c99e7f44",
+        "group_id_belong_to": "d567c4aa-40be-b199-c9cc-c0a53389c1c8",
+        "hp": {
+         "current": 100000,
+         "max": 100000
+        },
+        "initital_transform_cache": {
+         "rotation": {
+          "x": -0.000008262182365501028,
+          "y": 0.000006417631087784594,
+          "z": -0.9984195994764926,
+          "w": 0.056198783543332576
+         },
+         "translation": {
+          "x": -297827.2754845491,
+          "y": 252723.94952981928,
+          "z": -1732.155997256255
+         },
+         "scale3d": {
+          "x": 1,
+          "y": 1,
+          "z": 1
+         }
+        },
+        "repair_work_id": "00000000-0000-0000-0000-000000000000",
+        "owner_spawner_level_object_instance_id": "00000000-0000-0000-0000-000000000000",
+        "owner_instance_id": "00000000-0000-0000-0000-000000000000",
+        "build_player_uid": "00000000-0000-0000-0000-000000000001",
+        "interact_restrict_type": 1,
+        "deterioration_damage": 0,
+        "stage_instance_id_belong_to": {
+         "id": "00000000-0000-0000-0000-000000000000",
+         "valid": 175625088
+        },
+        "unknown_bytes": [
+         172,
+         0,
+         0,
+         0,
+         96,
+         0,
+         194,
+         233,
+         2,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0
+        ]
+       },
+       "type": "ArrayProperty"
+      },
+      "CustomVersionData": {
+       "array_type": "ByteProperty",
+       "id": null,
+       "value": {
+        "values": {
+         "~b": "AgAAAMJrb2PZTsTVCMQ6mWKLnkEDAAAAOAsA3klJ186X3y2ZwMHDaQEAAAA="
+        }
+       },
+       "type": "ArrayProperty"
+      }
+     },
+     "type": "StructProperty"
+    },
+    "ConcreteModel": {
+     "struct_type": "PalMapObjectConcreteModelSaveData",
+     "struct_id": "00000000-0000-0000-0000-000000000000",
+     "id": null,
+     "value": {
+      "ModuleMap": {
+       "key_type": "EnumProperty",
+       "value_type": "StructProperty",
+       "key_struct_type": null,
+       "value_struct_type": "StructProperty",
+       "id": null,
+       "value": [],
+       "type": "MapProperty"
+      },
+      "RawData": {
+       "array_type": "ByteProperty",
+       "id": null,
+       "value": {
+        "values": {
+         "~b": "KezTOi7A+Um2II+gkcMHlsMeqbb2DVFBtjbbOlK0TTkAAAAA"
+        }
+       },
+       "type": "ArrayProperty"
+      },
+      "CustomVersionData": {
+       "array_type": "ByteProperty",
+       "id": null,
+       "value": {
+        "values": {
+         "~b": "AQAAADgLAN5JSdfOl98tmcDBw2kBAAAA"
+        }
+       },
+       "type": "ArrayProperty"
+      }
+     },
+     "type": "StructProperty"
+    }
+   },
+   "works": [],
+   "item_containers": []
+  },
+  "Ancient_Clinic": {
+   "map_object": {
+    "MapObjectId": {
+     "id": null,
+     "value": "Ancient_Clinic",
+     "type": "NameProperty"
+    },
+    "Model": {
+     "struct_type": "PalMapObjectModelSaveData",
+     "struct_id": "00000000-0000-0000-0000-000000000000",
+     "id": null,
+     "value": {
+      "BuildProcess": {
+       "struct_type": "PalMapObjectBuildProcessSaveData",
+       "struct_id": "00000000-0000-0000-0000-000000000000",
+       "id": null,
+       "value": {
+        "RawData": {
+         "array_type": "ByteProperty",
+         "id": null,
+         "value": {
+          "state": 1,
+          "id": "00000000-0000-0000-0000-000000000000",
+          "trailing_bytes": {
+           "~b": "AAAAAA=="
+          }
+         },
+         "type": "ArrayProperty"
+        },
+        "CustomVersionData": {
+         "array_type": "ByteProperty",
+         "id": null,
+         "value": {
+          "values": {
+           "~b": "AQAAADgLAN5JSdfOl98tmcDBw2kBAAAA"
+          }
+         },
+         "type": "ArrayProperty"
+        }
+       },
+       "type": "StructProperty"
+      },
+      "Connector": {
+       "struct_type": "PalMapObjectConnectorSaveData",
+       "struct_id": "00000000-0000-0000-0000-000000000000",
+       "id": null,
+       "value": {
+        "RawData": {
+         "array_type": "ByteProperty",
+         "id": null,
+         "value": {
+          "supported_level": -1,
+          "connect": {
+           "index": 254,
+           "any_place": [
+            {
+             "connect_to_model_instance_id": "94854d78-414c-15a8-fb78-0e8603698d6c",
+             "index": 254
+            }
+           ]
+          },
+          "unknown_bytes": [
+           0,
+           0,
+           0,
+           0
+          ]
+         },
+         "type": "ArrayProperty"
+        },
+        "CustomVersionData": {
+         "array_type": "ByteProperty",
+         "id": null,
+         "value": {
+          "values": {
+           "~b": "AQAAADgLAN5JSdfOl98tmcDBw2kBAAAA"
+          }
+         },
+         "type": "ArrayProperty"
+        }
+       },
+       "type": "StructProperty"
+      },
+      "EffectMap": {
+       "key_type": "EnumProperty",
+       "value_type": "StructProperty",
+       "key_struct_type": null,
+       "value_struct_type": "StructProperty",
+       "id": null,
+       "value": [],
+       "type": "MapProperty"
+      },
+      "Paint": {
+       "struct_type": "PalMapObjectPaintSaveData",
+       "struct_id": "00000000-0000-0000-0000-000000000000",
+       "id": null,
+       "value": {
+        "RawData": {
+         "array_type": "ByteProperty",
+         "id": null,
+         "value": {
+          "values": {
+           "~b": ""
+          }
+         },
+         "type": "ArrayProperty"
+        },
+        "CustomVersionData": {
+         "array_type": "ByteProperty",
+         "id": null,
+         "value": {
+          "values": {
+           "~b": ""
+          }
+         },
+         "type": "ArrayProperty"
+        }
+       },
+       "type": "StructProperty"
+      },
+      "RawData": {
+       "array_type": "ByteProperty",
+       "id": null,
+       "value": {
+        "instance_id": "40d1e9b3-47c7-b37f-0856-44a654201447",
+        "concrete_model_instance_id": "0281ce63-4259-64a4-0ce2-e3ae3dc9f5eb",
+        "base_camp_id_belong_to": "1412334b-4fe4-0581-10eb-1eb4c99e7f44",
+        "group_id_belong_to": "d567c4aa-40be-b199-c9cc-c0a53389c1c8",
+        "hp": {
+         "current": 100000,
+         "max": 100000
+        },
+        "initital_transform_cache": {
+         "rotation": {
+          "x": -0.000008029788302535631,
+          "y": 0.00000670612749924703,
+          "z": -0.9958039484503363,
+          "w": 0.09151227317289162
+         },
+         "translation": {
+          "x": -298239.888865423,
+          "y": 253254.73017999603,
+          "z": -1732.1544145145176
+         },
+         "scale3d": {
+          "x": 1,
+          "y": 1,
+          "z": 1
+         }
+        },
+        "repair_work_id": "00000000-0000-0000-0000-000000000000",
+        "owner_spawner_level_object_instance_id": "00000000-0000-0000-0000-000000000000",
+        "owner_instance_id": "00000000-0000-0000-0000-000000000000",
+        "build_player_uid": "00000000-0000-0000-0000-000000000001",
+        "interact_restrict_type": 1,
+        "deterioration_damage": 0,
+        "stage_instance_id_belong_to": {
+         "id": "00000000-0000-0000-0000-000000000000",
+         "valid": 2960657792
+        },
+        "unknown_bytes": [
+         173,
+         0,
+         0,
+         0,
+         160,
+         131,
+         34,
+         243,
+         2,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0
+        ]
+       },
+       "type": "ArrayProperty"
+      },
+      "CustomVersionData": {
+       "array_type": "ByteProperty",
+       "id": null,
+       "value": {
+        "values": {
+         "~b": "AgAAAMJrb2PZTsTVCMQ6mWKLnkEDAAAAOAsA3klJ186X3y2ZwMHDaQEAAAA="
+        }
+       },
+       "type": "ArrayProperty"
+      }
+     },
+     "type": "StructProperty"
+    },
+    "ConcreteModel": {
+     "struct_type": "PalMapObjectConcreteModelSaveData",
+     "struct_id": "00000000-0000-0000-0000-000000000000",
+     "id": null,
+     "value": {
+      "ModuleMap": {
+       "key_type": "EnumProperty",
+       "value_type": "StructProperty",
+       "key_struct_type": null,
+       "value_struct_type": "StructProperty",
+       "id": null,
+       "value": [
+        {
+         "key": "EPalMapObjectConcreteModelModuleType::Workee",
+         "value": {
+          "RawData": {
+           "array_type": "ByteProperty",
+           "id": null,
+           "value": {
+            "target_work_id": "e12783ff-42d4-c37e-4c9c-37a59678187f",
+            "trailing_bytes": {
+             "~b": "AAAAAA=="
+            }
+           },
+           "type": "ArrayProperty"
+          },
+          "CustomVersionData": {
+           "array_type": "ByteProperty",
+           "id": null,
+           "value": {
+            "values": {
+             "~b": "AQAAADgLAN5JSdfOl98tmcDBw2kBAAAA"
+            }
+           },
+           "type": "ArrayProperty"
+          }
+         }
+        }
+       ],
+       "type": "MapProperty"
+      },
+      "RawData": {
+       "array_type": "ByteProperty",
+       "id": null,
+       "value": {
+        "values": {
+         "~b": "Y86BAqRkWUKu4+IM6/XJPbPp0UB/s8dHpkRWCEcUIFQAAAAA"
+        }
+       },
+       "type": "ArrayProperty"
+      },
+      "CustomVersionData": {
+       "array_type": "ByteProperty",
+       "id": null,
+       "value": {
+        "values": {
+         "~b": "AQAAADgLAN5JSdfOl98tmcDBw2kBAAAA"
+        }
+       },
+       "type": "ArrayProperty"
+      }
+     },
+     "type": "StructProperty"
+    }
+   },
+   "works": [
+    {
+     "WorkableType": {
+      "id": null,
+      "value": {
+       "type": "EPalWorkableType",
+       "value": "EPalWorkableType::OnlyJoinAndWalkAround"
+      },
+      "type": "EnumProperty"
+     },
+     "WorkAssignMap": {
+      "key_type": "IntProperty",
+      "value_type": "StructProperty",
+      "key_struct_type": null,
+      "value_struct_type": "StructProperty",
+      "id": null,
+      "value": [],
+      "type": "MapProperty"
+     },
+     "RawData": {
+      "array_type": "ByteProperty",
+      "id": null,
+      "value": {
+       "id": "e12783ff-42d4-c37e-4c9c-37a59678187f",
+       "workable_bounds": {
+        "location": {
+         "x": 16.384420795031673,
+         "y": -3.410605131648481e-13,
+         "z": 73.15610928924264
+        },
+        "rotation": {
+         "x": 0,
+         "y": 0,
+         "z": 0,
+         "w": 1
+        },
+        "box_sphere_bounds": {
+         "origin": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+         },
+         "box_extent": {
+          "x": 127.496191,
+          "y": 148.672348,
+          "z": 69.498043
+         },
+         "sphere_radius": 207.81896872078696
+        }
+       },
+       "base_camp_id_belong_to": "1412334b-4fe4-0581-10eb-1eb4c99e7f44",
+       "owner_map_object_model_id": "40d1e9b3-47c7-b37f-0856-44a654201447",
+       "owner_map_object_concrete_model_id": "0281ce63-4259-64a4-0ce2-e3ae3dc9f5eb",
+       "current_state": 1,
+       "assign_locations": [],
+       "behaviour_type": 0,
+       "assign_define_data_id": "Ancient_Clinic_0",
+       "override_work_type": 0,
+       "assignable_fixed_type": 2,
+       "assignable_otomo": false,
+       "can_trigger_worker_event": false,
+       "can_steal_assign": true,
+       "required_work_amount": 0,
+       "transform": {
+        "type": 2,
+        "map_object_instance_id": "40d1e9b3-47c7-b37f-0856-44a654201447",
+        "trailing_bytes": {
+         "~b": "AAAAAAAAAAA="
+        }
+       }
+      },
+      "type": "ArrayProperty"
+     },
+     "CustomVersionData": {
+      "array_type": "ByteProperty",
+      "id": null,
+      "value": {
+       "values": {
+        "~b": "AQAAADgLAN5JSdfOl98tmcDBw2kBAAAA"
+       }
+      },
+      "type": "ArrayProperty"
+     }
+    }
+   ],
+   "item_containers": []
+  },
+  "Spa2": {
+   "map_object": {
+    "MapObjectId": {
+     "id": null,
+     "value": "Spa2",
+     "type": "NameProperty"
+    },
+    "Model": {
+     "struct_type": "PalMapObjectModelSaveData",
+     "struct_id": "00000000-0000-0000-0000-000000000000",
+     "id": null,
+     "value": {
+      "BuildProcess": {
+       "struct_type": "PalMapObjectBuildProcessSaveData",
+       "struct_id": "00000000-0000-0000-0000-000000000000",
+       "id": null,
+       "value": {
+        "RawData": {
+         "array_type": "ByteProperty",
+         "id": null,
+         "value": {
+          "state": 1,
+          "id": "00000000-0000-0000-0000-000000000000",
+          "trailing_bytes": {
+           "~b": "AAAAAA=="
+          }
+         },
+         "type": "ArrayProperty"
+        },
+        "CustomVersionData": {
+         "array_type": "ByteProperty",
+         "id": null,
+         "value": {
+          "values": {
+           "~b": "AQAAADgLAN5JSdfOl98tmcDBw2kBAAAA"
+          }
+         },
+         "type": "ArrayProperty"
+        }
+       },
+       "type": "StructProperty"
+      },
+      "Connector": {
+       "struct_type": "PalMapObjectConnectorSaveData",
+       "struct_id": "00000000-0000-0000-0000-000000000000",
+       "id": null,
+       "value": {
+        "RawData": {
+         "array_type": "ByteProperty",
+         "id": null,
+         "value": {
+          "supported_level": -1,
+          "connect": {
+           "index": 254,
+           "any_place": [
+            {
+             "connect_to_model_instance_id": "9c2ba348-4924-a986-300c-b889e4456c23",
+             "index": 254
+            }
+           ]
+          },
+          "unknown_bytes": [
+           0,
+           0,
+           0,
+           0
+          ]
+         },
+         "type": "ArrayProperty"
+        },
+        "CustomVersionData": {
+         "array_type": "ByteProperty",
+         "id": null,
+         "value": {
+          "values": {
+           "~b": "AQAAADgLAN5JSdfOl98tmcDBw2kBAAAA"
+          }
+         },
+         "type": "ArrayProperty"
+        }
+       },
+       "type": "StructProperty"
+      },
+      "EffectMap": {
+       "key_type": "EnumProperty",
+       "value_type": "StructProperty",
+       "key_struct_type": null,
+       "value_struct_type": "StructProperty",
+       "id": null,
+       "value": [],
+       "type": "MapProperty"
+      },
+      "Paint": {
+       "struct_type": "PalMapObjectPaintSaveData",
+       "struct_id": "00000000-0000-0000-0000-000000000000",
+       "id": null,
+       "value": {
+        "RawData": {
+         "array_type": "ByteProperty",
+         "id": null,
+         "value": {
+          "values": {
+           "~b": ""
+          }
+         },
+         "type": "ArrayProperty"
+        },
+        "CustomVersionData": {
+         "array_type": "ByteProperty",
+         "id": null,
+         "value": {
+          "values": {
+           "~b": ""
+          }
+         },
+         "type": "ArrayProperty"
+        }
+       },
+       "type": "StructProperty"
+      },
+      "RawData": {
+       "array_type": "ByteProperty",
+       "id": null,
+       "value": {
+        "instance_id": "aa5fdf77-4657-bb41-caa5-85a69e15dc03",
+        "concrete_model_instance_id": "a77d2362-46d3-2238-2e7a-0d97818d5757",
+        "base_camp_id_belong_to": "1412334b-4fe4-0581-10eb-1eb4c99e7f44",
+        "group_id_belong_to": "d567c4aa-40be-b199-c9cc-c0a53389c1c8",
+        "hp": {
+         "current": 5000,
+         "max": 5000
+        },
+        "initital_transform_cache": {
+         "rotation": {
+          "x": 0.000010396186299771164,
+          "y": 0.0000011700242047667223,
+          "z": 0.7542766535008357,
+          "w": 0.6565567225108055
+         },
+         "translation": {
+          "x": -298371.81459156587,
+          "y": 251904.96995969527,
+          "z": -1732.1563553004557
+         },
+         "scale3d": {
+          "x": 1,
+          "y": 1,
+          "z": 1
+         }
+        },
+        "repair_work_id": "00000000-0000-0000-0000-000000000000",
+        "owner_spawner_level_object_instance_id": "00000000-0000-0000-0000-000000000000",
+        "owner_instance_id": "00000000-0000-0000-0000-000000000000",
+        "build_player_uid": "00000000-0000-0000-0000-000000000001",
+        "interact_restrict_type": 1,
+        "deterioration_damage": 0,
+        "stage_instance_id_belong_to": {
+         "id": "00000000-0000-0000-0000-000000000000",
+         "valid": 3370069120
+        },
+        "unknown_bytes": [
+         155,
+         0,
+         0,
+         0,
+         96,
+         175,
+         71,
+         141,
+         2,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0
+        ]
+       },
+       "type": "ArrayProperty"
+      },
+      "CustomVersionData": {
+       "array_type": "ByteProperty",
+       "id": null,
+       "value": {
+        "values": {
+         "~b": "AgAAAMJrb2PZTsTVCMQ6mWKLnkEDAAAAOAsA3klJ186X3y2ZwMHDaQEAAAA="
+        }
+       },
+       "type": "ArrayProperty"
+      }
+     },
+     "type": "StructProperty"
+    },
+    "ConcreteModel": {
+     "struct_type": "PalMapObjectConcreteModelSaveData",
+     "struct_id": "00000000-0000-0000-0000-000000000000",
+     "id": null,
+     "value": {
+      "ModuleMap": {
+       "key_type": "EnumProperty",
+       "value_type": "StructProperty",
+       "key_struct_type": null,
+       "value_struct_type": "StructProperty",
+       "id": null,
+       "value": [],
+       "type": "MapProperty"
+      },
+      "RawData": {
+       "array_type": "ByteProperty",
+       "id": null,
+       "value": {
+        "instance_id": "a77d2362-46d3-2238-2e7a-0d97818d5757",
+        "model_instance_id": "aa5fdf77-4657-bb41-caa5-85a69e15dc03",
+        "concrete_model_type": "PalMapObjectAmusementModel",
+        "trailing_bytes": {
+         "~b": "AAAAAA=="
+        }
+       },
+       "type": "ArrayProperty"
+      },
+      "CustomVersionData": {
+       "array_type": "ByteProperty",
+       "id": null,
+       "value": {
+        "values": {
+         "~b": "AQAAADgLAN5JSdfOl98tmcDBw2kBAAAA"
+        }
+       },
+       "type": "ArrayProperty"
+      }
+     },
+     "type": "StructProperty"
+    }
+   },
+   "works": [],
+   "item_containers": []
+  },
+  "Spa3": {
+   "map_object": {
+    "MapObjectId": {
+     "id": null,
+     "value": "Spa3",
+     "type": "NameProperty"
+    },
+    "Model": {
+     "struct_type": "PalMapObjectModelSaveData",
+     "struct_id": "00000000-0000-0000-0000-000000000000",
+     "id": null,
+     "value": {
+      "BuildProcess": {
+       "struct_type": "PalMapObjectBuildProcessSaveData",
+       "struct_id": "00000000-0000-0000-0000-000000000000",
+       "id": null,
+       "value": {
+        "RawData": {
+         "array_type": "ByteProperty",
+         "id": null,
+         "value": {
+          "state": 1,
+          "id": "00000000-0000-0000-0000-000000000000",
+          "trailing_bytes": {
+           "~b": "AAAAAA=="
+          }
+         },
+         "type": "ArrayProperty"
+        },
+        "CustomVersionData": {
+         "array_type": "ByteProperty",
+         "id": null,
+         "value": {
+          "values": {
+           "~b": "AQAAADgLAN5JSdfOl98tmcDBw2kBAAAA"
+          }
+         },
+         "type": "ArrayProperty"
+        }
+       },
+       "type": "StructProperty"
+      },
+      "Connector": {
+       "struct_type": "PalMapObjectConnectorSaveData",
+       "struct_id": "00000000-0000-0000-0000-000000000000",
+       "id": null,
+       "value": {
+        "RawData": {
+         "array_type": "ByteProperty",
+         "id": null,
+         "value": {
+          "supported_level": -1,
+          "connect": {
+           "index": 254,
+           "any_place": [
+            {
+             "connect_to_model_instance_id": "778a6ac9-4e8b-b622-2184-029c26368b7f",
+             "index": 254
+            }
+           ]
+          },
+          "unknown_bytes": [
+           0,
+           0,
+           0,
+           0
+          ]
+         },
+         "type": "ArrayProperty"
+        },
+        "CustomVersionData": {
+         "array_type": "ByteProperty",
+         "id": null,
+         "value": {
+          "values": {
+           "~b": "AQAAADgLAN5JSdfOl98tmcDBw2kBAAAA"
+          }
+         },
+         "type": "ArrayProperty"
+        }
+       },
+       "type": "StructProperty"
+      },
+      "EffectMap": {
+       "key_type": "EnumProperty",
+       "value_type": "StructProperty",
+       "key_struct_type": null,
+       "value_struct_type": "StructProperty",
+       "id": null,
+       "value": [],
+       "type": "MapProperty"
+      },
+      "Paint": {
+       "struct_type": "PalMapObjectPaintSaveData",
+       "struct_id": "00000000-0000-0000-0000-000000000000",
+       "id": null,
+       "value": {
+        "RawData": {
+         "array_type": "ByteProperty",
+         "id": null,
+         "value": {
+          "values": {
+           "~b": ""
+          }
+         },
+         "type": "ArrayProperty"
+        },
+        "CustomVersionData": {
+         "array_type": "ByteProperty",
+         "id": null,
+         "value": {
+          "values": {
+           "~b": ""
+          }
+         },
+         "type": "ArrayProperty"
+        }
+       },
+       "type": "StructProperty"
+      },
+      "RawData": {
+       "array_type": "ByteProperty",
+       "id": null,
+       "value": {
+        "instance_id": "8072ecf3-42a0-27ab-52a2-a3acf650ff66",
+        "concrete_model_instance_id": "68a5ff8b-469c-c093-41c9-0e808e177606",
+        "base_camp_id_belong_to": "1412334b-4fe4-0581-10eb-1eb4c99e7f44",
+        "group_id_belong_to": "d567c4aa-40be-b199-c9cc-c0a53389c1c8",
+        "hp": {
+         "current": 15000,
+         "max": 15000
+        },
+        "initital_transform_cache": {
+         "rotation": {
+          "x": 0.000010416405527937168,
+          "y": 9.73725882742793e-7,
+          "z": 0.7665262718840901,
+          "w": 0.6422129509765656
+         },
+         "translation": {
+          "x": -297721.61080278555,
+          "y": 252022.48310635434,
+          "z": -1732.1543168216044
+         },
+         "scale3d": {
+          "x": 1,
+          "y": 1,
+          "z": 1
+         }
+        },
+        "repair_work_id": "00000000-0000-0000-0000-000000000000",
+        "owner_spawner_level_object_instance_id": "00000000-0000-0000-0000-000000000000",
+        "owner_instance_id": "00000000-0000-0000-0000-000000000000",
+        "build_player_uid": "00000000-0000-0000-0000-000000000001",
+        "interact_restrict_type": 1,
+        "deterioration_damage": 0,
+        "stage_instance_id_belong_to": {
+         "id": "00000000-0000-0000-0000-000000000000",
+         "valid": 95101824
+        },
+        "unknown_bytes": [
+         156,
+         0,
+         0,
+         0,
+         48,
+         232,
+         161,
+         142,
+         2,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0
+        ]
+       },
+       "type": "ArrayProperty"
+      },
+      "CustomVersionData": {
+       "array_type": "ByteProperty",
+       "id": null,
+       "value": {
+        "values": {
+         "~b": "AgAAAMJrb2PZTsTVCMQ6mWKLnkEDAAAAOAsA3klJ186X3y2ZwMHDaQEAAAA="
+        }
+       },
+       "type": "ArrayProperty"
+      }
+     },
+     "type": "StructProperty"
+    },
+    "ConcreteModel": {
+     "struct_type": "PalMapObjectConcreteModelSaveData",
+     "struct_id": "00000000-0000-0000-0000-000000000000",
+     "id": null,
+     "value": {
+      "ModuleMap": {
+       "key_type": "EnumProperty",
+       "value_type": "StructProperty",
+       "key_struct_type": null,
+       "value_struct_type": "StructProperty",
+       "id": null,
+       "value": [],
+       "type": "MapProperty"
+      },
+      "RawData": {
+       "array_type": "ByteProperty",
+       "id": null,
+       "value": {
+        "instance_id": "68a5ff8b-469c-c093-41c9-0e808e177606",
+        "model_instance_id": "8072ecf3-42a0-27ab-52a2-a3acf650ff66",
+        "concrete_model_type": "PalMapObjectAmusementModel",
+        "trailing_bytes": {
+         "~b": "AAAAAA=="
+        }
+       },
+       "type": "ArrayProperty"
+      },
+      "CustomVersionData": {
+       "array_type": "ByteProperty",
+       "id": null,
+       "value": {
+        "values": {
+         "~b": "AQAAADgLAN5JSdfOl98tmcDBw2kBAAAA"
+        }
+       },
+       "type": "ArrayProperty"
+      }
+     },
+     "type": "StructProperty"
+    }
+   },
+   "works": [],
+   "item_containers": []
+  },
+  "Stonepit": {
+   "map_object": {
+    "MapObjectId": {
+     "id": null,
+     "value": "Stonepit",
+     "type": "NameProperty"
+    },
+    "Model": {
+     "struct_type": "PalMapObjectModelSaveData",
+     "struct_id": "00000000-0000-0000-0000-000000000000",
+     "id": null,
+     "value": {
+      "BuildProcess": {
+       "struct_type": "PalMapObjectBuildProcessSaveData",
+       "struct_id": "00000000-0000-0000-0000-000000000000",
+       "id": null,
+       "value": {
+        "RawData": {
+         "array_type": "ByteProperty",
+         "id": null,
+         "value": {
+          "state": 1,
+          "id": "00000000-0000-0000-0000-000000000000",
+          "trailing_bytes": {
+           "~b": "AAAAAA=="
+          }
+         },
+         "type": "ArrayProperty"
+        },
+        "CustomVersionData": {
+         "array_type": "ByteProperty",
+         "id": null,
+         "value": {
+          "values": {
+           "~b": "AQAAADgLAN5JSdfOl98tmcDBw2kBAAAA"
+          }
+         },
+         "type": "ArrayProperty"
+        }
+       },
+       "type": "StructProperty"
+      },
+      "Connector": {
+       "struct_type": "PalMapObjectConnectorSaveData",
+       "struct_id": "00000000-0000-0000-0000-000000000000",
+       "id": null,
+       "value": {
+        "RawData": {
+         "array_type": "ByteProperty",
+         "id": null,
+         "value": {
+          "supported_level": -1,
+          "connect": {
+           "index": 254,
+           "any_place": [
+            {
+             "connect_to_model_instance_id": "c33433f0-4582-4d72-bd99-11b1c4ce26ff",
+             "index": 254
+            }
+           ]
+          },
+          "unknown_bytes": [
+           0,
+           0,
+           0,
+           0
+          ]
+         },
+         "type": "ArrayProperty"
+        },
+        "CustomVersionData": {
+         "array_type": "ByteProperty",
+         "id": null,
+         "value": {
+          "values": {
+           "~b": "AQAAADgLAN5JSdfOl98tmcDBw2kBAAAA"
+          }
+         },
+         "type": "ArrayProperty"
+        }
+       },
+       "type": "StructProperty"
+      },
+      "EffectMap": {
+       "key_type": "EnumProperty",
+       "value_type": "StructProperty",
+       "key_struct_type": null,
+       "value_struct_type": "StructProperty",
+       "id": null,
+       "value": [],
+       "type": "MapProperty"
+      },
+      "Paint": {
+       "struct_type": "PalMapObjectPaintSaveData",
+       "struct_id": "00000000-0000-0000-0000-000000000000",
+       "id": null,
+       "value": {
+        "RawData": {
+         "array_type": "ByteProperty",
+         "id": null,
+         "value": {
+          "values": {
+           "~b": ""
+          }
+         },
+         "type": "ArrayProperty"
+        },
+        "CustomVersionData": {
+         "array_type": "ByteProperty",
+         "id": null,
+         "value": {
+          "values": {
+           "~b": ""
+          }
+         },
+         "type": "ArrayProperty"
+        }
+       },
+       "type": "StructProperty"
+      },
+      "RawData": {
+       "array_type": "ByteProperty",
+       "id": null,
+       "value": {
+        "instance_id": "f863cf9f-40ae-7a5b-35bf-c79fa555e800",
+        "concrete_model_instance_id": "2a8bbd28-49b9-e49e-eb93-ed8aa7099000",
+        "base_camp_id_belong_to": "1412334b-4fe4-0581-10eb-1eb4c99e7f44",
+        "group_id_belong_to": "d567c4aa-40be-b199-c9cc-c0a53389c1c8",
+        "hp": {
+         "current": 10000,
+         "max": 10000
+        },
+        "initital_transform_cache": {
+         "rotation": {
+          "x": -0.000007992134550523877,
+          "y": 0.000006751282716471255,
+          "z": 0.09710710328181894,
+          "w": 0.9952739373573286
+         },
+         "translation": {
+          "x": -301366.6731481151,
+          "y": 251175.6937113738,
+          "z": -1082.152571051054
+         },
+         "scale3d": {
+          "x": 1,
+          "y": 1,
+          "z": 1
+         }
+        },
+        "repair_work_id": "00000000-0000-0000-0000-000000000000",
+        "owner_spawner_level_object_instance_id": "00000000-0000-0000-0000-000000000000",
+        "owner_instance_id": "00000000-0000-0000-0000-000000000000",
+        "build_player_uid": "00000000-0000-0000-0000-000000000001",
+        "interact_restrict_type": 1,
+        "deterioration_damage": 0,
+        "stage_instance_id_belong_to": {
+         "id": "00000000-0000-0000-0000-000000000000",
+         "valid": 2937652736
+        },
+        "unknown_bytes": [
+         234,
+         0,
+         0,
+         0,
+         160,
+         20,
+         33,
+         78,
+         4,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0
+        ]
+       },
+       "type": "ArrayProperty"
+      },
+      "CustomVersionData": {
+       "array_type": "ByteProperty",
+       "id": null,
+       "value": {
+        "values": {
+         "~b": "AgAAAMJrb2PZTsTVCMQ6mWKLnkEDAAAAOAsA3klJ186X3y2ZwMHDaQEAAAA="
+        }
+       },
+       "type": "ArrayProperty"
+      }
+     },
+     "type": "StructProperty"
+    },
+    "ConcreteModel": {
+     "struct_type": "PalMapObjectConcreteModelSaveData",
+     "struct_id": "00000000-0000-0000-0000-000000000000",
+     "id": null,
+     "value": {
+      "ModuleMap": {
+       "key_type": "EnumProperty",
+       "value_type": "StructProperty",
+       "key_struct_type": null,
+       "value_struct_type": "StructProperty",
+       "id": null,
+       "value": [
+        {
+         "key": "EPalMapObjectConcreteModelModuleType::ItemContainer",
+         "value": {
+          "RawData": {
+           "array_type": "ByteProperty",
+           "id": null,
+           "value": {
+            "target_container_id": "d8d0da31-4ba6-11a5-2f66-7e90481df673",
+            "slot_attribute_indexes": [],
+            "all_slot_attribute": [
+             2
+            ],
+            "drop_item_at_disposed": true,
+            "usage_type": 0,
+            "trailing_bytes": {
+             "~b": "AAAAAA=="
+            }
+           },
+           "type": "ArrayProperty"
+          },
+          "CustomVersionData": {
+           "array_type": "ByteProperty",
+           "id": null,
+           "value": {
+            "values": {
+             "~b": "AQAAADgLAN5JSdfOl98tmcDBw2kBAAAA"
+            }
+           },
+           "type": "ArrayProperty"
+          }
+         }
+        },
+        {
+         "key": "EPalMapObjectConcreteModelModuleType::Workee",
+         "value": {
+          "RawData": {
+           "array_type": "ByteProperty",
+           "id": null,
+           "value": {
+            "target_work_id": "d3103bbb-4896-78a0-2ded-40b8f4fab257",
+            "trailing_bytes": {
+             "~b": "AAAAAA=="
+            }
+           },
+           "type": "ArrayProperty"
+          },
+          "CustomVersionData": {
+           "array_type": "ByteProperty",
+           "id": null,
+           "value": {
+            "values": {
+             "~b": "AQAAADgLAN5JSdfOl98tmcDBw2kBAAAA"
+            }
+           },
+           "type": "ArrayProperty"
+          }
+         }
+        },
+        {
+         "key": "EPalMapObjectConcreteModelModuleType::Energy",
+         "value": {
+          "RawData": {
+           "array_type": "ByteProperty",
+           "id": null,
+           "value": {
+            "values": []
+           },
+           "type": "ArrayProperty"
+          },
+          "CustomVersionData": {
+           "array_type": "ByteProperty",
+           "id": null,
+           "value": {
+            "values": {
+             "~b": "AAAAAA=="
+            }
+           },
+           "type": "ArrayProperty"
+          }
+         }
+        }
+       ],
+       "type": "MapProperty"
+      },
+      "RawData": {
+       "array_type": "ByteProperty",
+       "id": null,
+       "value": {
+        "instance_id": "2a8bbd28-49b9-e49e-eb93-ed8aa7099000",
+        "model_instance_id": "f863cf9f-40ae-7a5b-35bf-c79fa555e800",
+        "concrete_model_type": "PalMapObjectProductItemModel",
+        "leading_bytes": {
+         "~b": "AAAAAA=="
+        },
+        "work_speed_additional_rate": 1,
+        "product_item_id": "Stone",
+        "trailing_bytes": {
+         "~b": "AAAAAA=="
+        }
+       },
+       "type": "ArrayProperty"
+      },
+      "CustomVersionData": {
+       "array_type": "ByteProperty",
+       "id": null,
+       "value": {
+        "values": {
+         "~b": "AQAAADgLAN5JSdfOl98tmcDBw2kBAAAA"
+        }
+       },
+       "type": "ArrayProperty"
+      }
+     },
+     "type": "StructProperty"
+    }
+   },
+   "works": [
+    {
+     "WorkableType": {
+      "id": null,
+      "value": {
+       "type": "EPalWorkableType",
+       "value": "EPalWorkableType::Progress"
+      },
+      "type": "EnumProperty"
+     },
+     "WorkAssignMap": {
+      "key_type": "IntProperty",
+      "value_type": "StructProperty",
+      "key_struct_type": null,
+      "value_struct_type": "StructProperty",
+      "id": null,
+      "value": [],
+      "type": "MapProperty"
+     },
+     "RawData": {
+      "array_type": "ByteProperty",
+      "id": null,
+      "value": {
+       "id": "d3103bbb-4896-78a0-2ded-40b8f4fab257",
+       "workable_bounds": {
+        "location": {
+         "x": 0,
+         "y": 0,
+         "z": 100
+        },
+        "rotation": {
+         "x": 0,
+         "y": 0,
+         "z": 0,
+         "w": 1
+        },
+        "box_sphere_bounds": {
+         "origin": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+         },
+         "box_extent": {
+          "x": 320,
+          "y": 410,
+          "z": 100
+         },
+         "sphere_radius": 529.6225070746144
+        }
+       },
+       "base_camp_id_belong_to": "1412334b-4fe4-0581-10eb-1eb4c99e7f44",
+       "owner_map_object_model_id": "f863cf9f-40ae-7a5b-35bf-c79fa555e800",
+       "owner_map_object_concrete_model_id": "2a8bbd28-49b9-e49e-eb93-ed8aa7099000",
+       "current_state": 1,
+       "assign_locations": [
+        {
+         "location": {
+          "x": 61.278924455642674,
+          "y": 192.58250061975835,
+          "z": 20
+         },
+         "facing_direction": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+         }
+        },
+        {
+         "location": {
+          "x": 139.109451587326,
+          "y": 1.983879895744284,
+          "z": 20
+         },
+         "facing_direction": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+         }
+        },
+        {
+         "location": {
+          "x": 71.13508656202491,
+          "y": -206.77530265511533,
+          "z": 20.000000083515772
+         },
+         "facing_direction": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+         }
+        }
+       ],
+       "behaviour_type": 0,
+       "assign_define_data_id": "Stonepit_0",
+       "override_work_type": 0,
+       "assignable_fixed_type": 0,
+       "assignable_otomo": true,
+       "can_trigger_worker_event": true,
+       "can_steal_assign": true,
+       "required_work_amount": 0,
+       "current_work_amount": 800,
+       "work_exp": 0,
+       "work_exp_calc_type": 0,
+       "auto_work_self_amount_by_sec": 0,
+       "progress_time_since_last_tick": 0,
+       "tick_process_min_interval": 0,
+       "transform": {
+        "type": 2,
+        "map_object_instance_id": "f863cf9f-40ae-7a5b-35bf-c79fa555e800",
+        "trailing_bytes": {
+         "~b": "AAAAAAAAAAA="
+        }
+       }
+      },
+      "type": "ArrayProperty"
+     },
+     "CustomVersionData": {
+      "array_type": "ByteProperty",
+      "id": null,
+      "value": {
+       "values": {
+        "~b": "AgAAADgLAN5JSdfOl98tmcDBw2kBAAAA2SXAA/JOiNgTh/qwxwbmagEAAAA="
+       }
+      },
+      "type": "ArrayProperty"
+     }
+    }
+   ],
+   "item_containers": [
+    {
+     "key": {
+      "ID": {
+       "struct_type": "Guid",
+       "struct_id": "00000000-0000-0000-0000-000000000000",
+       "id": null,
+       "value": "d8d0da31-4ba6-11a5-2f66-7e90481df673",
+       "type": "StructProperty"
+      }
+     },
+     "value": {
+      "BelongInfo": {
+       "struct_type": "PalItemContainerBelongInfo",
+       "struct_id": "00000000-0000-0000-0000-000000000000",
+       "id": null,
+       "value": {
+        "GroupId": {
+         "struct_type": "Guid",
+         "struct_id": "00000000-0000-0000-0000-000000000000",
+         "id": null,
+         "value": "00000000-0000-0000-0000-000000000000",
+         "type": "StructProperty"
+        },
+        "bControllableOthers": {
+         "value": false,
+         "id": null,
+         "type": "BoolProperty"
+        }
+       },
+       "type": "StructProperty"
+      },
+      "Slots": {
+       "array_type": "StructProperty",
+       "id": null,
+       "value": {
+        "prop_name": "Slots",
+        "prop_type": "StructProperty",
+        "values": [
+         {
+          "RawData": {
+           "array_type": "ByteProperty",
+           "id": null,
+           "value": {
+            "slot_index": 0,
+            "count": 785,
+            "item": {
+             "static_id": "Stone",
+             "dynamic_id": {
+              "created_world_id": "00000000-0000-0000-0000-000000000000",
+              "local_id_in_created_world": "00000000-0000-0000-0000-000000000000"
+             }
+            },
+            "trailing_bytes": [
+             0,
+             0,
+             0,
+             0,
+             0,
+             0,
+             0,
+             0,
+             0,
+             0,
+             0,
+             0,
+             0,
+             0,
+             0,
+             0,
+             0,
+             0,
+             0,
+             0
+            ]
+           },
+           "type": "ArrayProperty",
+           "__skip__": false,
+           "custom_type": ".worldSaveData.ItemContainerSaveData.Value.Slots.Slots.RawData"
+          },
+          "CustomVersionData": {
+           "array_type": "ByteProperty",
+           "id": null,
+           "value": {
+            "values": {
+             "~b": "AgAAAH606hKaG1r/capxvN8z1g4BAAAAOAsA3klJ186X3y2ZwMHDaQEAAAA="
+            }
+           },
+           "type": "ArrayProperty"
+          }
+         }
+        ],
+        "type_name": "PalItemSlotSaveData",
+        "id": "00000000-0000-0000-0000-000000000000"
+       },
+       "type": "ArrayProperty"
+      },
+      "SlotNum": {
+       "id": null,
+       "value": 1,
+       "type": "IntProperty"
+      },
+      "RawData": {
+       "array_type": "ByteProperty",
+       "id": null,
+       "value": {
+        "permission": {
+         "type_a": [],
+         "type_b": [],
+         "item_static_ids": [
+          "Stone"
+         ]
+        },
+        "trailing_unparsed_data": [
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0
+        ]
+       },
+       "type": "ArrayProperty",
+       "__skip__": false,
+       "custom_type": ".worldSaveData.ItemContainerSaveData.Value.RawData"
+      },
+      "CustomVersionData": {
+       "array_type": "ByteProperty",
+       "id": null,
+       "value": {
+        "values": {
+         "~b": "AgAAADgLAN5JSdfOl98tmcDBw2kBAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAA="
+        }
+       },
+       "type": "ArrayProperty"
+      }
+     }
+    }
+   ]
   }
  }
 }
