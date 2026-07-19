@@ -4516,6 +4516,36 @@
         150
       ],
       "sizeSource": "generic decor estimate — display only"
+    },
+    "Ancient_PyramidRoof": {
+      "name": "Ancient Pyramid Roof",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "JapaneseStyle_TriangleWallReverse": {
+      "name": "Japanese Style Triangle Wall Reverse",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Glass_TriangleStairsCorner": {
+      "name": "Glass Triangle Stairs Corner",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
     }
   }
 }
