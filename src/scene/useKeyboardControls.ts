@@ -13,6 +13,8 @@ import { localAxesFromYaw, quatMultiply, yawFromQuat } from "./coords";
 import { findPalbox } from "./campGeometry";
 import { usePlaceModeStore } from "./placeModeStore";
 import { flyCameraState } from "./flyCameraState";
+import { stampWithOverlapCheck } from "./overlapCheck";
+import { useSelectionAnchorStore } from "./selectionAnchorStore";
 
 function isTypingTarget(target: EventTarget | null): boolean {
   const el = target as HTMLElement | null;
@@ -87,6 +89,11 @@ export function useKeyboardControls(): void {
           return;
         }
         clearSelection();
+        // Range-select anchor (Scene.tsx's handleSelect / selectionAnchorStore.ts)
+        // resets whenever selection is cleared — Escape is the other clear
+        // gesture besides an empty-space click (which resets it in Scene.tsx
+        // itself).
+        useSelectionAnchorStore.getState().setAnchor(null);
         return;
       }
 
@@ -126,11 +133,17 @@ export function useKeyboardControls(): void {
         if (usePlaceModeStore.getState().armedType) {
           e.preventDefault();
           if (e.shiftKey) {
-            const { armedType, lastStampPos, lastStampRotation, setLastStamp } = usePlaceModeStore.getState();
+            const { armedType, lastStampPos, lastStampRotation, setLastStamp, setFeedback } = usePlaceModeStore.getState();
             if (armedType && lastStampPos && lastStampRotation) {
               const dir = e.key === "PageUp" ? 1 : -1;
               const nextPos = { x: lastStampPos.x, y: lastStampPos.y, z: lastStampPos.z + dir * VERTICAL_PITCH };
-              useEditorStore.getState().placeObject(armedType, nextPos, lastStampRotation);
+              // Overlap prevention (Fix 2): a repeated tap that would stamp
+              // back onto an already-occupied cell (e.g. tapping PageUp then
+              // PageDown) is skipped with the same "already placed here"
+              // hint as a blocked single click — see overlapCheck.ts.
+              const { objects: liveObjects, placeObject } = useEditorStore.getState();
+              const { placed } = stampWithOverlapCheck(liveObjects, armedType, [nextPos], lastStampRotation, placeObject);
+              if (placed === 0) setFeedback("already placed here");
               setLastStamp(nextPos, lastStampRotation);
             }
             return;

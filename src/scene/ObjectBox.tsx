@@ -14,6 +14,7 @@ import { getTypeEntry, resolveType } from "./objectTypes";
 import { getProxyGeometry, getProxyEdges } from "./proxyGeometry";
 import { usePlaceModeStore } from "./placeModeStore";
 import { computeStampFill, stampModeFromModifiers } from "./arrayStamp";
+import { stampWithOverlapCheck } from "./overlapCheck";
 
 export interface ObjectBoxProps {
   object: PlacedObject;
@@ -22,7 +23,13 @@ export interface ObjectBoxProps {
   selected: boolean;
   /** Show the floating display-name label above this box (Scene.tsx caps this at 20 concurrent labels). */
   showLabel: boolean;
-  onSelect: (id: string, additive: boolean) => void;
+  /**
+   * Click modifiers, passed through raw so Scene.tsx's handleSelect owns all
+   * click-semantics decisions in one place (range/toggle/select-all-of-type
+   * — CLAUDE.md task brief §1/§2). ctrlKey already folds in metaKey (Mac),
+   * matching the ctrlOrCmd convention useKeyboardControls.ts uses elsewhere.
+   */
+  onSelect: (id: string, modifiers: { shiftKey: boolean; ctrlKey: boolean; altKey: boolean }) => void;
 }
 
 export function ObjectBox({ object, centroidThree, selected, showLabel, onSelect }: ObjectBoxProps) {
@@ -104,7 +111,7 @@ export function ObjectBox({ object, centroidThree, selected, showLabel, onSelect
         // position — it must never select the object underneath instead.
         // See PlaceMode.tsx / Scene.tsx's onPointerMissed for the other half
         // of this (clicking empty space while armed).
-        const { armedType, hover, setHover, lastStampPos, setLastStamp } = usePlaceModeStore.getState();
+        const { armedType, hover, setHover, lastStampPos, setLastStamp, setFeedback } = usePlaceModeStore.getState();
         if (armedType) {
           if (hover) {
             // Array stamping (task "B. Array stamping") — same Shift/
@@ -116,16 +123,25 @@ export function ObjectBox({ object, centroidThree, selected, showLabel, onSelect
               mode === "single"
                 ? [hover.position]
                 : computeStampFill(lastStampPos, hover.position, yawFromQuat(hover.rotation), mode);
-            for (const pos of positions) useEditorStore.getState().placeObject(armedType, pos, hover.rotation);
+            // Overlap prevention (Fix 2) — see Scene.tsx's onPointerMissed
+            // for the full rationale, mirrored here for the "clicked on top
+            // of an existing object" placement path.
+            const { objects: liveObjects, placeObject } = useEditorStore.getState();
+            const { placed, skipped } = stampWithOverlapCheck(liveObjects, armedType, positions, hover.rotation, placeObject);
+            if (mode === "single") {
+              if (placed === 0) setFeedback("already placed here");
+            } else {
+              setFeedback(`placed ${placed}, skipped ${skipped} overlapping`);
+            }
             setLastStamp(hover.position, hover.rotation);
             // See Scene.tsx's onPointerMissed for why the ghost is hidden
             // immediately after a placement click (auto-select vs. ghost
-            // overlap on the same frame).
-            setHover(null);
+            // overlap on the same frame) — skipped when nothing was placed.
+            if (placed > 0) setHover(null);
           }
           return;
         }
-        onSelect(object.id, e.shiftKey);
+        onSelect(object.id, { shiftKey: e.shiftKey, ctrlKey: e.ctrlKey || e.metaKey, altKey: e.altKey });
       }}
     >
       <meshStandardMaterial

@@ -2,10 +2,12 @@
 // colors), info about the current selection, a warnings panel (blueprint
 // warnings + load error + unknown/magenta typeIds), and a keyboard
 // cheat-sheet. Only shown once a blueprint is loaded (App.tsx).
+import { useMemo } from "react";
 import { useEditorStore } from "../model/store";
 import { VERTICAL_PITCH } from "../model/types";
-import { CATEGORY_COLOR, CATEGORY_LABEL, countByCategory, unknownDimensionTypes } from "../scene/objectTypes";
+import { CATEGORY_COLOR, CATEGORY_LABEL, countByCategory, getTypeEntry, unknownDimensionTypes } from "../scene/objectTypes";
 import { countOutsideRadius, findPalbox } from "../scene/campGeometry";
+import { findDuplicateClusters } from "../scene/overlapCheck";
 import { RelocateBasePanel } from "./RelocateBasePanel";
 import { Palette } from "./Palette";
 import { FillCirclePanel } from "./FillCirclePanel";
@@ -38,31 +40,71 @@ function CategoryCounts() {
   );
 }
 
+/** Max per-type rows shown in the breakdown before collapsing the rest into "…and N more types" (task brief §2). */
+const MAX_TYPE_BREAKDOWN_ROWS = 6;
+
 function SelectionInfo() {
   const objects = useEditorStore((s) => s.objects);
   const selection = useEditorStore((s) => s.selection);
+  const setSelection = useEditorStore((s) => s.setSelection);
   const selected = objects.filter((o) => selection.includes(o.id));
+
+  // Per-type breakdown of the current selection (task brief §2: "Glass Roof
+  // ×140" rows with a "select all of this type" button each) — e.g. after a
+  // range-select grabs a mixed patch of roof/wall/foundation, this shows
+  // what actually got caught and lets you narrow to just one type.
+  const typeBreakdown = useMemo(() => {
+    const counts = new Map<string, number>();
+    for (const o of selected) counts.set(o.typeId, (counts.get(o.typeId) ?? 0) + 1);
+    return [...counts.entries()]
+      .map(([typeId, count]) => ({ typeId, count, name: getTypeEntry(typeId)?.name ?? typeId }))
+      .sort((a, b) => b.count - a.count);
+  }, [selected]);
+  const shownTypes = typeBreakdown.slice(0, MAX_TYPE_BREAKDOWN_ROWS);
+  const hiddenTypeCount = typeBreakdown.length - shownTypes.length;
 
   return (
     <section className="sidebar__section">
       <h3>Selection</h3>
       {selected.length === 0 && <p className="sidebar__empty">Nothing selected. Click a box in the scene.</p>}
       {selected.length > 0 && (
-        <ul className="selection-list">
-          {selected.slice(0, 8).map((o) => (
-            <li key={o.id}>
-              <div className="selection-list__type">{o.typeId}</div>
-              <div className="selection-list__meta">
-                pos ({round(o.position.x)}, {round(o.position.y)}, {round(o.position.z)})
-                {typeof o.hpCurrent === "number" && typeof o.hpMax === "number" && (
-                  <> · hp {o.hpCurrent}/{o.hpMax}</>
-                )}
-                {o.origin === "duplicate" && <> · duplicate</>}
-              </div>
-            </li>
-          ))}
-          {selected.length > 8 && <li className="selection-list__more">…and {selected.length - 8} more</li>}
-        </ul>
+        <>
+          <ul className="type-breakdown">
+            {shownTypes.map(({ typeId, count, name }) => (
+              <li key={typeId}>
+                <span className="type-breakdown__label">
+                  {name} ×{count}
+                </span>
+                <button
+                  type="button"
+                  className="type-breakdown__select-all"
+                  title={`Select all ${count > 1 ? "" : "other "}${name} in this base`}
+                  onClick={() => setSelection(objects.filter((o) => o.typeId === typeId).map((o) => o.id))}
+                >
+                  All of type
+                </button>
+              </li>
+            ))}
+            {hiddenTypeCount > 0 && (
+              <li className="type-breakdown__more">…and {hiddenTypeCount} more type{hiddenTypeCount === 1 ? "" : "s"}</li>
+            )}
+          </ul>
+          <ul className="selection-list">
+            {selected.slice(0, 8).map((o) => (
+              <li key={o.id}>
+                <div className="selection-list__type">{o.typeId}</div>
+                <div className="selection-list__meta">
+                  pos ({round(o.position.x)}, {round(o.position.y)}, {round(o.position.z)})
+                  {typeof o.hpCurrent === "number" && typeof o.hpMax === "number" && (
+                    <> · hp {o.hpCurrent}/{o.hpMax}</>
+                  )}
+                  {o.origin === "duplicate" && <> · duplicate</>}
+                </div>
+              </li>
+            ))}
+            {selected.length > 8 && <li className="selection-list__more">…and {selected.length - 8} more</li>}
+          </ul>
+        </>
       )}
     </section>
   );
@@ -82,7 +124,13 @@ const HEIGHT_LIMIT_UNITS = HEIGHT_LIMIT_TILES * VERTICAL_PITCH; // 5200
 function RadiusGuardrail() {
   const objects = useEditorStore((s) => s.objects);
   const camp = useEditorStore((s) => s.camp);
+  const setSelection = useEditorStore((s) => s.setSelection);
   const { palbox, reason } = findPalbox(objects);
+
+  // Duplicate guardrail (Fix 3): memoized on `objects` identity alone —
+  // doesn't need a palbox/camp, so it's computed and rendered unconditionally
+  // even when the radius/height checks below are unavailable.
+  const duplicateExtraIds = useMemo(() => findDuplicateClusters(objects).extraIds, [objects]);
 
   return (
     <section className="sidebar__section">
@@ -126,6 +174,32 @@ function RadiusGuardrail() {
           );
         })()
       )}
+      {/* Overlapping-duplicates guardrail (Fix 3) — N = objects beyond the
+          first sharing typeId + position(50u) + facing-quadrant-for-thin-
+          pieces (overlapCheck.ts's findDuplicateClusters, the same identity
+          the interactive placement paths use to block NEW overlaps). "Select
+          duplicates" selects exactly those extras, keeping one survivor per
+          cluster, so Delete cleans them up in one step. */}
+      <div
+        className={`radius-guardrail${duplicateExtraIds.length > 0 ? " radius-guardrail--warn" : ""}`}
+        style={{ marginTop: 8 }}
+      >
+        <div className="radius-guardrail__row">
+          <span>Overlapping duplicates</span>
+          <span className="radius-guardrail__count">{duplicateExtraIds.length}</span>
+        </div>
+        {duplicateExtraIds.length > 0 && (
+          <>
+            <p className="radius-guardrail__warning">
+              {duplicateExtraIds.length} extra object{duplicateExtraIds.length === 1 ? "" : "s"} stacked on an
+              existing same-type piece at the same spot — safe to delete.
+            </p>
+            <button type="button" onClick={() => setSelection(duplicateExtraIds)}>
+              Select duplicates
+            </button>
+          </>
+        )}
+      </div>
     </section>
   );
 }
@@ -159,7 +233,11 @@ function WarningsSection() {
 function KeyboardCheatSheet() {
   const shortcuts: [string, string][] = [
     ["Hold right-drag", "Fly (WASD move, Q/E down/up, Shift fast, scroll speed)"],
-    ["Click / Shift-click", "Select / add to selection"],
+    ["Click", "Select (replaces selection; sets the range anchor)"],
+    ["Shift-click", "Range-select: everything between the anchor and this object, added to selection (spreadsheet-style; chains)"],
+    ["Ctrl-click", "Toggle this object in/out of the selection"],
+    ["Alt-click", "Select all objects of this type (replaces selection)"],
+    ["Alt+Shift-click", "Select all objects of this type, added to selection"],
     ["Click empty space", "Clear selection"],
     ["Arrow keys", "Nudge 1 grid unit (400cm) along selection's local axes"],
     ["PageUp / PageDown", "Move selection up/down 1 floor (325cm); while placing, adjusts the ghost's level instead"],
@@ -182,6 +260,7 @@ function KeyboardCheatSheet() {
     ["Shift+click (while placing)", "Fill a line from the last stamp to here, at the ghost's current level"],
     ["Ctrl+Shift+click (while placing)", "Fill a rectangle from the last stamp to here, at the ghost's current level"],
     ["Shift+PageUp / Shift+PageDown (while placing)", "Stamp one copy of the armed type a floor above/below the last stamp (325cm)"],
+    ["Overlap check (while placing)", "A stamp landing on an existing same-type piece is skipped (\"already placed here\"); fills/stacks report placed/skipped counts"],
   ];
   return (
     <section className="sidebar__section">

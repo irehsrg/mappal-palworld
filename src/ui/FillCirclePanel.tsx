@@ -17,6 +17,7 @@ import { usePlaceModeStore } from "../scene/placeModeStore";
 import { findPalbox } from "../scene/campGeometry";
 import { getTypeEntry } from "../scene/objectTypes";
 import { localAxesFromYaw, yawFromQuat } from "../scene/coords";
+import { addToOverlapIndex, buildOverlapIndex, findOverlap } from "../scene/overlapCheck";
 import type { PlacedObject } from "../model/types";
 import { GRID_PITCH } from "../model/types";
 
@@ -24,8 +25,6 @@ const DEFAULT_RADIUS_TILES = 8;
 const MAX_RADIUS_TILES = 9;
 /** Hard cap on pieces placed by one Fill click — same idea as arrayStamp.ts's MAX_STAMP_COUNT, just a bigger budget since a radius-9 disk (~254 tiles, πr²) can exceed that 200 cap. */
 const MAX_FILL_COUNT = 400;
-/** A tile is considered "already covered" if an existing object of the SAME typeId sits within this horizontal distance and z tolerance — task brief, so re-running the tool tops up gaps instead of doubling up on tiles already placed. */
-const EXISTING_TOLERANCE = 50;
 
 /**
  * Tile-center positions in the palbox's own grid frame (task brief formula):
@@ -80,25 +79,28 @@ export function FillCirclePanel() {
     if (!palbox || !armedType || !isFoundation) return;
     const centers = circleTileCenters(palbox, radius);
     const z = palbox.position.z;
+    // Overlap prevention (Fix 2): same same-typeId/OVERLAP_TOLERANCE dedup
+    // as every other placement path (see overlapCheck.ts) — this panel used
+    // to roll its own "already covered" check; now shares the one
+    // definition. Built once from the LIVE store and topped up with each
+    // newly-placed tile so re-running the tool never double-places within
+    // the same click either.
+    const index = buildOverlapIndex(objects);
     let placed = 0;
     let skipped = 0;
     for (const { x, y } of centers) {
       if (placed >= MAX_FILL_COUNT) break;
-      const alreadyCovered = objects.some(
-        (o) =>
-          o.typeId === armedType &&
-          Math.hypot(o.position.x - x, o.position.y - y) <= EXISTING_TOLERANCE &&
-          Math.abs(o.position.z - z) <= EXISTING_TOLERANCE,
-      );
-      if (alreadyCovered) {
+      const position = { x, y, z };
+      if (findOverlap(index, armedType, position, palbox.rotation)) {
         skipped++;
         continue;
       }
-      placeObject(armedType, { x, y, z }, palbox.rotation);
+      placeObject(armedType, position, palbox.rotation);
+      addToOverlapIndex(index, { id: "", typeId: armedType, position, rotation: palbox.rotation, scale: { x: 1, y: 1, z: 1 }, origin: "placed" });
       placed++;
     }
     const cappedNote = placed >= MAX_FILL_COUNT && placed < centers.length ? ` (capped at ${MAX_FILL_COUNT})` : "";
-    setLastResult(`placed ${placed} tile${placed === 1 ? "" : "s"}, skipped ${skipped} existing${cappedNote}`);
+    setLastResult(`placed ${placed} tile${placed === 1 ? "" : "s"}, skipped ${skipped} overlapping${cappedNote}`);
   };
 
   return (

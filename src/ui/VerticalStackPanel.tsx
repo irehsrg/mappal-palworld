@@ -17,8 +17,10 @@
 import { useState } from "react";
 import { useEditorStore } from "../model/store";
 import { VERTICAL_PITCH } from "../model/types";
+import type { Vec3 } from "../model/types";
 import { usePlaceModeStore } from "../scene/placeModeStore";
 import { getTypeEntry } from "../scene/objectTypes";
+import { stampWithOverlapCheck } from "../scene/overlapCheck";
 
 const DEFAULT_COUNT = 4;
 const MIN_COUNT = 1;
@@ -49,13 +51,21 @@ export function VerticalStackPanel() {
   // run in the same direction instead of restarting from the old anchor.
   const handleStack = (dir: 1 | -1) => {
     if (!armedType || !lastStampPos || !lastStampRotation) return;
-    let pos = lastStampPos;
+    const positions: Vec3[] = [];
     for (let k = 1; k <= count; k++) {
-      pos = { x: lastStampPos.x, y: lastStampPos.y, z: lastStampPos.z + dir * k * VERTICAL_PITCH };
-      placeObject(armedType, pos, lastStampRotation);
+      positions.push({ x: lastStampPos.x, y: lastStampPos.y, z: lastStampPos.z + dir * k * VERTICAL_PITCH });
     }
-    usePlaceModeStore.getState().setLastStamp(pos, lastStampRotation);
-    setLastResult(`stamped ${count} ${armedName ?? armedType} ${dir > 0 ? "upward" : "downward"}`);
+    // Overlap prevention (Fix 2): skip any level that already holds a
+    // same-typeId piece (e.g. re-running the stack over a shaft already
+    // partly built) — see overlapCheck.ts.
+    const { objects } = useEditorStore.getState();
+    const { placed, skipped } = stampWithOverlapCheck(objects, armedType, positions, lastStampRotation, placeObject);
+    // Advance the anchor to the TOP of this run regardless of how many
+    // were actually placed — same "the cell is a sensible anchor even if
+    // it already held a piece" reasoning as Scene.tsx's placement paths.
+    const topPos = positions[positions.length - 1];
+    usePlaceModeStore.getState().setLastStamp(topPos, lastStampRotation);
+    setLastResult(`stamped ${placed} ${armedName ?? armedType} ${dir > 0 ? "upward" : "downward"}, skipped ${skipped} overlapping`);
   };
 
   return (

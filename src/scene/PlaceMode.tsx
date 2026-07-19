@@ -36,7 +36,15 @@ import {
   yawFromQuat,
 } from "./coords";
 import { computeStampFill, stampFillNewCount, stampModeFromModifiers } from "./arrayStamp";
-import { classifyLattice, edgeYawOffsetDeg, rotateQuatByDeg, snapCenterLattice, snapCornerLattice, snapEdgeLattice } from "./snapLattice";
+import {
+  classifyLattice,
+  edgeYawOffsetDeg,
+  isGridAlignedYaw,
+  rotateQuatByDeg,
+  snapCenterLattice,
+  snapCornerLattice,
+  snapEdgeLattice,
+} from "./snapLattice";
 
 export interface PlaceModeProps {
   objects: PlacedObject[];
@@ -82,6 +90,10 @@ export function PlaceMode({ objects, centroidThree }: PlaceModeProps) {
   const { camera, gl, scene } = useThree();
   const armedType = usePlaceModeStore((s) => s.armedType);
   const hover = usePlaceModeStore((s) => s.hover);
+  // Overlap-prevention fix: transient "already placed here" / "placed N,
+  // skipped M overlapping" message — see placeModeStore.ts's setFeedback and
+  // overlapCheck.ts. Rendered below, next to the ghost.
+  const feedback = usePlaceModeStore((s) => s.feedback);
   // Subscribed purely to drive the "forced recompute" effect below (stale-
   // ghost fix: R / PageUp/PageDown / Tab while armed used to leave the ghost
   // showing the PREVIOUS rotation/level/anchor until the cursor physically
@@ -468,6 +480,40 @@ export function PlaceMode({ objects, centroidThree }: PlaceModeProps) {
       const yaw = yawFromQuat(rotation);
       lastAnchorZRef.current = targetZ;
 
+      // PALBOX-ANCHORED LATTICE ORIGIN (roof-straddles-wall bug fix): a
+      // wall/pillar's own position sits at an ODD multiple of 200 off the
+      // structural grid's tile centres (docs/CALIBRATION.md "Wall
+      // placement"), so snapping a center-lattice piece (a roof capping a
+      // wall) relative to the WALL's own position inherits that half-tile
+      // parity error — the roof lands centred ON the wall's line, split
+      // between both sides, a position that doesn't exist in-game. Fix:
+      // whenever the active anchor's yaw is the same 90°-stepped family as
+      // the palbox's (isGridAlignedYaw — cheap proxy for "this anchor is on
+      // the SAME grid as the palbox," see that function's own comment for
+      // why yaw, not position, is the gate — and for the numeric-verification
+      // finding that yaw-alignment does NOT by itself guarantee the palbox
+      // sits exactly on a disconnected cluster's own lattice, which is why
+      // this stays a heuristic gate rather than a hard guarantee), re-anchor
+      // ALL lattice snapping (center/edge/corner alike) — BOTH origin AND
+      // frame axes — to the PALBOX's own position/rotation instead of the
+      // anchor's own. In the common case (a base built outward from its own
+      // palbox, one connected grid) the palbox sits at an even-parity point
+      // of that same grid, which is what actually fixes the parity bug. The
+      // anchor still supplies z/cap/context (targetZ, capActive, nearest —
+      // all already resolved above) and its own rotation for the PLACED
+      // piece's final orientation (finalRotation below still rotates
+      // `rotation`, the anchor's own quaternion, never the palbox's) — only
+      // the lattice math (rf/rr projection + reconstruction) uses the
+      // palbox's frame. When NOT aligned (a freely-rotated furniture
+      // network, or a second, disconnected structural grid at a genuinely
+      // different yaw — docs/CALIBRATION.md: "one base can contain multiple
+      // independent grids") this is a no-op: latticeOriginUE === anchorUE
+      // and latticeYaw === yaw, identical to pre-fix behavior.
+      const palboxYaw = yawFromQuat(palboxRotation);
+      const gridAlignedToPalbox = !!palbox && isGridAlignedYaw(yaw, palboxYaw);
+      const latticeOriginUE: Vec3 = gridAlignedToPalbox ? palboxAnchorUE : anchorUE;
+      const latticeYaw = gridAlignedToPalbox ? palboxYaw : yaw;
+
       // Pass 2 (shared by both paths above): if the ghost's actual target z
       // (object-hit face rule, or cap + level offset in the fallback path)
       // sits on a different plane than the raycast hit we already have,
@@ -534,10 +580,13 @@ export function PlaceMode({ objects, centroidThree }: PlaceModeProps) {
         // type's lattice (center/edge/corner — see snapLattice.ts), reproject.
         // Same rotated-frame technique as ArrowKey nudging in
         // useKeyboardControls.ts, just anchored at the active anchor instead
-        // of at the moving object's own prior position.
-        const { forward, right } = localAxesFromYaw(yaw);
-        const relX = hitUE.x - anchorUE.x;
-        const relY = hitUE.y - anchorUE.y;
+        // of at the moving object's own prior position — EXCEPT both the
+        // origin (latticeOriginUE) and the frame (latticeYaw) come from the
+        // palbox instead of the anchor whenever gridAlignedToPalbox — see
+        // that const's comment above.
+        const { forward, right } = localAxesFromYaw(latticeYaw);
+        const relX = hitUE.x - latticeOriginUE.x;
+        const relY = hitUE.y - latticeOriginUE.y;
         const rfRaw = relX * forward.x + relY * forward.y;
         const rrRaw = relX * right.x + relY * right.y;
 
@@ -564,8 +613,8 @@ export function PlaceMode({ objects, centroidThree }: PlaceModeProps) {
           rr = snap.rr;
           // finalRotation already set above: manual R rotation, per task brief.
         }
-        x = anchorUE.x + forward.x * rf + right.x * rr;
-        y = anchorUE.y + forward.y * rf + right.y * rr;
+        x = latticeOriginUE.x + forward.x * rf + right.x * rr;
+        y = latticeOriginUE.y + forward.y * rf + right.y * rr;
       }
       // Alt (free placement): x/y are the raw hit point, unsnapped. z is
       // still taken from the active anchor (nearest in-range structure, or
@@ -766,6 +815,21 @@ export function PlaceMode({ objects, centroidThree }: PlaceModeProps) {
               ? ` of ${hover.fillCountFull} (capped)`
               : ""}
           </div>
+        </Html>
+      )}
+      {/* Overlap-prevention feedback (Fix 2: "already placed here" on a
+          blocked single stamp, or "placed N, skipped M overlapping" after a
+          fill/stack batch — placeModeStore.ts's setFeedback). Sits above the
+          anchor hint / fill badge so it never overlaps either. Transient —
+          auto-clears itself (setFeedback's timer), no dismiss needed. */}
+      {feedback && (
+        <Html
+          position={ueVecToThree(hover.position).sub(centroidThree)}
+          center
+          pointerEvents="none"
+          style={{ transform: "translateY(-64px)" }}
+        >
+          <div className="place-blocked-hint">{feedback}</div>
         </Html>
       )}
     </>

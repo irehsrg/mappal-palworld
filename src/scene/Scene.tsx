@@ -29,6 +29,9 @@ import { PlaceMode } from "./PlaceMode";
 import { FlyCamera } from "./FlyCamera";
 import { usePlaceModeStore } from "./placeModeStore";
 import { computeStampFill, stampModeFromModifiers } from "./arrayStamp";
+import { stampWithOverlapCheck } from "./overlapCheck";
+import { useSelectionAnchorStore } from "./selectionAnchorStore";
+import { computeRangeSelection } from "./selectionRange";
 
 /** Labels get gnarly with a huge selection — cap concurrent 3D labels silently (sidebar still lists full selection info). */
 const MAX_LABELS = 20;
@@ -42,6 +45,8 @@ export function Scene() {
   const toggleSelect = useEditorStore((s) => s.toggleSelect);
   const clearSelection = useEditorStore((s) => s.clearSelection);
   const placeObject = useEditorStore((s) => s.placeObject);
+  const anchorId = useSelectionAnchorStore((s) => s.anchorId);
+  const setAnchor = useSelectionAnchorStore((s) => s.setAnchor);
 
   // Recentre the whole base on the three.js origin (task brief: "compute the
   // centroid of all object positions and subtract it"). Deliberately keyed
@@ -63,12 +68,59 @@ export function Scene() {
   // huge multi-select doesn't paper the viewport in <Html> overlays.
   const labelIds = useMemo(() => new Set(selection.slice(0, MAX_LABELS)), [selection]);
 
+  // Click-selection semantics (CLAUDE.md task brief §1/§2 — "spreadsheet
+  // semantics"). Precedence, highest first:
+  //   Alt(+Shift)-click  -> select all objects of this typeId (replace, or
+  //                         add to selection when Shift is also held). Never
+  //                         reached while armed — ObjectBox.tsx's onClick
+  //                         returns out of its placement branch before
+  //                         calling onSelect at all, so "Alt = free-place"
+  //                         and "Alt = select-all-of-type" can't collide.
+  //   Shift-click        -> RANGE select: every object inside the 3D box
+  //                         spanned by the anchor and this object (added to
+  //                         the existing selection) — see selectionRange.ts.
+  //                         Falls back to a plain single-select if there's
+  //                         no live anchor (nothing clicked yet, or the
+  //                         anchor object was since deleted/undone).
+  //   Ctrl-click         -> toggle this object in/out of the selection (the
+  //                         old shift-click behavior, moved here).
+  //   plain click        -> replace selection with just this object.
+  // Every branch ends by making the just-clicked object the new anchor, so
+  // chained shift-clicks extend the range spreadsheet-style.
   const handleSelect = useCallback(
-    (id: string, additive: boolean) => {
-      if (additive) toggleSelect(id);
-      else setSelection([id]);
+    (id: string, modifiers: { shiftKey: boolean; ctrlKey: boolean; altKey: boolean }) => {
+      const clicked = objects.find((o) => o.id === id);
+      if (!clicked) return;
+
+      if (modifiers.altKey) {
+        const sameType = objects.filter((o) => o.typeId === clicked.typeId).map((o) => o.id);
+        setSelection(modifiers.shiftKey ? [...new Set([...selection, ...sameType])] : sameType);
+        setAnchor(id);
+        return;
+      }
+
+      if (modifiers.shiftKey) {
+        const anchorObj = objects.find((o) => o.id === anchorId);
+        if (!anchorObj) {
+          setSelection([id]);
+        } else {
+          const rangeIds = computeRangeSelection(anchorObj, clicked, objects);
+          setSelection([...new Set([...selection, ...rangeIds])]);
+        }
+        setAnchor(id);
+        return;
+      }
+
+      if (modifiers.ctrlKey) {
+        toggleSelect(id);
+        setAnchor(id);
+        return;
+      }
+
+      setSelection([id]);
+      setAnchor(id);
     },
-    [toggleSelect, setSelection],
+    [objects, selection, anchorId, toggleSelect, setSelection, setAnchor],
   );
 
   // onPointerMissed fires on any click that didn't hit an object — but a
@@ -115,7 +167,7 @@ export function Scene() {
           const dist = Math.hypot(e.clientX - down.x, e.clientY - down.y);
           if (dist > DRAG_THRESHOLD_PX) return; // was an orbit/pan drag, not a click
         }
-        const { armedType, hover, setHover, lastStampPos, setLastStamp } = usePlaceModeStore.getState();
+        const { armedType, hover, setHover, lastStampPos, setLastStamp, setFeedback } = usePlaceModeStore.getState();
         if (armedType) {
           if (hover) {
             // Array stamping (task "B. Array stamping"): Shift = fill a
@@ -129,18 +181,37 @@ export function Scene() {
               mode === "single"
                 ? [hover.position]
                 : computeStampFill(lastStampPos, hover.position, yawFromQuat(hover.rotation), mode);
-            for (const pos of positions) placeObject(armedType, pos, hover.rotation);
+            // Overlap prevention (Fix 2): skip any position that already
+            // holds a same-typeId object (see overlapCheck.ts). A blocked
+            // single stamp gets a brief "already placed here" hint instead
+            // of silently doing nothing; a fill/stack batch reports its
+            // placed/skipped tally.
+            const { objects: liveObjects } = useEditorStore.getState();
+            const { placed, skipped } = stampWithOverlapCheck(liveObjects, armedType, positions, hover.rotation, placeObject);
+            if (mode === "single") {
+              if (placed === 0) setFeedback("already placed here");
+            } else {
+              setFeedback(`placed ${placed}, skipped ${skipped} overlapping`);
+            }
+            // The clicked cell is still a sensible anchor for the NEXT fill
+            // even when this stamp itself was skipped as a duplicate (the
+            // piece is already there, same as if this click had placed it).
             setLastStamp(hover.position, hover.rotation);
-            // Hide the ghost until the next pointer move: the store
-            // auto-selects the just-placed object (highlighted, opaque), and
-            // without this the translucent ghost would sit exactly on top of
-            // it for one frame — a real "fighting" visual, not just
-            // theoretical (see task brief §4).
-            setHover(null);
+            if (placed > 0) {
+              // Hide the ghost until the next pointer move: the store
+              // auto-selects the just-placed object (highlighted, opaque),
+              // and without this the translucent ghost would sit exactly on
+              // top of it for one frame — a real "fighting" visual, not just
+              // theoretical (see task brief §4). Skipped entirely when
+              // nothing was actually placed (fully-blocked stamp) so the
+              // ghost stays visible at the blocked spot.
+              setHover(null);
+            }
           }
           return; // stays armed — repeated clicks stamp multiple pieces
         }
         clearSelection();
+        setAnchor(null); // spreadsheet-style range anchor resets whenever selection is cleared
       }}
     >
       {/* Lower ambient / raking directional angle (piece-boundary fix,

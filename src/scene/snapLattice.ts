@@ -141,3 +141,61 @@ export function rotateQuatByDeg(q: Quat, deg: number): Quat {
   const qz: Quat = { x: 0, y: 0, z: Math.sin(half), w: Math.cos(half) };
   return quatMultiply(qz, q);
 }
+
+/**
+ * Tolerance (degrees) for `isGridAlignedYaw` below — placement UX fix
+ * (roof-straddles-wall bug, PlaceMode.tsx). Kept as its own named constant
+ * so the one place that decides "is this anchor on the palbox's own grid
+ * family" and the number it's judged against live together.
+ */
+export const GRID_ALIGN_TOLERANCE_DEG = 2;
+
+/**
+ * True when two yaws (radians, e.g. from coords.ts's yawFromQuat) are the
+ * same 90°-stepped rotation family — i.e. their difference is within
+ * `toleranceDeg` of a multiple of 90°. Used by PlaceMode.tsx to decide
+ * whether an armed-mode anchor (a wall, foundation, etc.) sits on the SAME
+ * square lattice as the palbox, in which case the palbox's own position can
+ * safely be used as the lattice ORIGIN for center/edge/corner snapping
+ * instead of the anchor's own position.
+ *
+ * Why this matters (the "roof-straddles-wall" bug): a wall's own position is
+ * an ODD multiple of 200 off the foundation grid's tile centres — snapping a
+ * center-lattice piece (a roof) relative to the WALL's own position inherits
+ * that half-tile parity error, so the roof lands centred ON the wall's line
+ * instead of on the full tile cell beside it. Re-anchoring the lattice
+ * ORIGIN (and frame — see PlaceMode.tsx's latticeYaw) to the palbox's own
+ * position/rotation fixes the parity IN THE COMMON CASE: a base built
+ * outward from its own palbox is one connected grid, and the palbox sits
+ * exactly on that grid's own even-parity lattice.
+ *
+ * The yaw check here is a NECESSARY-BUT-NOT-SUFFICIENT, cheap gate-keeping
+ * proxy for "is the palbox plausibly the SAME grid as this anchor" — it is
+ * NOT a guarantee the palbox's position actually lands on that grid's
+ * lattice. Two DIFFERENT, disconnected grids in one base
+ * (docs/CALIBRATION.md: "one base can contain multiple independent grids")
+ * can and do sit at completely unrelated yaws (confirmed numerically
+ * against fixtures/calibration_01.json: the row-of-5-plus-L grid there is
+ * ~12.16° off the fixture's own palbox — deliberately, to stress multi-grid
+ * handling — so the gate correctly stays false and behavior is unchanged
+ * for it). But yaw-matching alone isn't sufficient either: that same
+ * fixture's separate 4-foundation starter platform IS yaw-aligned with the
+ * palbox (~0.77° off, gate true) yet is a physically disconnected build —
+ * projecting the palbox's position onto that cluster's own axes lands at
+ * (~62, ~-197) mod 400, nowhere near that grid's actual lattice points. In
+ * other words: this fixture happens to contain a case where the gate fires
+ * but the fix's underlying assumption doesn't hold, purely because the
+ * calibration base was deliberately built as several disconnected clusters
+ * (see docs/CALIBRATION.md) rather than one continuous build. A real base
+ * built the normal way (everything connected outward from the palbox — the
+ * case the bug report came from) doesn't have this gap: yaw-alignment and
+ * position-alignment coincide there. When the gate is false, PlaceMode.tsx
+ * keeps the pre-existing anchor-local behavior unchanged, exactly as it did
+ * before this fix.
+ */
+export function isGridAlignedYaw(yawARad: number, yawBRad: number, toleranceDeg: number = GRID_ALIGN_TOLERANCE_DEG): boolean {
+  const diffDeg = ((yawARad - yawBRad) * 180) / Math.PI;
+  const mod90 = ((diffDeg % 90) + 90) % 90; // [0, 90)
+  const residual = Math.min(mod90, 90 - mod90); // distance to nearest multiple of 90
+  return residual <= toleranceDeg;
+}

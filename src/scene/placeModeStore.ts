@@ -23,6 +23,11 @@
 //   is the same vertical-stack operation as VerticalStackPanel, one copy at a
 //   time (see that file's PageUp/PageDown block).
 // - src/scene/MarqueeSelect.tsx: bails out of shift+drag while armed.
+// - Overlap-prevention fix (src/scene/overlapCheck.ts): every placement path
+//   (Scene.tsx, ObjectBox.tsx, useKeyboardControls.ts, FillCirclePanel.tsx,
+//   VerticalStackPanel.tsx) calls setFeedback() to report a blocked single
+//   stamp ("already placed here") or a fill/stack batch's "placed N, skipped
+//   M overlapping" tally; PlaceMode.tsx renders `feedback` next to the ghost.
 // - src/scene/useKeyboardControls.ts: Escape disarms (checked before the
 //   normal clear-selection Escape handling); "R" while armed cycles
 //   ghostRotationSteps (see snapLattice.ts for how PlaceMode.tsx applies it);
@@ -119,6 +124,15 @@ interface PlaceModeState {
    * itself if the locked object gets deleted out from under it.
    */
   lockedAnchorId: string | null;
+  /**
+   * Overlap-prevention fix: a brief transient message for the placement UI —
+   * "already placed here" when a blocked single stamp is rejected, or
+   * "placed N, skipped M overlapping" after a fill/stack batch. Cleared
+   * automatically ~FEEDBACK_TTL_MS after being set (see setFeedback), and
+   * also reset on arm/disarm/type-change like the other per-session fields
+   * above. Rendered by PlaceMode.tsx next to the ghost.
+   */
+  feedback: string | null;
   arm(typeId: string): void;
   disarm(): void;
   /** Palette button behaviour: click arms; clicking the already-armed button again disarms. */
@@ -132,7 +146,12 @@ interface PlaceModeState {
   adjustLevelOffset(delta: number): void;
   /** "Tab" while armed: lock/unlock the active anchor (see lockedAnchorId doc above). Pass null to unlock. */
   setAnchorLock(id: string | null): void;
+  /** Sets a transient placement-feedback message, auto-clearing after ttlMs (default FEEDBACK_TTL_MS). Pass null to clear immediately. */
+  setFeedback(message: string | null, ttlMs?: number): void;
 }
+
+/** How long a transient placement-feedback message (setFeedback) stays visible before auto-clearing. */
+const FEEDBACK_TTL_MS = 1500;
 
 const RESET_ON_ARM_CHANGE = {
   hover: null,
@@ -141,7 +160,14 @@ const RESET_ON_ARM_CHANGE = {
   ghostRotationSteps: 0,
   levelOffset: 0,
   lockedAnchorId: null,
+  feedback: null,
 };
+
+// Module-level (not a store field): the pending auto-clear timer for
+// setFeedback below. A plain variable is enough — only one feedback message
+// is ever shown at a time, so a new call simply restarts the clock, same as
+// clearing any other single-shot timeout.
+let feedbackTimer: ReturnType<typeof setTimeout> | null = null;
 
 export const usePlaceModeStore = create<PlaceModeState>((set, get) => ({
   armedType: null,
@@ -151,6 +177,7 @@ export const usePlaceModeStore = create<PlaceModeState>((set, get) => ({
   ghostRotationSteps: 0,
   levelOffset: 0,
   lockedAnchorId: null,
+  feedback: null,
   arm: (typeId) => set({ armedType: typeId, ...RESET_ON_ARM_CHANGE }),
   disarm: () => set({ armedType: null, ...RESET_ON_ARM_CHANGE }),
   toggle: (typeId) => {
@@ -166,4 +193,17 @@ export const usePlaceModeStore = create<PlaceModeState>((set, get) => ({
   rotateGhost: () => set((s) => ({ ghostRotationSteps: (s.ghostRotationSteps + 1) % 4 })),
   adjustLevelOffset: (delta) => set((s) => ({ levelOffset: s.levelOffset + delta })),
   setAnchorLock: (id) => set({ lockedAnchorId: id }),
+  setFeedback: (message, ttlMs = FEEDBACK_TTL_MS) => {
+    if (feedbackTimer !== null) {
+      clearTimeout(feedbackTimer);
+      feedbackTimer = null;
+    }
+    set({ feedback: message });
+    if (message !== null) {
+      feedbackTimer = setTimeout(() => {
+        feedbackTimer = null;
+        set({ feedback: null });
+      }, ttlMs);
+    }
+  },
 }));
