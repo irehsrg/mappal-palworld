@@ -85,6 +85,16 @@ export function ObjectBox({ object, centroidThree, selected, showLabel, onSelect
       position={position}
       quaternion={quaternion}
       geometry={geometry}
+      // Vertical-placement overhaul (PlaceMode.tsx): tags this mesh so the
+      // armed-mode hover raycast can pick just PLACED-OBJECT meshes out of
+      // the scene graph (not the grid, radius ring, marquee, or the ghost
+      // preview itself — those never set this flag / disable raycasting
+      // outright). Carries the live PlacedObject reference directly (not
+      // just its id) so PlaceMode.tsx never has to linear-scan the object
+      // list to resolve a hit back to a PlacedObject — this prop is
+      // reapplied fresh every render, so it can never point at a stale
+      // object even across an edit that keeps the same mesh instance.
+      userData={{ isPlacedObject: true, placedObject: object }}
       onClick={(e) => {
         // Stop propagation so this doesn't also trigger the Canvas's
         // onPointerMissed (which clears selection on empty-space clicks).

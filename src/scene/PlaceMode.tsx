@@ -21,12 +21,20 @@ import * as THREE from "three";
 import { useThree } from "@react-three/fiber";
 import { Html, Outlines } from "@react-three/drei";
 import type { PlacedObject, Quat, Vec3 } from "../model/types";
-import { VERTICAL_PITCH } from "../model/types";
+import { GRID_PITCH, VERTICAL_PITCH } from "../model/types";
 import { usePlaceModeStore } from "./placeModeStore";
 import { findPalbox } from "./campGeometry";
 import { getTypeEntry, resolveType } from "./objectTypes";
 import { getProxyGeometry } from "./proxyGeometry";
-import { UNIT_SCALE, localAxesFromYaw, threeVecToUe, ueQuatToThree, ueVecToThree, yawFromQuat } from "./coords";
+import {
+  UNIT_SCALE,
+  localAxesFromYaw,
+  threeDirToUe,
+  threeVecToUe,
+  ueQuatToThree,
+  ueVecToThree,
+  yawFromQuat,
+} from "./coords";
 import { computeStampFill, stampFillNewCount, stampModeFromModifiers } from "./arrayStamp";
 import { classifyLattice, edgeYawOffsetDeg, rotateQuatByDeg, snapCenterLattice, snapCornerLattice, snapEdgeLattice } from "./snapLattice";
 
@@ -56,8 +64,22 @@ const LEVEL_PENALTY = 800;
 /** UE units of Z difference still considered "the same level" for the penalty above. */
 const LEVEL_TOLERANCE = 50;
 
+// --- Vertical-placement overhaul tuning (object-geometry raycast) ---------
+/**
+ * Bound on THREE.Raycaster.far for the placed-object hit-test, in three.js
+ * scene units (metres — see coords.ts's UNIT_SCALE). Generous enough to
+ * reach any realistic base (a mega-base a few hundred metres across is
+ * already extreme) while still giving the raycaster a real bound instead of
+ * the default Infinity, per the task brief's "set raycaster.far sensibly".
+ */
+const OBJECT_RAYCAST_FAR = 3000;
+/** Epsilon (UE units) below which a face's classified target Z is considered "already on the right plane" — skips the redundant pass-2 re-raycast. */
+const TARGET_Z_EPSILON = 1e-6;
+/** Radius (metres) of the small height-reference ring drawn around the ghost — ~3 tiles wide (GRID_PITCH is one tile), per the task brief ("small, ~3 tiles wide, not a full-scene plane"). */
+const LEVEL_RING_RADIUS_M = 1.5 * GRID_PITCH * UNIT_SCALE;
+
 export function PlaceMode({ objects, centroidThree }: PlaceModeProps) {
-  const { camera, gl } = useThree();
+  const { camera, gl, scene } = useThree();
   const armedType = usePlaceModeStore((s) => s.armedType);
   const hover = usePlaceModeStore((s) => s.hover);
   // Subscribed purely to drive the "forced recompute" effect below (stale-
@@ -80,6 +102,29 @@ export function PlaceMode({ objects, centroidThree }: PlaceModeProps) {
   objectsRef.current = objects;
   const centroidRef = useRef(centroidThree);
   centroidRef.current = centroidThree;
+
+  // Flat array of every PLACED object's mesh (tagged by ObjectBox.tsx's
+  // userData.isPlacedObject), for the "raycast the actual placed geometry
+  // FIRST" hover pass below — see computeHover's object-raycast block.
+  // Rebuilt only when the object LIST changes (this effect's dependency),
+  // never per pointermove/frame: a THREE.Raycaster against a few thousand
+  // meshes is cheap per call, but re-walking the whole scene graph with
+  // scene.traverse() to FIND those meshes on every mouse pixel would not be.
+  // scene.traverse() (rather than keeping a live registry any other way) is
+  // safe here because R3F commits host-tree mutations (mesh insertion into
+  // the three.js scene graph) synchronously during React's commit phase —
+  // by the time ANY effect for this same commit runs (this one included),
+  // every ObjectBox mesh for the current `objects` is already attached,
+  // regardless of this effect's position relative to ObjectBox's own.
+  const placedMeshesRef = useRef<THREE.Object3D[]>([]);
+  useEffect(() => {
+    const meshes: THREE.Object3D[] = [];
+    scene.traverse((obj) => {
+      if ((obj.userData as { isPlacedObject?: boolean }).isPlacedObject) meshes.push(obj);
+    });
+    placedMeshesRef.current = meshes;
+  }, [objects, scene]);
+
   // Seeds the ground-plane height for the FIRST raycast pass each pointer
   // move (see onPointerMove below) — without a decent guess we'd have to
   // raycast against some arbitrary plane before we even know which anchor
@@ -153,6 +198,11 @@ export function PlaceMode({ objects, centroidThree }: PlaceModeProps) {
       ndc.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
       ndc.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
       raycaster.setFromCamera(ndc, camera);
+      // Bound the object hit-test below (task brief's "set raycaster.far
+      // sensibly") — see OBJECT_RAYCAST_FAR's own comment. Harmless to set
+      // unconditionally: raycastAtZ below hits a THREE.Plane directly via
+      // raycaster.ray, which doesn't consult .far at all.
+      raycaster.far = OBJECT_RAYCAST_FAR;
 
       // Raycast the pointer against a horizontal plane at a given UE z,
       // returning the hit in UE space (or null if the ray is parallel to
@@ -168,73 +218,13 @@ export function PlaceMode({ objects, centroidThree }: PlaceModeProps) {
         return threeVecToUe(hitThree.clone().add(centroidRef.current));
       }
 
-      // Pass 1: raycast at our best guess of the active anchor's Z (last
-      // frame's anchor, or the palbox as a first-ever guess) just to get an
-      // approximate XY — good enough to search for a nearby structure below.
-      // This resolves the chicken-and-egg problem of "which anchor sets the
-      // plane height" vs "the anchor search needs a hit point": a stacked
-      // foundation one floor up will correct itself in pass 2 (below) once
-      // we know it's the active anchor, so being one floor off for the
-      // search itself doesn't matter — horizontal distance is all pass 1 needs.
-      const approxHitUE = raycastAtZ(lastAnchorZRef.current ?? palboxAnchorUE.z);
-      if (!approxHitUE) {
-        usePlaceModeStore.getState().setHover(null);
-        return;
-      }
-
-      // Per-type snap lattice (bug fix, docs/CALIBRATION.md "Wall placement"):
-      // walls/fences/gates sit on tile EDGES, pillars on tile CORNERS, and
-      // everything else (foundations, roofs, furniture, unknown-dims types)
-      // keeps the original tile-CENTER lattice — see snapLattice.ts's header
-      // for the numeric derivation of the EDGE yaw convention. Computed here
-      // (ahead of anchor selection, not just for the snap math below)
-      // because targetZFor's wall-cap rule, used for level-preference
-      // scoring during anchor selection, needs it too.
-      const armedSize = resolveType(armed).size;
-      const lattice = classifyLattice(armedSize);
-      const ghostRotationSteps = usePlaceModeStore.getState().ghostRotationSteps;
-
-      // Smart cap default (vertical-placement fix, "cap the wall") + armed-
-      // mode level offset (PageUp/PageDown while armed), combined: given an
-      // anchor's raw z/typeId, returns whether the wall-cap rule fired and
-      // the final target z (cap, then + levelOffset*VERTICAL_PITCH stacked
-      // on top — "cap this wall, then go up 2 more floors" composes). Shared
-      // by both the level-preference scoring below (candidates need to know
-      // THEIR target z to compare against the current anchor's) and the
-      // final ghost z later, so the two can never disagree about what "this
-      // anchor's target level" means. See the pre-fix version of this file
-      // for the wall-cap rule's own rationale (anchor is a THIN/edge-lattice
-      // wall, armed type is a >=300x300 CENTER-lattice slab).
-      function targetZFor(anchorZ: number, anchorTypeId: string | null): { capActive: boolean; targetZ: number } {
-        const anchorLattice = anchorTypeId ? classifyLattice(resolveType(anchorTypeId).size) : null;
-        const isArmedSlab = lattice === "center" && armedSize[0] >= 300 && armedSize[1] >= 300;
-        const capActive = anchorLattice === "edge" && isArmedSlab;
-        const baseAnchorZ = capActive ? anchorZ + VERTICAL_PITCH : anchorZ;
-        const { levelOffset } = usePlaceModeStore.getState();
-        return { capActive, targetZ: baseAnchorZ + levelOffset * VERTICAL_PITCH };
-      }
-
-      // ANCHOR SELECTION (anchor-stability fix — "the ghost spazzes out":
-      // flickers between levels and jumps across snap areas as the cursor
-      // moves on a dense build). Three layers, checked in order:
-      //  1. Anchor lock (Tab — placeModeStore.ts's lockedAnchorId,
-      //     useKeyboardControls.ts): skips everything below, frame/z/cap all
-      //     come from the locked object alone. Auto-unlocks if that object
-      //     was deleted out from under the lock.
-      //  2. Damped re-evaluation: the search in (3) only runs when the
-      //     pass-1 hit has moved more than REEVAL_DAMP_DIST since the anchor
-      //     was last evaluated — otherwise keep the current anchor as-is.
-      //     Pixel-level cursor jitter must not re-open the decision.
-      //  3. Hysteresis + level preference: score every in-range structure by
-      //     horizontal distance, +LEVEL_PENALTY if its target level (via
-      //     targetZFor above) differs from the CURRENT anchor's target level
-      //     by more than LEVEL_TOLERANCE — this is what keeps a level-2 pass
-      //     snapping to level-2 pieces instead of a horizontally-nearer
-      //     ground piece. The current anchor is kept unless a candidate's
-      //     scored distance beats it by the HYSTERESIS_SWITCH_RATIO margin —
-      //     no flapping between two roughly-equidistant/co-level pieces.
-      const structures = liveObjects.filter((o) => resolveType(o.typeId).category === "structure");
-
+      // Tab-lock resolution, moved ahead of everything else (vertical-
+      // placement overhaul): the object-raycast block just below must know
+      // whether we're locked BEFORE it runs, since a lock wins outright —
+      // see that block's own comment. Previously this lived inside the
+      // "ANCHOR SELECTION" block further down; it's the same logic, just
+      // hoisted so both the new object-raycast path and the old fallback
+      // path (still below, now gated on `!objectHitApplied`) can share it.
       const { lockedAnchorId } = usePlaceModeStore.getState();
       let lockedObj: PlacedObject | null = null;
       if (lockedAnchorId) {
@@ -246,82 +236,246 @@ export function PlaceMode({ objects, centroidThree }: PlaceModeProps) {
         }
       }
 
-      let nearest: PlacedObject | null;
-      if (lockedObj) {
-        nearest = lockedObj; // locked: selection skipped entirely, hysteresis state below untouched
-      } else {
-        const currentObj = currentAnchorId ? (structures.find((o) => o.id === currentAnchorId) ?? null) : null;
-        const refAnchor = currentObj
-          ? { z: currentObj.position.z, typeId: currentObj.typeId as string | null }
-          : { z: palboxAnchorUE.z, typeId: palbox?.typeId ?? null };
-        const refZ = targetZFor(refAnchor.z, refAnchor.typeId).targetZ;
+      // Per-type snap lattice (bug fix, docs/CALIBRATION.md "Wall placement"):
+      // walls/fences/gates sit on tile EDGES, pillars on tile CORNERS, and
+      // everything else (foundations, roofs, furniture, unknown-dims types)
+      // keeps the original tile-CENTER lattice — see snapLattice.ts's header
+      // for the numeric derivation of the EDGE yaw convention. Computed here
+      // (ahead of anchor selection, not just for the snap math below)
+      // because targetZFor's wall-cap rule, used for level-preference
+      // scoring during the FALLBACK anchor search below, needs it too.
+      const armedSize = resolveType(armed).size;
+      const lattice = classifyLattice(armedSize);
+      const ghostRotationSteps = usePlaceModeStore.getState().ghostRotationSteps;
 
-        const effectiveDist = (o: PlacedObject, horizDist: number): number => {
-          const z = targetZFor(o.position.z, o.typeId).targetZ;
-          return Math.abs(z - refZ) > LEVEL_TOLERANCE ? horizDist + LEVEL_PENALTY : horizDist;
-        };
-
-        // `force` (stale-ghost fix: a forced recompute replaying the exact
-        // same pointer event after e.g. R changed ghostRotationSteps) always
-        // counts as "moved enough" — the 100u damping exists to absorb pixel-
-        // level cursor jitter between REAL pointermoves, not to suppress a
-        // recompute the user explicitly triggered via a key press. The
-        // candidate search below re-running against an unchanged hit point
-        // is still hysteresis-protected (currentObj wins ties), so this
-        // can't cause the anchor to flap just because a key was pressed.
-        const movedEnough =
-          force ||
-          !lastEvalPoint ||
-          Math.hypot(approxHitUE.x - lastEvalPoint.x, approxHitUE.y - lastEvalPoint.y) > REEVAL_DAMP_DIST;
-
-        if (!movedEnough && currentObj) {
-          // Damped: cursor barely moved since the anchor was last decided —
-          // keep it without even looking at candidates.
-          nearest = currentObj;
-        } else {
-          lastEvalPoint = { x: approxHitUE.x, y: approxHitUE.y };
-          let best: PlacedObject | null = null;
-          let bestEff = Infinity;
-          for (const o of structures) {
-            const d = Math.hypot(o.position.x - approxHitUE.x, o.position.y - approxHitUE.y);
-            if (d > SNAP_SEARCH_RADIUS) continue;
-            const eff = effectiveDist(o, d);
-            if (eff < bestEff) {
-              bestEff = eff;
-              best = o;
-            }
-          }
-          if (currentObj) {
-            const currentHorizDist = Math.hypot(
-              currentObj.position.x - approxHitUE.x,
-              currentObj.position.y - approxHitUE.y,
-            );
-            const currentInRange = currentHorizDist <= SNAP_SEARCH_RADIUS;
-            const currentEff = effectiveDist(currentObj, currentHorizDist);
-            // Keep current unless it's fallen out of range, or a candidate
-            // decisively beats it (below the hysteresis ratio).
-            nearest = currentInRange && (!best || bestEff >= HYSTERESIS_SWITCH_RATIO * currentEff) ? currentObj : best;
-          } else {
-            nearest = best;
-          }
-        }
-        currentAnchorId = nearest ? nearest.id : null;
+      // Smart cap default (vertical-placement fix, "cap the wall") + armed-
+      // mode level offset (PageUp/PageDown while armed), combined: given an
+      // anchor's raw z/typeId, returns whether the wall-cap rule fired and
+      // the final target z (cap, then + levelOffset*VERTICAL_PITCH stacked
+      // on top — "cap this wall, then go up 2 more floors" composes).
+      // FALLBACK-PATH ONLY now (see the object-raycast block below for its
+      // replacement, face-hit-driven equivalent): when the pointer isn't
+      // over any placed object's actual geometry, we're back to guessing
+      // "on top of" vs. "next to" from anchor-type + armed-type alone, which
+      // is exactly what this heuristic was built for — unchanged from
+      // before this overhaul.
+      function targetZFor(anchorZ: number, anchorTypeId: string | null): { capActive: boolean; targetZ: number } {
+        const anchorLattice = anchorTypeId ? classifyLattice(resolveType(anchorTypeId).size) : null;
+        const isArmedSlab = lattice === "center" && armedSize[0] >= 300 && armedSize[1] >= 300;
+        const capActive = anchorLattice === "edge" && isArmedSlab;
+        const baseAnchorZ = capActive ? anchorZ + VERTICAL_PITCH : anchorZ;
+        const { levelOffset } = usePlaceModeStore.getState();
+        return { capActive, targetZ: baseAnchorZ + levelOffset * VERTICAL_PITCH };
       }
 
-      const anchorUE: Vec3 = nearest ? nearest.position : palboxAnchorUE;
-      const rotation: Quat = nearest ? nearest.rotation : palboxRotation;
-      const yaw = yawFromQuat(rotation);
+      let nearest: PlacedObject | null = null;
+      let anchorUE: Vec3 = palboxAnchorUE;
+      let rotation: Quat = palboxRotation;
+      let capActive = false;
+      let targetZ = palboxAnchorUE.z;
+      let hitUE: Vec3 | null = null;
+      let objectHitApplied = false;
 
-      const { capActive, targetZ } = targetZFor(anchorUE.z, nearest ? nearest.typeId : null);
+      // ====================================================================
+      // RAYCAST THE PLACED GEOMETRY FIRST (vertical-placement overhaul): aim
+      // directly at an object's mesh — not an abstract "nearest structure in
+      // range" search — and read the actual FACE that was hit to decide
+      // "on top of this" vs. "beside this" vs. "underneath this". Skipped
+      // entirely while Tab-locked: a lock is a promise that nothing (not
+      // even where the pointer is actually pointing) moves the anchor.
+      // ====================================================================
+      if (!lockedObj) {
+        const hits = raycaster.intersectObjects(placedMeshesRef.current, false);
+        const hit = hits[0];
+        const hitObj = hit ? (hit.object.userData as { placedObject?: PlacedObject }).placedObject ?? null : null;
+        if (hit && hit.face && hitObj) {
+          // Face normal is stored in the mesh's LOCAL space — transform by
+          // the mesh's world matrix to get a world-space (three.js) normal,
+          // then swap axes into UE space (coords.ts's threeDirToUe) so "up"
+          // reliably means "+UE-Z" regardless of the object's own yaw.
+          const worldNormalThree = hit.face.normal.clone().transformDirection(hit.object.matrixWorld);
+          const n = threeDirToUe(worldNormalThree);
+          const horizMag = Math.hypot(n.x, n.y);
+          // Dominant-axis classification (task brief): a normal whose
+          // vertical component outweighs its horizontal one is a top/bottom
+          // face; otherwise it's a side face. No dead-zone/epsilon needed —
+          // every proxy shape here is either axis-aligned (box faces are
+          // exactly vertical or exactly horizontal) or a shallow roof slope
+          // whose horizontal component dominates on purpose (a roof's slanted
+          // face should read as "side", not "top", so placing next to a roof
+          // doesn't get mistaken for placing on its ridge).
+          const faceKind: "top" | "side" | "bottom" = Math.abs(n.z) > horizMag ? (n.z > 0 ? "top" : "bottom") : "side";
+
+          const hitLattice = classifyLattice(resolveType(hitObj.typeId).size);
+          const hitIsThin = hitLattice === "edge" || hitLattice === "corner";
+          let baseZ: number;
+          if (faceKind === "top") {
+            // Top of a wall/pillar (edge/corner lattice): the walkable
+            // surface is one floor ABOVE the piece itself — go up a level.
+            // Top of a foundation/roof/furniture (center lattice): the
+            // piece's own top face already IS the walkable plane — same
+            // level. (Task brief, verbatim.)
+            baseZ = hitIsThin ? hitObj.position.z + VERTICAL_PITCH : hitObj.position.z;
+            capActive = hitIsThin;
+          } else if (faceKind === "bottom") {
+            // Underneath any piece: one level below it.
+            baseZ = hitObj.position.z - VERTICAL_PITCH;
+          } else {
+            // Side face: same level as the piece hit, adjacent cell in
+            // whichever direction the hit point actually landed — the
+            // shared snap-math block below derives that cell directly from
+            // the real intersection point (hitUE), so no separate "which
+            // direction" computation is needed here.
+            baseZ = hitObj.position.z;
+          }
+          const { levelOffset } = usePlaceModeStore.getState();
+          targetZ = baseZ + levelOffset * VERTICAL_PITCH;
+
+          nearest = hitObj;
+          anchorUE = hitObj.position;
+          rotation = hitObj.rotation;
+          hitUE = threeVecToUe(hit.point.clone().add(centroidRef.current));
+          objectHitApplied = true;
+
+          // Keep the fallback path's hysteresis state in sync: if the very
+          // next pointermove sails off the edge of this mesh (no object
+          // hit), the fallback anchor search below should pick up smoothly
+          // from here instead of re-searching cold and risking a visible
+          // jump to a different, merely-nearby, structure.
+          currentAnchorId = hitObj.id;
+          lastEvalPoint = { x: hitObj.position.x, y: hitObj.position.y };
+        }
+      }
+
+      // ====================================================================
+      // FALLBACK: object raycast missed (open ground/sky) or we're locked —
+      // CURRENT behavior, unchanged: plane raycast + nearest-structure
+      // anchor search + hysteresis (task brief's "2.").
+      // ====================================================================
+      if (!objectHitApplied) {
+        // Pass 1: raycast at our best guess of the active anchor's Z (last
+        // frame's anchor, or the palbox as a first-ever guess) just to get an
+        // approximate XY — good enough to search for a nearby structure below.
+        // This resolves the chicken-and-egg problem of "which anchor sets the
+        // plane height" vs "the anchor search needs a hit point": a stacked
+        // foundation one floor up will correct itself in pass 2 (below) once
+        // we know it's the active anchor, so being one floor off for the
+        // search itself doesn't matter — horizontal distance is all pass 1 needs.
+        const approxHitUE = raycastAtZ(lastAnchorZRef.current ?? palboxAnchorUE.z);
+        if (!approxHitUE) {
+          usePlaceModeStore.getState().setHover(null);
+          return;
+        }
+
+        // ANCHOR SELECTION (anchor-stability fix — "the ghost spazzes out":
+        // flickers between levels and jumps across snap areas as the cursor
+        // moves on a dense build). Two layers, checked in order (the lock
+        // itself was already resolved above, ahead of the object raycast):
+        //  1. Anchor lock (Tab — placeModeStore.ts's lockedAnchorId,
+        //     useKeyboardControls.ts): skips everything below, frame/z/cap
+        //     all come from the locked object alone.
+        //  2. Damped re-evaluation + hysteresis + level preference: the
+        //     search only runs when the pass-1 hit has moved more than
+        //     REEVAL_DAMP_DIST since the anchor was last evaluated; when it
+        //     does run, every in-range structure is scored by horizontal
+        //     distance, +LEVEL_PENALTY if its target level (via targetZFor
+        //     above) differs from the CURRENT anchor's target level by more
+        //     than LEVEL_TOLERANCE — this is what keeps a level-2 pass
+        //     snapping to level-2 pieces instead of a horizontally-nearer
+        //     ground piece. The current anchor is kept unless a candidate's
+        //     scored distance beats it by the HYSTERESIS_SWITCH_RATIO margin —
+        //     no flapping between two roughly-equidistant/co-level pieces.
+        const structures = liveObjects.filter((o) => resolveType(o.typeId).category === "structure");
+
+        if (lockedObj) {
+          nearest = lockedObj; // locked: selection skipped entirely, hysteresis state below untouched
+        } else {
+          const currentObj = currentAnchorId ? (structures.find((o) => o.id === currentAnchorId) ?? null) : null;
+          const refAnchor = currentObj
+            ? { z: currentObj.position.z, typeId: currentObj.typeId as string | null }
+            : { z: palboxAnchorUE.z, typeId: palbox?.typeId ?? null };
+          const refZ = targetZFor(refAnchor.z, refAnchor.typeId).targetZ;
+
+          const effectiveDist = (o: PlacedObject, horizDist: number): number => {
+            const z = targetZFor(o.position.z, o.typeId).targetZ;
+            return Math.abs(z - refZ) > LEVEL_TOLERANCE ? horizDist + LEVEL_PENALTY : horizDist;
+          };
+
+          // `force` (stale-ghost fix: a forced recompute replaying the exact
+          // same pointer event after e.g. R changed ghostRotationSteps) always
+          // counts as "moved enough" — the 100u damping exists to absorb pixel-
+          // level cursor jitter between REAL pointermoves, not to suppress a
+          // recompute the user explicitly triggered via a key press. The
+          // candidate search below re-running against an unchanged hit point
+          // is still hysteresis-protected (currentObj wins ties), so this
+          // can't cause the anchor to flap just because a key was pressed.
+          const movedEnough =
+            force ||
+            !lastEvalPoint ||
+            Math.hypot(approxHitUE.x - lastEvalPoint.x, approxHitUE.y - lastEvalPoint.y) > REEVAL_DAMP_DIST;
+
+          if (!movedEnough && currentObj) {
+            // Damped: cursor barely moved since the anchor was last decided —
+            // keep it without even looking at candidates.
+            nearest = currentObj;
+          } else {
+            lastEvalPoint = { x: approxHitUE.x, y: approxHitUE.y };
+            let best: PlacedObject | null = null;
+            let bestEff = Infinity;
+            for (const o of structures) {
+              const d = Math.hypot(o.position.x - approxHitUE.x, o.position.y - approxHitUE.y);
+              if (d > SNAP_SEARCH_RADIUS) continue;
+              const eff = effectiveDist(o, d);
+              if (eff < bestEff) {
+                bestEff = eff;
+                best = o;
+              }
+            }
+            if (currentObj) {
+              const currentHorizDist = Math.hypot(
+                currentObj.position.x - approxHitUE.x,
+                currentObj.position.y - approxHitUE.y,
+              );
+              const currentInRange = currentHorizDist <= SNAP_SEARCH_RADIUS;
+              const currentEff = effectiveDist(currentObj, currentHorizDist);
+              // Keep current unless it's fallen out of range, or a candidate
+              // decisively beats it (below the hysteresis ratio).
+              nearest = currentInRange && (!best || bestEff >= HYSTERESIS_SWITCH_RATIO * currentEff) ? currentObj : best;
+            } else {
+              nearest = best;
+            }
+          }
+          currentAnchorId = nearest ? nearest.id : null;
+        }
+
+        anchorUE = nearest ? nearest.position : palboxAnchorUE;
+        rotation = nearest ? nearest.rotation : palboxRotation;
+        const res = targetZFor(anchorUE.z, nearest ? nearest.typeId : null);
+        capActive = res.capActive;
+        targetZ = res.targetZ;
+        hitUE = approxHitUE;
+      }
+
+      if (!hitUE) {
+        // Unreachable in practice (the object-hit branch always sets it, and
+        // the fallback branch already returned early above if ITS raycast
+        // missed) — guarded anyway so TypeScript can narrow `hitUE: Vec3 |
+        // null` down to `Vec3` for every use below, no non-null assertions.
+        usePlaceModeStore.getState().setHover(null);
+        return;
+      }
+
+      const yaw = yawFromQuat(rotation);
       lastAnchorZRef.current = targetZ;
 
-      // Pass 2: if the ghost's actual target z (cap + level offset applied)
-      // sits on a different plane than our pass-1 guess, redo the raycast
-      // against THAT plane so the cursor tracks correctly at the floor the
-      // ghost will actually render on (e.g. hovering near a foundation
-      // stacked one level up, or a roof capping a wall two floors above).
-      let hitUE = approxHitUE;
-      if (Math.abs(targetZ - approxHitUE.z) > 1e-6) {
+      // Pass 2 (shared by both paths above): if the ghost's actual target z
+      // (object-hit face rule, or cap + level offset in the fallback path)
+      // sits on a different plane than the raycast hit we already have,
+      // redo the raycast against THAT plane so the cursor tracks correctly
+      // at the floor the ghost will actually render on (e.g. hovering near
+      // the TOP of a wall, whose target level is one floor above the actual
+      // intersection point on the wall's own top face).
+      if (Math.abs(targetZ - hitUE.z) > TARGET_Z_EPSILON) {
         const reHit = raycastAtZ(targetZ);
         if (reHit) hitUE = reHit;
       }
@@ -348,7 +502,17 @@ export function PlaceMode({ objects, centroidThree }: PlaceModeProps) {
             : palbox
               ? "snap: palbox grid"
               : "snap: world grid";
-      const labelParts = [baseLabel];
+      // Level readout (task "3."): the ghost's target Z expressed as a whole
+      // floor count relative to the palbox (or world origin — WORLD_ANCHOR —
+      // when there's no palbox, same fallback as everywhere else in this
+      // file), so "which floor am I building on" is always legible without
+      // doing the arithmetic in your head. Rounded, not floored/ceiled: every
+      // targetZ that reaches this point is already an exact multiple of
+      // VERTICAL_PITCH off the palbox (cap rule and level offset both move
+      // in whole VERTICAL_PITCH steps), so rounding only ever cleans up
+      // float noise, never masks a real half-level.
+      const level = Math.round((targetZ - palboxAnchorUE.z) / VERTICAL_PITCH);
+      const labelParts = [baseLabel, `L${level}`];
       if (capActive) labelParts.push(`cap: ${getTypeEntry(nearest!.typeId)?.name ?? nearest!.typeId}`);
       if (ghostRotationSteps !== 0) labelParts.push(`R: ${ghostRotationSteps * 90}°`);
       const { levelOffset } = usePlaceModeStore.getState();
@@ -453,9 +617,26 @@ export function PlaceMode({ objects, centroidThree }: PlaceModeProps) {
     // closure — see that effect and the ref's own declaration for why.
     computeHoverRef.current = computeHover;
 
+    // Perf (task brief's "4."): a raw pointermove stream can fire faster
+    // than the render loop (high-polling-rate mice, trackpads) — computing a
+    // full object-raycast + snap on every single one is wasted work once
+    // more than one has arrived within the same animation frame, since only
+    // the LAST one before the next paint is ever visible. Coalesce with
+    // rAF: the first pointermove in a frame schedules the actual
+    // computeHover call, any further ones just update which event will be
+    // replayed when that callback runs — at most one computeHover per frame.
+    let rafId: number | null = null;
+    let pendingEvent: PointerEvent | null = null;
+
     function onPointerMove(e: PointerEvent) {
       lastPointerEventRef.current = e;
-      computeHover(e, false);
+      pendingEvent = e;
+      if (rafId === null) {
+        rafId = requestAnimationFrame(() => {
+          rafId = null;
+          if (pendingEvent) computeHover(pendingEvent, false);
+        });
+      }
     }
 
     function onPointerLeave() {
@@ -467,6 +648,7 @@ export function PlaceMode({ objects, centroidThree }: PlaceModeProps) {
     return () => {
       dom.removeEventListener("pointermove", onPointerMove);
       dom.removeEventListener("pointerleave", onPointerLeave);
+      if (rafId !== null) cancelAnimationFrame(rafId);
       usePlaceModeStore.getState().setHover(null);
       computeHoverRef.current = null;
     };
@@ -517,6 +699,17 @@ export function PlaceMode({ objects, centroidThree }: PlaceModeProps) {
   const ghostPositions: Vec3[] = hover.fillPositions ?? [hover.position];
   const showBadge = hover.fillPositions !== undefined && hover.fillPositions.length > 0;
 
+  // Level reference ring (task "3."): a small flat ring around the PRIMARY
+  // ghost position (not every fill-preview copy — a big line/rect fill would
+  // turn a subtle height cue into visual clutter) at the ghost's own height,
+  // so the eye can track which floor it's on at a glance without reading
+  // the text hint. Deliberately small (~3 tiles, LEVEL_RING_RADIUS_M) rather
+  // than a full-scene plane — CLAUDE.md §5 forbids rendering "ground"; this
+  // is a local height cue exactly like RadiusRing.tsx's build-radius ring
+  // (also non-diegetic, also raycast-disabled), not terrain.
+  const ringCenter = ueVecToThree(hover.position).sub(centroidThree);
+  ringCenter.y -= 0.01; // hair below the ghost's own base — avoids z-fighting, same trick as RadiusRing.tsx
+
   return (
     <>
       {ghostPositions.map((posUE, i) => (
@@ -538,6 +731,16 @@ export function PlaceMode({ objects, centroidThree }: PlaceModeProps) {
           <Outlines thickness={1.5} color="#5be3ff" />
         </mesh>
       ))}
+      {/* Level reference ring — see ringCenter's comment above. Lies flat
+          (rotated off its default XY-facing normal, same as
+          RadiusRing.tsx); raycast disabled so it never steals the
+          placement click. */}
+      <group position={ringCenter} rotation={[-Math.PI / 2, 0, 0]}>
+        <mesh raycast={() => null}>
+          <ringGeometry args={[LEVEL_RING_RADIUS_M * 0.96, LEVEL_RING_RADIUS_M, 48]} />
+          <meshBasicMaterial color="#5be3ff" transparent opacity={0.35} depthWrite={false} side={THREE.DoubleSide} />
+        </mesh>
+      </group>
       {/* Active-anchor hint (task "1.": always visible while placing, so the
           user always knows which grid a click will snap to). Sits just above
           the ghost; the fill-count badge (below) sits above THIS when both

@@ -63,6 +63,21 @@ export function ueQuatToThree(q: Quat): THREE.Quaternion {
 }
 
 /**
+ * Convert a three.js DIRECTION vector (e.g. a raycast hit face's world-space
+ * normal) to Unreal space — same axis swap as position/rotation conversion
+ * above, but deliberately WITHOUT the cm<->m scale factor ueVecToThree/
+ * threeVecToUe apply: a direction has no "position" to rescale, and running
+ * it through threeVecToUe would just inflate its magnitude by 1/UNIT_SCALE
+ * (harmless for classifying the dominant axis, since that's a uniform scale,
+ * but confusing if this value is ever logged mid-debugging). Used by
+ * PlaceMode.tsx to classify which face (top/side/bottom) of a placed
+ * object's proxy geometry the pointer's ray hit.
+ */
+export function threeDirToUe(v: THREE.Vector3): Vec3 {
+  return { x: v.x, y: v.z, z: v.y };
+}
+
+/**
  * objects.json's `size` is [length, thickness, height] in UE units (see file
  * header re: which local axis each maps to). Returns three.js
  * <boxGeometry args> order [width(three-X), height(three-Y), depth(three-Z)],
