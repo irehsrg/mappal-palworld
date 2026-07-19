@@ -4,6 +4,7 @@ import { DropZone } from "./ui/DropZone";
 import { AutosaveBanner } from "./ui/AutosaveBanner";
 import { Sidebar } from "./ui/Sidebar";
 import { ExportNotesPanel } from "./ui/ExportNotesPanel";
+import { FirstRunNotice } from "./ui/FirstRunNotice";
 import { Scene } from "./scene/Scene";
 import { useKeyboardControls } from "./scene/useKeyboardControls";
 import { useEditorStore } from "./model/store";
@@ -34,6 +35,7 @@ export function App() {
             Once loaded, it steps aside for the sidebar. */}
         {!blueprint && <DropZone />}
         {!blueprint && <AutosaveBanner />}
+        {!blueprint && <FirstRunNotice />}
 
         {blueprint && (
           <div className="app__sidebar">

@@ -15,6 +15,17 @@ export function ExportNotesPanel({ notes, onDismiss }: ExportNotesPanelProps) {
           ✕
         </button>
       </div>
+      {/* Shown on EVERY export, permanently. Same-world re-import silently
+          destroys the base in-game (verified 2026-07-16, docs/CALIBRATION.md)
+          — this warning existing only in the README is how someone loses a
+          500-hour save. */}
+      <div className="export-notes__danger">
+        <strong>⚠ Import this file into a DIFFERENT world than it came from.</strong>{" "}
+        Re-importing into the same world will make the game silently delete the
+        base's structures. Back up your save folder before every import
+        (<code>%LOCALAPPDATA%\Pal\Saved\SaveGames</code>), and make sure the
+        game is fully closed whenever PalworldSaveTools saves.
+      </div>
       {notes.length === 0 ? (
         <p>No changes to report — the file round-tripped as-is.</p>
       ) : (

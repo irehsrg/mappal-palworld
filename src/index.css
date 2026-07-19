@@ -725,3 +725,66 @@ body,
   flex-direction: column;
   gap: 4px;
 }
+
+/* Export-panel destructive-workflow warning — permanent, every export */
+.export-notes__danger {
+  background: #3a1520;
+  border: 1px solid #b04555;
+  border-radius: 6px;
+  padding: 10px 12px;
+  margin: 8px 0 10px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.export-notes__danger code {
+  font-size: 12px;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 1px 4px;
+  border-radius: 3px;
+}
+
+/* First-run safety notice */
+.first-run {
+  position: absolute;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  max-width: 560px;
+  background: #1d2430;
+  border: 1px solid #b04555;
+  border-radius: 8px;
+  padding: 16px 18px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+}
+.first-run h3 {
+  margin: 0 0 8px;
+  color: #ff9daa;
+}
+.first-run ol {
+  margin: 0 0 10px;
+  padding-left: 20px;
+  line-height: 1.6;
+  font-size: 13.5px;
+}
+.first-run__fine {
+  font-size: 12px;
+  color: #9aa5b1;
+  margin: 0 0 12px;
+}
+.first-run__fine a { color: #7fb5e8; }
+.first-run code {
+  font-size: 12px;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 1px 4px;
+  border-radius: 3px;
+}
+.first-run__dismiss {
+  background: #2a6df4;
+  border: none;
+  color: white;
+  padding: 7px 18px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+}
