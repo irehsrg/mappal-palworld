@@ -1240,3 +1240,30 @@ body,
   color: #dfe6ee;
   border-color: #6b7a8d;
 }
+
+/* Left-dock resize handle */
+.left-dock__resize {
+  position: absolute;
+  top: 0;
+  right: -3px;
+  width: 7px;
+  height: 100%;
+  cursor: col-resize;
+  z-index: 4;
+}
+.left-dock__resize:hover {
+  background: rgba(122, 165, 232, 0.25);
+}
+/* Levels rows: label gets the space, never truncates into "L…" */
+.levels-panel__label {
+  flex: 1 1 auto;
+  min-width: 0;
+  text-align: left;
+  white-space: nowrap;
+}
+.levels-panel__icon-btn {
+  flex: 0 0 auto;
+  padding: 2px 6px !important;
+  font-size: 12px !important;
+  line-height: 1.2;
+}

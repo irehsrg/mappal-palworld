@@ -143,13 +143,15 @@ export function LevelsPanel() {
                     >
                       L{level} · {ids.length}
                     </button>
+                    {/* Icon-only toggles (user feedback: text buttons crushed
+                        the level labels into unreadability at dock width). */}
                     <button
                       type="button"
                       className={`levels-panel__icon-btn${visible ? "" : " levels-panel__icon-btn--off"}`}
                       onClick={() => toggleLevelHidden(level)}
                       title={visible ? "Hide this level" : "Show this level"}
                     >
-                      {visible ? "shown" : "hidden"}
+                      {visible ? "👁" : "✕"}
                     </button>
                     <button
                       type="button"
@@ -157,7 +159,7 @@ export function LevelsPanel() {
                       onClick={() => toggleSolo(level)}
                       title={soloed ? "Clear solo" : `Solo this level — show only L${level}±1`}
                     >
-                      solo
+                      ◎
                     </button>
                   </div>
 
