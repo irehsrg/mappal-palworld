@@ -2,6 +2,12 @@
 
 **Use it now: [mappal-palworld.vercel.app](https://mappal-palworld.vercel.app)** — no install, no signup, runs entirely in your browser (your files never leave your machine).
 
+![A 7,700-piece skyscraper built in MapPal](docs/media/tower-hero.png)
+*A ~7,700-piece skyscraper designed in MapPal and imported into a live world — the glass-and-cladding facade was generated from the original build guide's plan graphic.*
+
+![One-click circular platform generation](docs/media/circle-fill-demo.gif)
+*One click: a 200-tile circular foundation platform, sized to the base radius.*
+
 > ## ⚠️ Back up your save first
 > Before importing anything this tool produced, copy your world folder
 > (`%LOCALAPPDATA%\Pal\Saved\SaveGames\<SteamID>\<WorldID>`) somewhere safe.
