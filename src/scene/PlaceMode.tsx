@@ -39,7 +39,6 @@ import { computeStampFill, stampFillNewCount, stampModeFromModifiers } from "./a
 import {
   classifyLattice,
   edgeYawOffsetDeg,
-  isGridAlignedYaw,
   rotateQuatByDeg,
   snapCenterLattice,
   snapCornerLattice,
@@ -521,10 +520,50 @@ export function PlaceMode({ objects, centroidThree }: PlaceModeProps) {
       // different yaw — docs/CALIBRATION.md: "one base can contain multiple
       // independent grids") this is a no-op: latticeOriginUE === anchorUE
       // and latticeYaw === yaw, identical to pre-fix behavior.
-      const palboxYaw = yawFromQuat(palboxRotation);
-      const gridAlignedToPalbox = !!palbox && isGridAlignedYaw(yaw, palboxYaw);
-      const latticeOriginUE: Vec3 = gridAlignedToPalbox ? palboxAnchorUE : anchorUE;
-      const latticeYaw = gridAlignedToPalbox ? palboxYaw : yaw;
+      // ANCHOR-CLASS PARITY ORIGIN (replaces the earlier palbox-gate attempt,
+      // which failed on real bases: grids routinely sit at arbitrary yaws off
+      // the palbox — docs/CALIBRATION.md "one base can contain multiple
+      // independent grids" — so a palbox-origin gate either never fires or,
+      // worse, fires on a yaw-aligned-but-position-misaligned cluster and
+      // shifts every snap half a tile. User-verified regression 2026-07-19.)
+      //
+      // The correct rule needs no global assumptions: the anchor piece's OWN
+      // lattice class tells us where the tile grid is. In the anchor's own
+      // frame (localAxesFromYaw(yaw)):
+      //   - a CENTER piece (foundation/roof/slab) sits ON a tile centre —
+      //     its position is already a valid lattice origin (old behavior);
+      //   - an EDGE piece (wall) sits on an edge midpoint: tile centres are
+      //     exactly ±200 along its normal (local forward). +200 and -200
+      //     differ by one full pitch, so either yields the same lattice —
+      //     use +200;
+      //   - a CORNER piece (pillar) — and the PALBOX itself, which the camp
+      //     data shows anchored on a 4-tile corner intersection — sits on a
+      //     tile corner: a centre is at +200 forward +200 right.
+      // Shifting the origin to a true tile centre makes every existing snap
+      // function (center/edge/corner) land on the right parity, on ANY grid,
+      // at any yaw. This is what fixes "roof caps a wall straddling the wall
+      // line" — the centre lattice seen from a wall anchor now lives ±200 off
+      // the wall, never on it.
+      const anchorClass =
+        nearest !== null
+          ? classifyLattice(resolveType(nearest.typeId).size)
+          : "corner"; // palbox / world fallback: corner-parity (see above)
+      const { forward: aFwd, right: aRight } = localAxesFromYaw(yaw);
+      let latticeOriginUE: Vec3 = anchorUE;
+      if (anchorClass === "edge") {
+        latticeOriginUE = {
+          x: anchorUE.x + aFwd.x * 200,
+          y: anchorUE.y + aFwd.y * 200,
+          z: anchorUE.z,
+        };
+      } else if (anchorClass === "corner") {
+        latticeOriginUE = {
+          x: anchorUE.x + (aFwd.x + aRight.x) * 200,
+          y: anchorUE.y + (aFwd.y + aRight.y) * 200,
+          z: anchorUE.z,
+        };
+      }
+      const latticeYaw = yaw;
 
       // Pass 2 (shared by both paths above): if the ghost's actual target z
       // (object-hit face rule, or cap + level offset in the fallback path)
