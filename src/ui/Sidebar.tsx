@@ -12,6 +12,7 @@ import { RelocateBasePanel } from "./RelocateBasePanel";
 import { Palette } from "./Palette";
 import { FillCirclePanel } from "./FillCirclePanel";
 import { VerticalStackPanel } from "./VerticalStackPanel";
+import { LevelsPanel } from "./LevelsPanel";
 
 function round(n: number): number {
   return Math.round(n);
@@ -280,6 +281,7 @@ function KeyboardCheatSheet() {
 export function Sidebar() {
   return (
     <div className="sidebar">
+      <LevelsPanel />
       <Palette />
       <FillCirclePanel />
       <VerticalStackPanel />

@@ -15,6 +15,8 @@ import { getProxyGeometry, getProxyEdges } from "./proxyGeometry";
 import { usePlaceModeStore } from "./placeModeStore";
 import { computeStampFill, stampModeFromModifiers } from "./arrayStamp";
 import { stampWithOverlapCheck } from "./overlapCheck";
+import { levelOf } from "./levels";
+import { isLevelVisible, useVisibilityStore } from "./visibilityStore";
 
 export interface ObjectBoxProps {
   object: PlacedObject;
@@ -30,12 +32,28 @@ export interface ObjectBoxProps {
    * matching the ctrlOrCmd convention useKeyboardControls.ts uses elsewhere.
    */
   onSelect: (id: string, modifiers: { shiftKey: boolean; ctrlKey: boolean; altKey: boolean }) => void;
+  /** Live palbox Z (Scene.tsx, findPalbox) — null when the file has no single palbox. Used only to derive this object's Levels-panel level for the visibility lens below. */
+  palboxZ: number | null;
 }
 
-export function ObjectBox({ object, centroidThree, selected, showLabel, onSelect }: ObjectBoxProps) {
+export function ObjectBox({ object, centroidThree, selected, showLabel, onSelect, palboxZ }: ObjectBoxProps) {
   const resolved = resolveType(object.typeId);
   const isWorldObject = resolved.category === "world" && !resolved.isUnknownDims;
   const displayName = getTypeEntry(object.typeId)?.name ?? object.typeId;
+
+  // Levels panel visibility lens (src/ui/LevelsPanel.tsx,
+  // src/scene/visibilityStore.ts) — a hidden/soloed-out level renders
+  // nothing at all (not just invisible-but-present), which is what also
+  // makes it un-raycastable for PlaceMode.tsx's placed-mesh hit-test,
+  // MarqueeSelect.tsx's screen-space hit-test (both operate on real meshes /
+  // the live objects list, neither of which this object appears in once
+  // unmounted), and plain click-select (there's no mesh left to click). All
+  // hooks above/below still run unconditionally every render (rules of
+  // hooks) — only the final `return null` below is conditional.
+  const hiddenLevels = useVisibilityStore((s) => s.hiddenLevels);
+  const soloLevel = useVisibilityStore((s) => s.soloLevel);
+  const level = levelOf(object.position.z, palboxZ);
+  const visible = isLevelVisible(level, hiddenLevels, soloLevel);
 
   // Position + rotation are recomputed only when the object's own transform
   // (or the scene recentring offset) changes — cheap, but no need to redo it
@@ -86,6 +104,13 @@ export function ObjectBox({ object, centroidThree, selected, showLabel, onSelect
   const glassOpacity = resolved.materialOpacity;
   const transparent = isWorldObject || glassOpacity !== undefined;
   const opacity = glassOpacity ?? (isWorldObject ? 0.55 : 1);
+
+  // Hidden by the Levels panel: render nothing. This intentionally does NOT
+  // clear selection — an already-selected object that gets hidden stays
+  // selected (task brief: "deleting while a selected object is hidden still
+  // works — that's fine and useful"), it just has no mesh in the scene graph
+  // until shown again.
+  if (!visible) return null;
 
   return (
     <mesh

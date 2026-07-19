@@ -27,6 +27,7 @@ import { RadiusRing } from "./RadiusRing";
 import { MarqueeSelect } from "./MarqueeSelect";
 import { PlaceMode } from "./PlaceMode";
 import { FlyCamera } from "./FlyCamera";
+import { findPalbox } from "./campGeometry";
 import { usePlaceModeStore } from "./placeModeStore";
 import { computeStampFill, stampModeFromModifiers } from "./arrayStamp";
 import { stampWithOverlapCheck } from "./overlapCheck";
@@ -67,6 +68,14 @@ export function Scene() {
   // First N selected ids get a floating label in the 3D view — capped so a
   // huge multi-select doesn't paper the viewport in <Html> overlays.
   const labelIds = useMemo(() => new Set(selection.slice(0, MAX_LABELS)), [selection]);
+
+  // Levels panel / visibility lens (src/ui/LevelsPanel.tsx, ./visibilityStore.ts):
+  // every object's "level" is a whole floor count relative to the LIVE
+  // palbox Z, same anchor RadiusGuardrail and PlaceMode.tsx's ghost-hint
+  // already use. Computed once here and threaded down to ObjectBox/
+  // MarqueeSelect rather than each looking up the palbox itself, so a
+  // multi-thousand-object base doesn't redo an O(n) findPalbox scan per box.
+  const palboxZ = useMemo(() => findPalbox(objects).palbox?.position.z ?? null, [objects]);
 
   // Click-selection semantics (CLAUDE.md task brief §1/§2 — "spreadsheet
   // semantics"). Precedence, highest first:
@@ -243,6 +252,7 @@ export function Scene() {
           selected={selectionSet.has(o.id)}
           showLabel={labelIds.has(o.id)}
           onSelect={handleSelect}
+          palboxZ={palboxZ}
         />
       ))}
 
@@ -251,7 +261,7 @@ export function Scene() {
           Rendered before OrbitControls so its pointerdown listener attaches
           first (belt-and-suspenders; the enabled-flag trick doesn't
           strictly depend on this ordering, see that file). */}
-      <MarqueeSelect objects={objects} centroidThree={centroidThree} />
+      <MarqueeSelect objects={objects} centroidThree={centroidThree} palboxZ={palboxZ} />
 
       {/* Phase 2 place-mode ghost preview (CLAUDE.md §6) — renders nothing
           while nothing is armed. The actual placement click is handled above

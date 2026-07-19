@@ -45,6 +45,7 @@ import {
   snapCornerLattice,
   snapEdgeLattice,
 } from "./snapLattice";
+import { useVisibilityStore } from "./visibilityStore";
 
 export interface PlaceModeProps {
   objects: PlacedObject[];
@@ -129,13 +130,24 @@ export function PlaceMode({ objects, centroidThree }: PlaceModeProps) {
   // every ObjectBox mesh for the current `objects` is already attached,
   // regardless of this effect's position relative to ObjectBox's own.
   const placedMeshesRef = useRef<THREE.Object3D[]>([]);
+  // Levels panel visibility lens (src/ui/LevelsPanel.tsx,
+  // visibilityStore.ts): a hidden/soloed-out object's ObjectBox unmounts
+  // entirely (returns null), so it's already absent from scene.traverse()
+  // below by construction — but only once THIS effect re-runs and re-walks
+  // the scene graph. Subscribing to hiddenLevels/soloLevel here (in addition
+  // to objects/scene) is what forces that re-walk on every hide/solo toggle;
+  // without it, a level hidden mid-session would still block placement
+  // raycasts against its now-invisible meshes until the next unrelated
+  // object edit happened to re-run this effect.
+  const hiddenLevels = useVisibilityStore((s) => s.hiddenLevels);
+  const soloLevel = useVisibilityStore((s) => s.soloLevel);
   useEffect(() => {
     const meshes: THREE.Object3D[] = [];
     scene.traverse((obj) => {
       if ((obj.userData as { isPlacedObject?: boolean }).isPlacedObject) meshes.push(obj);
     });
     placedMeshesRef.current = meshes;
-  }, [objects, scene]);
+  }, [objects, scene, hiddenLevels, soloLevel]);
 
   // Seeds the ground-plane height for the FIRST raycast pass each pointer
   // move (see onPointerMove below) — without a decent guess we'd have to

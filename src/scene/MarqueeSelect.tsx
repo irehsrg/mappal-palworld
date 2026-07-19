@@ -31,16 +31,20 @@ import type { PlacedObject } from "../model/types";
 import { useEditorStore } from "../model/store";
 import { ueVecToThree } from "./coords";
 import { usePlaceModeStore } from "./placeModeStore";
+import { levelOf } from "./levels";
+import { isLevelVisible, useVisibilityStore } from "./visibilityStore";
 
 export interface MarqueeSelectProps {
   objects: PlacedObject[];
   /** Scene-wide recentring offset (three.js space, metres) — see Scene.tsx. */
   centroidThree: THREE.Vector3;
+  /** Live palbox Z (Scene.tsx) — see ObjectBox.tsx's prop of the same name; used only to skip Levels-panel-hidden objects below. */
+  palboxZ: number | null;
 }
 
 const DRAG_THRESHOLD_PX = 6;
 
-export function MarqueeSelect({ objects, centroidThree }: MarqueeSelectProps) {
+export function MarqueeSelect({ objects, centroidThree, palboxZ }: MarqueeSelectProps) {
   const { camera, gl, controls } = useThree();
 
   // Read via refs inside the native listeners so the effect (and its
@@ -49,6 +53,8 @@ export function MarqueeSelect({ objects, centroidThree }: MarqueeSelectProps) {
   objectsRef.current = objects;
   const centroidRef = useRef(centroidThree);
   centroidRef.current = centroidThree;
+  const palboxZRef = useRef(palboxZ);
+  palboxZRef.current = palboxZ;
 
   useEffect(() => {
     const dom = gl.domElement;
@@ -110,9 +116,18 @@ export function MarqueeSelect({ objects, centroidThree }: MarqueeSelectProps) {
       const y0 = Math.min(startY, e.clientY) - rect.top;
       const y1 = Math.max(startY, e.clientY) - rect.top;
 
+      // Levels-panel hidden/soloed-out objects must be untouchable by
+      // marquee, same as they already are for plain click-select (ObjectBox
+      // unmounts entirely) — read fresh via getState() since this handler
+      // runs outside React's render cycle (same pattern usePlaceModeStore
+      // uses elsewhere in this file/Scene.tsx).
+      const { hiddenLevels, soloLevel } = useVisibilityStore.getState();
+
       const hits: string[] = [];
       const v = new THREE.Vector3();
       for (const o of objectsRef.current) {
+        const level = levelOf(o.position.z, palboxZRef.current);
+        if (!isLevelVisible(level, hiddenLevels, soloLevel)) continue;
         v.copy(ueVecToThree(o.position)).sub(centroidRef.current);
         v.project(camera);
         if (v.z < -1 || v.z > 1) continue; // behind camera / outside clip range

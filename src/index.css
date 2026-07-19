@@ -426,6 +426,170 @@ body,
   padding-right: 12px !important;
 }
 
+/* ------------------------------------------------------------ Levels panel */
+
+.levels-panel__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.levels-panel__collapse-toggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  color: inherit;
+}
+
+.levels-panel__collapse-toggle h3 {
+  margin: 0;
+}
+
+.levels-panel__caret {
+  font-size: 10px;
+  color: #9098a3;
+  width: 10px;
+  display: inline-block;
+}
+
+.levels-panel__show-all {
+  padding: 3px 8px !important;
+  font-size: 11px !important;
+  background: #2a2d33 !important;
+  border-color: #3a3f47 !important;
+  color: #5be3ff !important;
+}
+
+.levels-panel__show-all:hover:not(:disabled) {
+  background: #34383f !important;
+}
+
+.levels-panel__show-all:disabled {
+  opacity: 0.4;
+  cursor: default;
+  color: #9098a3 !important;
+}
+
+.levels-panel__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  max-height: 260px;
+  overflow-y: auto;
+}
+
+.levels-panel__row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 2px;
+  border-radius: 4px;
+}
+
+.levels-panel__row--hidden {
+  opacity: 0.5;
+}
+
+.levels-panel__expand {
+  flex: 0 0 auto;
+  width: 16px;
+  background: transparent;
+  border: none;
+  color: #9098a3;
+  cursor: pointer;
+  font-size: 10px;
+  padding: 0;
+}
+
+.levels-panel__label {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: left;
+  background: transparent;
+  border: none;
+  color: #e6e6e6;
+  cursor: pointer;
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+  padding: 2px 4px;
+}
+
+.levels-panel__label:hover {
+  color: #5be3ff;
+}
+
+.levels-panel__icon-btn {
+  flex: 0 0 auto;
+  padding: 2px 7px !important;
+  font-size: 10px !important;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  background: #2a2d33 !important;
+  border-color: #3a3f47 !important;
+  color: #9098a3 !important;
+}
+
+.levels-panel__icon-btn:hover:not(:disabled) {
+  background: #34383f !important;
+}
+
+.levels-panel__icon-btn--off {
+  color: #ff8a5c !important;
+  border-color: rgba(255, 138, 92, 0.5) !important;
+}
+
+.levels-panel__icon-btn--solo {
+  color: #5be3ff !important;
+  border-color: #5be3ff !important;
+  background: rgba(91, 227, 255, 0.14) !important;
+}
+
+.levels-panel__types {
+  list-style: none;
+  margin: 0 0 2px;
+  padding: 0 0 0 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.levels-panel__type-row {
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  border: none;
+  color: #cfd3da;
+  cursor: pointer;
+  font-size: 12px;
+  padding: 2px 4px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.levels-panel__type-row:hover {
+  color: #5be3ff;
+}
+
+.levels-panel__types-more {
+  font-size: 11px;
+  color: #7a8290;
+  font-style: italic;
+  padding: 2px 4px;
+}
+
 /* ----------------------------------------------------------------- Palette */
 
 .palette {
@@ -666,6 +830,33 @@ body,
 
 .drop-zone__hint a {
   color: #5b8def;
+}
+
+/* --------------------------------------------------------- VisibilityBanner */
+
+/* Persistent chip (task brief §5): shown whenever LevelsPanel.tsx has
+   hidden/soloed a level, so filtered-out-of-view never reads as deleted.
+   Positioned top-center like autosave-banner/first-run, but a plain
+   <button> (not a panel) since its only job is "click to reset". */
+.visibility-banner {
+  position: absolute;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
+  padding: 8px 16px;
+  background: rgba(91, 227, 255, 0.14);
+  border: 1px solid #5be3ff;
+  border-radius: 20px;
+  color: #5be3ff;
+  font-size: 13px;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  pointer-events: auto;
+}
+
+.visibility-banner:hover {
+  background: rgba(91, 227, 255, 0.22);
 }
 
 /* ---------------------------------------------------------- AutosaveBanner */
