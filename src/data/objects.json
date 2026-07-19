@@ -796,7 +796,7 @@
       "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
     },
     "MedicalPalBed_05": {
-      "name": "Medical Pal Bed 05",
+      "name": "Pal Pod",
       "category": "decor",
       "size": [
         360,
@@ -886,7 +886,7 @@
       "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
     },
     "StationDeforest3": {
-      "name": "Station Deforest3",
+      "name": "Logging Site II",
       "category": "production",
       "size": [
         820,
@@ -916,7 +916,7 @@
       "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
     },
     "AncientMultiProduct": {
-      "name": "Ancient Multi Product",
+      "name": "Ancient Material Synthesizer",
       "category": "production",
       "size": [
         null,
@@ -996,7 +996,7 @@
       "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
     },
     "MedicalPalBed_04": {
-      "name": "Medical Pal Bed 04",
+      "name": "Large Pal Bed",
       "category": "decor",
       "size": [
         360,
@@ -1026,7 +1026,7 @@
       "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
     },
     "CompositeDesk": {
-      "name": "Composite Desk",
+      "name": "Drafting Table",
       "category": "production",
       "size": [
         220,
@@ -1076,7 +1076,7 @@
       "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
     },
     "Factory_Money": {
-      "name": "Factory Money",
+      "name": "Gold Coin Assembly Line",
       "category": "production",
       "size": [
         400,
@@ -1166,7 +1166,7 @@
       "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
     },
     "WorkBench_SkillUnlock": {
-      "name": "Work Bench Skill Unlock",
+      "name": "Pal Gear Workbench",
       "category": "production",
       "size": [
         200,
@@ -1366,7 +1366,7 @@
       "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
     },
     "IceCrusher": {
-      "name": "Ice Crusher",
+      "name": "Cryogenic Crusher",
       "category": "production",
       "size": [
         400,
@@ -1406,7 +1406,7 @@
       "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
     },
     "StationDeforest2": {
-      "name": "Station Deforest2",
+      "name": "Logging Site",
       "category": "production",
       "size": [
         820,
@@ -1526,7 +1526,7 @@
       "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
     },
     "Ancient_MedicalPalBed": {
-      "name": "Ancient Medical Pal Bed",
+      "name": "Ancient Pal Bed",
       "category": "decor",
       "size": [
         360,
@@ -1556,7 +1556,7 @@
       "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
     },
     "MedicalPalBed_03": {
-      "name": "Medical Pal Bed 03",
+      "name": "Fluffy Pal Bed",
       "category": "decor",
       "size": [
         360,
@@ -1576,7 +1576,7 @@
       "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
     },
     "PlayerBed_03": {
-      "name": "Player Bed 03",
+      "name": "Fine Bed",
       "category": "decor",
       "size": [
         200,
@@ -1626,7 +1626,7 @@
       "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
     },
     "PlayerBed_02": {
-      "name": "Player Bed 02",
+      "name": "Shoddy Bed",
       "category": "decor",
       "size": [
         200,
@@ -1858,7 +1858,7 @@
       "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
     },
     "CoolerPalFoodBox": {
-      "name": "Cooler Pal Food Box",
+      "name": "Cold Food Box",
       "category": "storage",
       "size": [
         200,
@@ -1908,7 +1908,7 @@
       "sizeSource": "rough storage-furniture estimate — display only"
     },
     "HugeKitchen": {
-      "name": "Huge Kitchen",
+      "name": "Large-Scale Stone Oven",
       "category": "decor",
       "size": [
         260,
@@ -1948,7 +1948,7 @@
       "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
     },
     "AncientFarmBlock": {
-      "name": "Ancient Farm Block",
+      "name": "Ancient Farm",
       "category": "decor",
       "size": [
         360,
@@ -1958,7 +1958,7 @@
       "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
     },
     "DismantlingConveyor": {
-      "name": "Dismantling Conveyor",
+      "name": "Pal Disassembly Conveyor",
       "category": "production",
       "size": [
         null,
@@ -1978,7 +1978,7 @@
       "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
     },
     "Farm_SkillFruits": {
-      "name": "Farm Skill Fruits",
+      "name": "Skillfruit Orchard",
       "category": "decor",
       "size": [
         700,
@@ -2008,7 +2008,7 @@
       "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
     },
     "AncientCookingStove": {
-      "name": "Ancient Cooking Stove",
+      "name": "Ancient Kitchen",
       "category": "production",
       "size": [
         null,
@@ -2028,7 +2028,7 @@
       "sizeSource": "no rule matched and no works bounds — magenta until measured"
     },
     "BaseCampWorkHard": {
-      "name": "Base Camp Work Hard",
+      "name": "Monitoring Stand",
       "category": "production",
       "size": [
         null,
@@ -2048,7 +2048,7 @@
       "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
     },
     "PalFoodBox": {
-      "name": "Pal Food Box",
+      "name": "Feed Box",
       "category": "storage",
       "size": [
         200,
@@ -2078,7 +2078,7 @@
       "sizeSource": "rough storage-furniture estimate — display only"
     },
     "GlobalPalStorage": {
-      "name": "Global Pal Storage",
+      "name": "Global Palbox",
       "category": "storage",
       "size": [
         200,
@@ -2088,7 +2088,7 @@
       "sizeSource": "rough storage-furniture estimate — display only"
     },
     "CookingStove": {
-      "name": "Cooking Stove",
+      "name": "Cooking Pot",
       "category": "production",
       "size": [
         150,
@@ -2098,7 +2098,7 @@
       "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
     },
     "SkinChange": {
-      "name": "Skin Change",
+      "name": "Pal Dressing Facility",
       "category": "decor",
       "size": [
         null,
@@ -2138,7 +2138,7 @@
       "sizeSource": "no rule matched and no works bounds — magenta until measured"
     },
     "Lab": {
-      "name": "Lab",
+      "name": "Pal Labor Research Lab",
       "category": "production",
       "size": [
         null,
@@ -2148,7 +2148,7 @@
       "sizeSource": "no rule matched and no works bounds — magenta until measured"
     },
     "MultiElectricHatchingPalEggWithBreed": {
-      "name": "Multi Electric Hatching Pal Egg With Breed",
+      "name": "Breeding Farm",
       "category": "production",
       "size": [
         null,
@@ -2158,7 +2158,7 @@
       "sizeSource": "no rule matched and no works bounds — magenta until measured"
     },
     "OperatingTable": {
-      "name": "Operating Table",
+      "name": "Pal Surgery Table",
       "category": "production",
       "size": [
         null,
@@ -2198,7 +2198,7 @@
       "sizeSource": "no rule matched and no works bounds — magenta until measured"
     },
     "BuildableGoddessStatue": {
-      "name": "Buildable Goddess Statue",
+      "name": "Statue of Power",
       "category": "decor",
       "size": [
         null,
@@ -2208,7 +2208,7 @@
       "sizeSource": "no rule matched and no works bounds — magenta until measured"
     },
     "Expedition": {
-      "name": "Expedition",
+      "name": "Expedition Cage",
       "category": "decor",
       "size": [
         null,
@@ -2218,7 +2218,7 @@
       "sizeSource": "no rule matched and no works bounds — magenta until measured"
     },
     "CharacterRankUp": {
-      "name": "Character Rank Up",
+      "name": "Essence Condenser",
       "category": "decor",
       "size": [
         null,
@@ -2228,7 +2228,7 @@
       "sizeSource": "no rule matched and no works bounds — magenta until measured"
     },
     "MonsterFarm": {
-      "name": "Monster Farm",
+      "name": "Ranch",
       "category": "decor",
       "size": [
         1100,
@@ -2238,7 +2238,7 @@
       "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
     },
     "DisplayCharacter": {
-      "name": "Display Character",
+      "name": "Viewing Cage",
       "category": "decor",
       "size": [
         null,
@@ -2258,7 +2258,7 @@
       "sizeSource": "rough storage-furniture estimate — display only"
     },
     "Altar": {
-      "name": "Altar",
+      "name": "Summoning Altar",
       "category": "decor",
       "size": [
         null,
@@ -2638,7 +2638,7 @@
       "sizeSource": "rough furniture estimate — display only"
     },
     "ManualElectricGenerator": {
-      "name": "Manual Electric Generator",
+      "name": "Human-Powered Generator",
       "category": "decor",
       "size": [
         340,
@@ -2648,7 +2648,7 @@
       "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
     },
     "ElectricGenerator": {
-      "name": "Electric Generator",
+      "name": "Power Generator",
       "category": "decor",
       "size": [
         340,
@@ -2658,7 +2658,7 @@
       "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
     },
     "AncientElectricGenerator": {
-      "name": "Ancient Electric Generator",
+      "name": "Ancient Power Generator",
       "category": "decor",
       "size": [
         300,
@@ -2678,7 +2678,7 @@
       "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
     },
     "EnergyStorage_Electric": {
-      "name": "Energy Storage Electric",
+      "name": "Accumulator",
       "category": "storage",
       "size": [
         200,
@@ -2728,7 +2728,7 @@
       "sizeSource": "rough furniture estimate — display only"
     },
     "Spa": {
-      "name": "Spa",
+      "name": "Hot Spring",
       "category": "production",
       "size": [
         300,
@@ -2778,7 +2778,7 @@
       "sizeSource": "rough furniture estimate — display only"
     },
     "PalMedicineBox": {
-      "name": "Pal Medicine Box",
+      "name": "Medicine Rack",
       "category": "storage",
       "size": [
         200,
@@ -3508,7 +3508,7 @@
       "sizeSource": "rough furniture estimate — display only"
     },
     "Headstone": {
-      "name": "Headstone",
+      "name": "Tombstone",
       "category": "decor",
       "size": [
         100,
@@ -3588,7 +3588,7 @@
       "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
     },
     "ElectricGenerator_Large": {
-      "name": "Electric Generator Large",
+      "name": "Large Power Generator",
       "category": "decor",
       "size": [
         500,
@@ -3618,7 +3618,7 @@
       "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
     },
     "Ancient_Spa": {
-      "name": "Ancient Spa",
+      "name": "Ancient Hot Spring",
       "category": "production",
       "size": [
         300,
@@ -3638,7 +3638,7 @@
       "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
     },
     "Spa2": {
-      "name": "Spa2",
+      "name": "High Quality Hot Spring",
       "category": "production",
       "size": [
         300,
@@ -3648,7 +3648,7 @@
       "sizeSource": "rough furniture estimate — display only"
     },
     "Spa3": {
-      "name": "Spa3",
+      "name": "Japanese-Style Hot Spring",
       "category": "production",
       "size": [
         300,

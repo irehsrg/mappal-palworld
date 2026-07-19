@@ -18,7 +18,61 @@ const registry = JSON.parse(readFileSync("src/data/objects.json", "utf8"));
 const GRID = registry.gridPitch ?? 400;
 const WALL_H = registry.verticalPitch ?? 325;
 
+// Curated internal-id -> in-game display names, confirmed against the v1.0
+// build menu (Alex, 2026-07-19). Generator-applied so regens keep them.
+const DISPLAY_NAMES: Record<string, string> = {
+  MedicalPalBed_02: "Straw Pal Bed",
+  MedicalPalBed_03: "Fluffy Pal Bed",
+  MedicalPalBed_04: "Large Pal Bed",
+  MedicalPalBed_05: "Pal Pod",
+  Ancient_MedicalPalBed: "Ancient Pal Bed",
+  PlayerBed_02: "Shoddy Bed",
+  PlayerBed_03: "Fine Bed",
+  IceCrusher: "Cryogenic Crusher",
+  MonsterFarm: "Ranch",
+  SkinChange: "Pal Dressing Facility",
+  DisplayCharacter: "Viewing Cage",
+  GlobalPalStorage: "Global Palbox",
+  OperatingTable: "Pal Surgery Table",
+  MultiElectricHatchingPalEggWithBreed: "Breeding Farm",
+  DismantlingConveyor: "Pal Disassembly Conveyor",
+  Farm_SkillFruits: "Skillfruit Orchard",
+  AncientFarmBlock: "Ancient Farm",
+  HugeKitchen: "Large-Scale Stone Oven",
+  CookingStove: "Cooking Pot",
+  AncientCookingStove: "Ancient Kitchen",
+  PalMedicineBox: "Medicine Rack",
+  PalFoodBox: "Feed Box",
+  CoolerPalFoodBox: "Cold Food Box",
+  EnergyStorage_Electric: "Accumulator",
+  ElectricGenerator: "Power Generator",
+  ManualElectricGenerator: "Human-Powered Generator",
+  ElectricGenerator_Large: "Large Power Generator",
+  AncientElectricGenerator: "Ancient Power Generator",
+  Spa: "Hot Spring",
+  Spa2: "High Quality Hot Spring",
+  Spa3: "Japanese-Style Hot Spring",
+  Ancient_Spa: "Ancient Hot Spring",
+  StationDeforest2: "Logging Site",
+  StationDeforest3: "Logging Site II",
+  Headstone: "Tombstone",
+  Altar: "Summoning Altar",
+  Factory_Money: "Gold Coin Assembly Line",
+  CompositeDesk: "Drafting Table",
+  WorkSpeedIncrease1: "Alpha Wave Generator",
+  SanityDecrease1: "Beta Wave Generator",
+  WorkBench_SkillUnlock: "Pal Gear Workbench",
+  AncientMultiProduct: "Ancient Material Synthesizer",
+  AncientRelicRecycler: "Ancient Relic Recycler",
+  BaseCampWorkHard: "Monitoring Stand",
+  Lab: "Pal Labor Research Lab",
+  BuildableGoddessStatue: "Statue of Power",
+  CharacterRankUp: "Essence Condenser",
+  Expedition: "Expedition Cage",
+};
+
 function displayName(typeId: string): string {
+  if (DISPLAY_NAMES[typeId]) return DISPLAY_NAMES[typeId];
   return typeId
     .replace(/_/g, " ")
     .replace(/([a-z])([A-Z])/g, "$1 $2")
