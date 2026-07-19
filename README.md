@@ -5,8 +5,8 @@
 ![A 7,700-piece skyscraper built in MapPal](docs/media/tower-hero.png)
 *A ~7,700-piece skyscraper designed in MapPal and imported into a live world — the glass-and-cladding facade was generated from the original build guide's plan graphic.*
 
-![One-click circular platform generation](docs/media/circle-fill-demo.gif)
-*One click: a 200-tile circular foundation platform, sized to the base radius.*
+![Box-select and mass editing](docs/media/shift-highlight-demo.gif)
+*Box-select a whole region and mass-edit it — one of the fill/stack/duplicate tools that make 7,000-piece builds practical.*
 
 > ## ⚠️ Back up your save first
 > Before importing anything this tool produced, copy your world folder
