@@ -3,6 +3,7 @@ import { Header } from "./ui/Header";
 import { DropZone } from "./ui/DropZone";
 import { AutosaveBanner } from "./ui/AutosaveBanner";
 import { Sidebar } from "./ui/Sidebar";
+import { LeftDock } from "./ui/LeftDock";
 import { ExportNotesPanel } from "./ui/ExportNotesPanel";
 import { FirstRunNotice } from "./ui/FirstRunNotice";
 import { VisibilityBanner } from "./ui/VisibilityBanner";
@@ -50,6 +51,11 @@ export function App() {
         {!blueprint && <FirstRunNotice />}
 
         {blueprint && <VisibilityBanner />}
+
+        {/* Left dock: the Levels hierarchy, full height (user feedback:
+            "Levels should live on the LEFT edge") — collapsible to a thin
+            strip, see LeftDock.tsx. */}
+        {blueprint && <LeftDock />}
 
         {blueprint && (
           <div className="app__sidebar">

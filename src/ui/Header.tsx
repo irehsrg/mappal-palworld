@@ -1,9 +1,21 @@
 // Top bar: current file, live object count (+ the honest "build limit:
 // unknown" guardrail note — CLAUDE.md §5, "the tool warns; the user
-// decides", never invent a number we don't have), undo/redo, export.
+// decides", never invent a number we don't have), undo/redo, export, and the
+// build-tool popovers (Circle/Stack/Relocate — user feedback: "tools belong
+// in a top toolbar", moved out of the sidebar; see ToolPopover.tsx) plus a
+// "?" button that opens the full keyboard shortcut list in a modal
+// (ShortcutsModal.tsx, moved out of the sidebar's old "massive box for
+// controls").
 import { useEffect, useState } from "react";
 import { useEditorStore } from "../model/store";
 import { formatRelativeTime, useAutosaveUi } from "./autosave";
+import { ToolPopover } from "./ToolPopover";
+import { ShortcutsModal } from "./ShortcutsModal";
+import { FillCirclePanel } from "./FillCirclePanel";
+import { VerticalStackPanel } from "./VerticalStackPanel";
+import { RelocateBasePanel } from "./RelocateBasePanel";
+
+type ToolId = "circle" | "stack" | "relocate";
 
 export interface HeaderProps {
   onExported: (notes: string[]) => void;
@@ -41,6 +53,11 @@ export function Header({ onExported }: HeaderProps) {
   const redo = useEditorStore((s) => s.redo);
   const setSelection = useEditorStore((s) => s.setSelection);
   const exportBlueprint = useEditorStore((s) => s.exportBlueprint);
+
+  // Only one tool popover open at a time — standard toolbar behavior, and
+  // keeps the viewport from accumulating a wall of stacked panels.
+  const [openTool, setOpenTool] = useState<ToolId | null>(null);
+  const [shortcutsOpen, setShortcutsOpen] = useState(false);
 
   const handleSelectAll = () => setSelection(objects.map((o) => o.id));
 
@@ -87,6 +104,35 @@ export function Header({ onExported }: HeaderProps) {
       </div>
 
       {blueprint && (
+        <div className="header__tools">
+          <ToolPopover
+            label="Circle"
+            title="Fill base circle — bulk-stamp a circular foundation platform"
+            open={openTool === "circle"}
+            onOpenChange={(open) => setOpenTool(open ? "circle" : null)}
+          >
+            <FillCirclePanel />
+          </ToolPopover>
+          <ToolPopover
+            label="Stack"
+            title="Vertical stack — bulk-stamp N copies straight up or down"
+            open={openTool === "stack"}
+            onOpenChange={(open) => setOpenTool(open ? "stack" : null)}
+          >
+            <VerticalStackPanel />
+          </ToolPopover>
+          <ToolPopover
+            label="Relocate"
+            title="Relocate base — move the whole base to a new position"
+            open={openTool === "relocate"}
+            onOpenChange={(open) => setOpenTool(open ? "relocate" : null)}
+          >
+            <RelocateBasePanel />
+          </ToolPopover>
+        </div>
+      )}
+
+      {blueprint && (
         <div className="header__actions">
           <button
             type="button"
@@ -106,6 +152,14 @@ export function Header({ onExported }: HeaderProps) {
             Export
           </button>
           <AutosaveIndicator />
+          <button
+            type="button"
+            className="header__help"
+            onClick={() => setShortcutsOpen(true)}
+            title="Keyboard shortcuts"
+          >
+            ?
+          </button>
           <a
             className="header__feedback"
             href="https://github.com/irehsrg/mappal-palworld/issues/new/choose"
@@ -117,6 +171,8 @@ export function Header({ onExported }: HeaderProps) {
           </a>
         </div>
       )}
+
+      {shortcutsOpen && <ShortcutsModal onClose={() => setShortcutsOpen(false)} />}
     </header>
   );
 }

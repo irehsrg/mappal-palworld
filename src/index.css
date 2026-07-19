@@ -3,6 +3,11 @@
 :root {
   color-scheme: dark;
   font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  /* Published by LeftDock.tsx so overlays that float over the canvas (e.g.
+     VisibilityBanner) can offset themselves right of the dock without a
+     direct React dependency between the two. 0px when the dock isn't
+     mounted (no blueprint loaded). */
+  --left-dock-width: 0px;
 }
 
 * {
@@ -104,6 +109,77 @@ body,
   color: #ffb454;
 }
 
+.header__help {
+  padding: 6px 12px !important;
+  font-weight: 700;
+  font-family: ui-monospace, Consolas, monospace;
+}
+
+/* ------------------------------------------------------------ Toolbar tools */
+
+/* Circle/Stack/Relocate popover triggers (Header.tsx) — visually set apart
+   from the file-level actions on the right, since these are build tools, not
+   document actions. */
+.header__tools {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 0 0 auto;
+  padding: 0 12px;
+  border-left: 1px solid #2a2d33;
+  border-right: 1px solid #2a2d33;
+}
+
+.tool-popover {
+  position: relative;
+}
+
+.tool-popover__trigger {
+  padding: 6px 14px;
+  background: #2a2d33;
+  color: #e6e6e6;
+  border: 1px solid #3a3f47;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.tool-popover__trigger:hover {
+  background: #34383f;
+}
+
+.tool-popover__trigger--active {
+  background: rgba(91, 227, 255, 0.14);
+  border-color: #5be3ff;
+  color: #5be3ff;
+}
+
+/* Anchored below the trigger button — high z-index so it clears the sidebar
+   (z-index unset/auto) and the left dock (z-index 3), but well below the
+   shortcuts modal (z-index 50), which should always win if somehow both are
+   open. */
+.tool-popover__panel {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  z-index: 20;
+  width: 300px;
+  max-width: min(90vw, 340px);
+  background: #1b1e24;
+  border: 1px solid #2a2d33;
+  border-radius: 6px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  padding: 12px 14px;
+}
+
+/* The reused panel components (FillCirclePanel.tsx etc.) render their own
+   .sidebar__section wrapper — strip its border/padding since the popover
+   panel already provides both. */
+.tool-popover__panel .sidebar__section {
+  padding: 0;
+  border-bottom: none;
+}
+
 /* ------------------------------------------------------------------ Body */
 
 .app__body {
@@ -116,6 +192,54 @@ body,
 /* The <Canvas> from react-three-fiber fills its container. */
 .app__body canvas {
   display: block;
+}
+
+/* -------------------------------------------------------------- Left dock */
+
+/* Full-height dock on the left edge (LeftDock.tsx) — houses LevelsPanel.
+   Positioned like .app__sidebar (absolute overlay over the canvas) so it
+   never affects the canvas's own layout/resize, and collapses to a thin
+   chevron strip rather than disappearing entirely, so it's never more than
+   one click from being reopened. z-index sits below tool popovers (20) and
+   the shortcuts modal (50), but above the plain canvas. */
+.left-dock {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 240px;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  background: rgba(20, 22, 26, 0.92);
+  border-right: 1px solid #2a2d33;
+  pointer-events: auto;
+}
+
+.left-dock--collapsed {
+  width: 32px;
+}
+
+.left-dock__toggle {
+  flex: 0 0 auto;
+  height: 32px;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #2a2d33;
+  color: #9098a3;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.left-dock__toggle:hover {
+  color: #e6e6e6;
+  background: #1f2228;
+}
+
+.left-dock__content {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
 }
 
 /* --------------------------------------------------------------- Sidebar */
@@ -306,6 +430,66 @@ body,
   margin: 0;
   color: #9098a3;
   text-align: right;
+}
+
+/* ------------------------------------------------------------ Shortcuts modal */
+
+/* Opened by Header.tsx's "?" button (ShortcutsModal.tsx) — replaces the old
+   sidebar keyboard cheat-sheet section with an on-demand overlay. Highest
+   z-index in the app: it's a modal, nothing should render above it. */
+.shortcuts-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(10, 11, 13, 0.6);
+}
+
+.shortcuts-modal {
+  width: 640px;
+  max-width: 92vw;
+  max-height: 80vh;
+  overflow-y: auto;
+  background: #1b1e24;
+  border: 1px solid #2a2d33;
+  border-radius: 8px;
+  padding: 20px 24px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+}
+
+.shortcuts-modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.shortcuts-modal__header h2 {
+  margin: 0;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #9098a3;
+}
+
+.shortcuts-modal__close {
+  background: transparent;
+  border: none;
+  color: #9098a3;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 2px 6px;
+}
+
+.shortcuts-modal__close:hover {
+  color: #e6e6e6;
+}
+
+.shortcuts-modal .cheat-sheet__row {
+  padding: 3px 0;
+  border-bottom: 1px solid #22242a;
 }
 
 /* --------------------------------------------------------- Radius guardrail */
@@ -841,7 +1025,10 @@ body,
 .visibility-banner {
   position: absolute;
   top: 16px;
-  left: 50%;
+  /* Centered in the region to the right of the left dock (LeftDock.tsx),
+     not the full viewport — offset half the dock's published width right of
+     dead-center so the chip never overlaps the dock, expanded or collapsed. */
+  left: calc(50% + (var(--left-dock-width) / 2));
   transform: translateX(-50%);
   z-index: 1;
   padding: 8px 16px;
