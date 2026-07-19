@@ -788,3 +788,18 @@ body,
   cursor: pointer;
   font-size: 13px;
 }
+
+/* Header feedback link */
+.header__feedback {
+  color: #9aa5b1;
+  font-size: 12.5px;
+  text-decoration: none;
+  border: 1px solid #3a4453;
+  border-radius: 6px;
+  padding: 5px 10px;
+  margin-left: 6px;
+}
+.header__feedback:hover {
+  color: #dfe6ee;
+  border-color: #6b7a8d;
+}

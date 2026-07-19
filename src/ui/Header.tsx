@@ -106,6 +106,15 @@ export function Header({ onExported }: HeaderProps) {
             Export
           </button>
           <AutosaveIndicator />
+          <a
+            className="header__feedback"
+            href="https://github.com/irehsrg/mappal-palworld/issues/new/choose"
+            target="_blank"
+            rel="noreferrer"
+            title="Bug reports, missing palette pieces, suggestions"
+          >
+            Feedback
+          </a>
         </div>
       )}
     </header>
