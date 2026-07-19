@@ -2068,7 +2068,7 @@
       "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
     },
     "Tansu": {
-      "name": "Tansu",
+      "name": "Chest of Drawers (Tansu)",
       "category": "storage",
       "size": [
         200,
@@ -2128,7 +2128,7 @@
       "sizeSource": "rough storage-furniture estimate — display only"
     },
     "BaseCampWorkerExtraStation": {
-      "name": "Base Camp Worker Extra Station",
+      "name": "Pal Pod Rack",
       "category": "production",
       "size": [
         null,
@@ -2436,6 +2436,16 @@
         180
       ],
       "sizeSource": "rough storage-furniture estimate — display only"
+    },
+    "BaseCampBattleDirector": {
+      "name": "Base Camp Battle Director",
+      "category": "production",
+      "size": [
+        200,
+        200,
+        200
+      ],
+      "sizeSource": "generic station estimate — display only"
     },
     "Light_LightPole02": {
       "name": "Light Light Pole02",
@@ -3208,7 +3218,7 @@
       "sizeSource": "rough furniture estimate — display only"
     },
     "DefenseWait": {
-      "name": "Defense Wait",
+      "name": "Alarm Bell",
       "category": "decor",
       "size": [
         260,
@@ -3487,6 +3497,26 @@
       ],
       "sizeSource": "rough furniture estimate — display only"
     },
+    "SanityDecrease1": {
+      "name": "Beta Wave Generator",
+      "category": "production",
+      "size": [
+        200,
+        200,
+        300
+      ],
+      "sizeSource": "generic station estimate — display only"
+    },
+    "WorkSpeedIncrease1": {
+      "name": "Alpha Wave Generator",
+      "category": "production",
+      "size": [
+        200,
+        200,
+        300
+      ],
+      "sizeSource": "generic station estimate — display only"
+    },
     "DamagedScarecrow": {
       "name": "Damaged Scarecrow",
       "category": "decor",
@@ -3666,6 +3696,826 @@
         200
       ],
       "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "MiningTool": {
+      "name": "Pickaxe and Helmet",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "Police_Banner": {
+      "name": "Police Banner",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "Trap_MineFreeze": {
+      "name": "Ice Mine",
+      "category": "defense",
+      "size": [
+        150,
+        150,
+        40
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Light_CandleSticks_Wall": {
+      "name": "Light Candle Sticks Wall",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Snowman": {
+      "name": "Snowman",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "LargeCeilingLamp": {
+      "name": "Large Ceiling Lamp",
+      "category": "decor",
+      "size": [
+        60,
+        60,
+        220
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Shelf01_Wall_Iron": {
+      "name": "Shelf01 Wall Iron",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "CeilingLamp": {
+      "name": "Ceiling Lamp",
+      "category": "decor",
+      "size": [
+        60,
+        60,
+        220
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "WallTorch": {
+      "name": "Mounted Torch",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "SkyIsland_Banner": {
+      "name": "Sky Island Banner",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "OlympicCauldron": {
+      "name": "Flame Cauldron",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "TransmissionTower": {
+      "name": "Electric Pylon",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "Believer_Banner": {
+      "name": "Believer Banner",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "Ninja_Banner": {
+      "name": "Ninja Banner",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "Chair01_Wood": {
+      "name": "Chair01 Wood",
+      "category": "decor",
+      "size": [
+        100,
+        100,
+        100
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "DarkIsland_Banner": {
+      "name": "Dark Island Banner",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "Believer_Flag": {
+      "name": "Believer Flag",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "FireCult_Banner": {
+      "name": "Fire Cult Banner",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "FireCult_Flag": {
+      "name": "Fire Cult Flag",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "Police_Flag": {
+      "name": "Police Flag",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "Hunter_Banner": {
+      "name": "Hunter Banner",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "Scientist_Flag": {
+      "name": "Scientist Flag",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "Ninja_Flag": {
+      "name": "Ninja Flag",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "DarkIsland_Flag": {
+      "name": "Dark Island Flag",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "SkyIsland_Flag": {
+      "name": "Sky Island Flag",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "ToolBoxV1": {
+      "name": "Large Toolbox",
+      "category": "storage",
+      "size": [
+        200,
+        100,
+        180
+      ],
+      "sizeSource": "rough storage-furniture estimate — display only"
+    },
+    "Ivy02": {
+      "name": "Wall Ivy 2",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "Stump": {
+      "name": "Stump and Axe",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "Cauldron": {
+      "name": "Witch Cauldron",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "WallSignboard": {
+      "name": "Wall-Mounted Sign",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Ivy01": {
+      "name": "Wall Ivy 1",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "Light_CandleSticks_Top": {
+      "name": "Light Candle Sticks Top",
+      "category": "decor",
+      "size": [
+        60,
+        60,
+        220
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Scientist_Banner": {
+      "name": "Scientist Banner",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "Ivy03": {
+      "name": "Wall Ivy 3",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "Shelf01_Wall_Stone": {
+      "name": "Shelf01 Wall Stone",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "PipeClay01_Iron": {
+      "name": "Pipe Clay01 Iron",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "ArcadeVideoGame": {
+      "name": "Arcade Video Game",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "TableDresser01_Stone": {
+      "name": "Table Dresser01 Stone",
+      "category": "decor",
+      "size": [
+        200,
+        200,
+        90
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Barrel03_Iron": {
+      "name": "Barrel03 Iron",
+      "category": "storage",
+      "size": [
+        200,
+        100,
+        180
+      ],
+      "sizeSource": "rough storage-furniture estimate — display only"
+    },
+    "Barrel02_Iron": {
+      "name": "Barrel02 Iron",
+      "category": "storage",
+      "size": [
+        200,
+        100,
+        180
+      ],
+      "sizeSource": "rough storage-furniture estimate — display only"
+    },
+    "GarbageBag_Iron": {
+      "name": "Garbage Bag Iron",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "Mirror02_Stone": {
+      "name": "Mirror02 Stone",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "Partition_Stone": {
+      "name": "Partition Stone",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "TrafficCone03_Iron": {
+      "name": "Traffic Cone03 Iron",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "Stove01_Stone": {
+      "name": "Stove01 Stone",
+      "category": "production",
+      "size": [
+        null,
+        null,
+        null
+      ],
+      "sizeSource": "no rule matched and no works bounds — magenta until measured"
+    },
+    "Piano01_Stone": {
+      "name": "Piano01 Stone",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "BathTub_Stone": {
+      "name": "Bath Tub Stone",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "Barrel01_Iron": {
+      "name": "Barrel01 Iron",
+      "category": "storage",
+      "size": [
+        200,
+        100,
+        180
+      ],
+      "sizeSource": "rough storage-furniture estimate — display only"
+    },
+    "Box01_Stone": {
+      "name": "Box01 Stone",
+      "category": "storage",
+      "size": [
+        200,
+        100,
+        180
+      ],
+      "sizeSource": "rough storage-furniture estimate — display only"
+    },
+    "TrafficLight01_Iron": {
+      "name": "Traffic Light01 Iron",
+      "category": "decor",
+      "size": [
+        60,
+        60,
+        220
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Piano02_Stone": {
+      "name": "Piano02 Stone",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "Mirror01_Stone": {
+      "name": "Mirror01 Stone",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "TowlRack01_Stone": {
+      "name": "Towl Rack01 Stone",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "TrafficCone02_Iron": {
+      "name": "Traffic Cone02 Iron",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "GoalSoccer_Iron": {
+      "name": "Goal Soccer Iron",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "Tire01_Iron": {
+      "name": "Tire01 Iron",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "TableSink01_Stone": {
+      "name": "Table Sink01 Stone",
+      "category": "decor",
+      "size": [
+        200,
+        200,
+        90
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "IceHorseStatue": {
+      "name": "Ice Horse Statue",
+      "category": "decor",
+      "size": [
+        null,
+        null,
+        null
+      ],
+      "sizeSource": "no rule matched and no works bounds — magenta until measured"
+    },
+    "Toilet01_Stone": {
+      "name": "Toilet01 Stone",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "ToiletHolder01_Stone": {
+      "name": "Toilet Holder01 Stone",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "Globe01_Stone": {
+      "name": "Globe01 Stone",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "TrafficSign04_Iron": {
+      "name": "Traffic Sign04 Iron",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "MachineGame01_Iron": {
+      "name": "Machine Game01 Iron",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "JetDragonStatue": {
+      "name": "Jet Dragon Statue",
+      "category": "decor",
+      "size": [
+        null,
+        null,
+        null
+      ],
+      "sizeSource": "no rule matched and no works bounds — magenta until measured"
+    },
+    "CableCoil01_Iron": {
+      "name": "Cable Coil01 Iron",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "Television01_Iron": {
+      "name": "Television01 Iron",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "TrafficCone01_Iron": {
+      "name": "Traffic Cone01 Iron",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "TrafficSign01_Iron": {
+      "name": "Traffic Sign01 Iron",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "Clock01_Stone": {
+      "name": "Clock01 Stone",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "TrafficBarricade05_Iron": {
+      "name": "Traffic Barricade05 Iron",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "TrafficSign02_Iron": {
+      "name": "Traffic Sign02 Iron",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "TrafficBarricade04_Iron": {
+      "name": "Traffic Barricade04 Iron",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "TrafficBarricade02_Iron": {
+      "name": "Traffic Barricade02 Iron",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "TrafficSign03_Iron": {
+      "name": "Traffic Sign03 Iron",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "TrafficBarricade03_Iron": {
+      "name": "Traffic Barricade03 Iron",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "TrafficBarricade01_Iron": {
+      "name": "Traffic Barricade01 Iron",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "Byobu": {
+      "name": "Folding Screen (Byobu)",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "Irori": {
+      "name": "Sunken Hearth (Irori)",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "Toro": {
+      "name": "Stone Lantern (Toro)",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "Shishiodoshi": {
+      "name": "Bamboo Fountain (Shishiodoshi)",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "Koro": {
+      "name": "Incense Burner (Koro)",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "FurnitureStone01": {
+      "name": "Furniture Stone01",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
     }
   }
 }

@@ -69,6 +69,26 @@ const DISPLAY_NAMES: Record<string, string> = {
   BuildableGoddessStatue: "Statue of Power",
   CharacterRankUp: "Essence Condenser",
   Expedition: "Expedition Cage",
+  TransmissionTower: "Electric Pylon",
+  WallSignboard: "Wall-Mounted Sign",
+  WallTorch: "Mounted Torch",
+  MiningTool: "Pickaxe and Helmet",
+  Stump: "Stump and Axe",
+  Trap_MineFreeze: "Ice Mine",
+  ToolBoxV1: "Large Toolbox",
+  OlympicCauldron: "Flame Cauldron",
+  Cauldron: "Witch Cauldron",
+  Toro: "Stone Lantern (Toro)",
+  Shishiodoshi: "Bamboo Fountain (Shishiodoshi)",
+  Irori: "Sunken Hearth (Irori)",
+  Byobu: "Folding Screen (Byobu)",
+  Koro: "Incense Burner (Koro)",
+  Tansu: "Chest of Drawers (Tansu)",
+  Ivy01: "Wall Ivy 1",
+  Ivy02: "Wall Ivy 2",
+  Ivy03: "Wall Ivy 3",
+  DefenseWait: "Alarm Bell",
+  BaseCampWorkerExtraStation: "Pal Pod Rack",
 };
 
 function displayName(typeId: string): string {
@@ -130,6 +150,12 @@ function classify(typeId: string, donor: any): { category: string; size: (number
   if (PRODUCTION_HINTS.some((h) => t.includes(h))) {
     return { category: "production", size, sizeSource: src };
   }
+  // Placeable system stations with opaque internal names.
+  if (t === "sanitydecrease1" || t === "workspeedincrease1")
+    return { category: "production", size: [200, 200, 300], sizeSource: "generic station estimate — display only" };
+  if (t === "basecampbattledirector")
+    return { category: "production", size: [200, 200, 200], sizeSource: "generic station estimate — display only" };
+
   const SPECIAL_HINTS = [
     "altar", "statue", "expedition", "rankup", "skinchange",
     "displaycharacter", "goddess",
@@ -163,7 +189,27 @@ function classify(typeId: string, donor: any): { category: string; size: (number
   if (t.includes("signboard") || t.includes("headstone") || t.includes("scarecrow"))
     return est("decor", [100, 40, 150]);
 
-  return size[0] ? { category: "decor", size, sizeSource: src } : null;
+  if (size[0]) return { category: "decor", size, sizeSource: src };
+  // Generic decor fallback (banners, statues, bric-a-brac): a modest box
+  // beats a magenta warning for pieces whose exact size will never matter.
+  // Magenta stays reserved for world/system objects with no rule at all.
+  const DECOR_TAIL = [
+    "banner", "flag", "statue", "traffic", "mirror", "piano", "toilet",
+    "bathtub", "clock", "globe", "television", "arcade", "machinegame",
+    "tire", "goal", "cable", "garbage", "pipe", "partition", "dresser",
+    "sink", "stove", "towlrack", "ivy", "byobu", "irori", "toro",
+    "shishiodoshi", "koro", "stump", "cauldron", "snowman", "walltorch",
+    "candlesticks", "ceilinglamp", "toolbox", "miningtool", "furniturestone",
+    "tower", "wallsignboard",
+  ];
+  if (DECOR_TAIL.some((h) => t.includes(h))) {
+    return {
+      category: "decor",
+      size: [150, 150, 150],
+      sizeSource: "generic decor estimate — display only",
+    };
+  }
+  return null;
 }
 
 let added = 0;
