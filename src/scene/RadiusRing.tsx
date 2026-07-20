@@ -10,6 +10,7 @@ import type { CampInfo } from "../model/blueprintView";
 import type { PlacedObject } from "../model/types";
 import { ueVecToThree, UNIT_SCALE } from "./coords";
 import { findPalbox } from "./campGeometry";
+import { effectiveRadius, useRadiusStore } from "./radiusStore";
 
 export interface RadiusRingProps {
   objects: PlacedObject[];
@@ -20,6 +21,7 @@ export interface RadiusRingProps {
 
 export function RadiusRing({ objects, camp, centroidThree }: RadiusRingProps) {
   const { palbox } = findPalbox(objects);
+  const multiplier = useRadiusStore((s) => s.multiplier);
 
   const center = useMemo(() => {
     if (!palbox) return null;
@@ -29,7 +31,12 @@ export function RadiusRing({ objects, camp, centroidThree }: RadiusRingProps) {
 
   if (!camp || !palbox || !center) return null;
 
-  const radius = camp.areaRange * UNIT_SCALE;
+  // Modded-radius users scale this up (see radiusStore.ts). When they do, the
+  // vanilla circle is still drawn as a fainter inner ring so it stays obvious
+  // where the unmodded limit sits.
+  const radius = effectiveRadius(camp.areaRange, multiplier) * UNIT_SCALE;
+  const vanillaRadius = camp.areaRange * UNIT_SCALE;
+  const showVanilla = multiplier > 1;
 
   return (
     // Lie flat on the ground plane (three.js XZ): rotate the disc's default
@@ -46,6 +53,12 @@ export function RadiusRing({ objects, camp, centroidThree }: RadiusRingProps) {
         <ringGeometry args={[radius * 0.985, radius, 64]} />
         <meshBasicMaterial color="#5be3ff" transparent opacity={0.5} depthWrite={false} side={THREE.DoubleSide} />
       </mesh>
+      {showVanilla && (
+        <mesh raycast={() => null}>
+          <ringGeometry args={[vanillaRadius * 0.99, vanillaRadius, 64]} />
+          <meshBasicMaterial color="#5be3ff" transparent opacity={0.22} depthWrite={false} side={THREE.DoubleSide} />
+        </mesh>
+      )}
     </group>
   );
 }

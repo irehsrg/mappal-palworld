@@ -11,6 +11,7 @@ import { useEditorStore } from "../model/store";
 import { VERTICAL_PITCH } from "../model/types";
 import { CATEGORY_COLOR, CATEGORY_LABEL, countByCategory, getTypeEntry, unknownDimensionTypes } from "../scene/objectTypes";
 import { countOutsideRadius, findPalbox } from "../scene/campGeometry";
+import { effectiveRadius, MAX_MULTIPLIER, MIN_MULTIPLIER, useRadiusStore } from "../scene/radiusStore";
 import { findDuplicateClusters } from "../scene/overlapCheck";
 import { Palette } from "./Palette";
 
@@ -127,6 +128,8 @@ function RadiusGuardrail() {
   const camp = useEditorStore((s) => s.camp);
   const setSelection = useEditorStore((s) => s.setSelection);
   const { palbox, reason } = findPalbox(objects);
+  const multiplier = useRadiusStore((s) => s.multiplier);
+  const setMultiplier = useRadiusStore((s) => s.setMultiplier);
 
   // Duplicate guardrail (Fix 3): memoized on `objects` identity alone —
   // doesn't need a palbox/camp, so it's computed and rendered unconditionally
@@ -142,7 +145,12 @@ function RadiusGuardrail() {
         </p>
       ) : (
         (() => {
-          const count = countOutsideRadius(objects, palbox.position, camp.areaRange);
+          // Modded-radius support: the count is judged against the scaled
+          // radius, so a player running a radius-expanding mod isn't warned
+          // about objects that are legal in their game. View-only — the
+          // exported area_range is untouched (see radiusStore.ts).
+          const radius = effectiveRadius(camp.areaRange, multiplier);
+          const count = countOutsideRadius(objects, palbox.position, radius);
           // Height guardrail (task "3."): objects sitting more than
           // HEIGHT_LIMIT_UNITS above the LIVE palbox z — same "warn, don't
           // block" pattern and the same palbox-live-position rationale as
@@ -161,6 +169,26 @@ function RadiusGuardrail() {
                 {count > 0 && (
                   <p className="radius-guardrail__warning">these may not import correctly — untested</p>
                 )}
+              </div>
+              <div className="radius-multiplier">
+                <label>
+                  Radius ×
+                  <input
+                    type="number"
+                    min={MIN_MULTIPLIER}
+                    max={MAX_MULTIPLIER}
+                    step={0.5}
+                    value={multiplier}
+                    onChange={(e) => setMultiplier(Number(e.target.value))}
+                  />
+                </label>
+                <span className="radius-multiplier__readout">
+                  {Math.round(radius)}uu{multiplier !== 1 && ` (base ${camp.areaRange})`}
+                </span>
+                <p className="sidebar__hint sidebar__hint--muted">
+                  For base-radius mods. Affects this editor's warnings, ring and fill reach only — the exported file's
+                  area_range is never changed.
+                </p>
               </div>
               <div
                 className={`radius-guardrail${aboveHeightCount > 0 ? " radius-guardrail--warn" : ""}`}

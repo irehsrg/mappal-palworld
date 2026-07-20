@@ -525,6 +525,33 @@ body,
   color: #ffb454;
 }
 
+/* Base-radius multiplier (for radius-expanding mods) — sits under the
+   guardrail counts it scales. See src/scene/radiusStore.ts. */
+.radius-multiplier {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid #2a3038;
+}
+
+.radius-multiplier label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+}
+
+.radius-multiplier input {
+  width: 68px;
+}
+
+.radius-multiplier__readout {
+  display: block;
+  margin-top: 4px;
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  color: #6b7a8d;
+}
+
 /* ------------------------------------------------------------ Relocate base */
 
 .sidebar__hint {

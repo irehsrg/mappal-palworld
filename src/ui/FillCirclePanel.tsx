@@ -14,6 +14,7 @@
 import { useState } from "react";
 import { useEditorStore } from "../model/store";
 import { usePlaceModeStore } from "../scene/placeModeStore";
+import { clampMultiplier, useRadiusStore } from "../scene/radiusStore";
 import { findPalbox } from "../scene/campGeometry";
 import { getTypeEntry } from "../scene/objectTypes";
 import { localAxesFromYaw, yawFromQuat } from "../scene/coords";
@@ -22,9 +23,12 @@ import type { PlacedObject } from "../model/types";
 import { GRID_PITCH } from "../model/types";
 
 const DEFAULT_RADIUS_TILES = 8;
-const MAX_RADIUS_TILES = 9;
-/** Hard cap on pieces placed by one Fill click — same idea as arrayStamp.ts's MAX_STAMP_COUNT, just a bigger budget since a radius-9 disk (~254 tiles, πr²) can exceed that 200 cap. */
-const MAX_FILL_COUNT = 400;
+/** Vanilla cap: a radius-9 disk of 400uu tiles just covers the 3500uu base
+ *  radius. Scaled by the user's radius multiplier so base-radius mods can
+ *  actually fill what they can build on — see scene/radiusStore.ts. */
+const MAX_RADIUS_TILES_VANILLA = 9;
+/** Hard cap on pieces placed by one Fill click — same idea as arrayStamp.ts's MAX_STAMP_COUNT, just a bigger budget since a radius-9 disk (~254 tiles, πr²) can exceed that 200 cap. Scales with the radius multiplier (area grows as r²) so a modded fill isn't silently truncated; the panel reports when it does cap. */
+const MAX_FILL_COUNT_VANILLA = 400;
 
 /**
  * Tile-center positions in the palbox's own grid frame (task brief formula):
@@ -63,13 +67,19 @@ export function FillCirclePanel() {
   const placeObject = useEditorStore((s) => s.placeObject);
   const armedType = usePlaceModeStore((s) => s.armedType);
   const { palbox, reason } = findPalbox(objects);
+  const multiplier = useRadiusStore((s) => s.multiplier);
 
   const [radiusStr, setRadiusStr] = useState(String(DEFAULT_RADIUS_TILES));
   const [lastResult, setLastResult] = useState<string | null>(null);
 
+  // Radius scales linearly with the multiplier; the piece budget scales with
+  // area (r²) so the bigger disk isn't cut off partway through.
+  const maxRadiusTiles = Math.round(MAX_RADIUS_TILES_VANILLA * clampMultiplier(multiplier));
+  const maxFillCount = Math.round(MAX_FILL_COUNT_VANILLA * clampMultiplier(multiplier) ** 2);
+
   const parsedRadius = Number(radiusStr);
   const radius = Number.isFinite(parsedRadius)
-    ? Math.min(MAX_RADIUS_TILES, Math.max(1, Math.round(parsedRadius)))
+    ? Math.min(maxRadiusTiles, Math.max(1, Math.round(parsedRadius)))
     : DEFAULT_RADIUS_TILES;
 
   const isFoundation = !!armedType && armedType.toLowerCase().includes("foundation");
@@ -89,7 +99,7 @@ export function FillCirclePanel() {
     let placed = 0;
     let skipped = 0;
     for (const { x, y } of centers) {
-      if (placed >= MAX_FILL_COUNT) break;
+      if (placed >= maxFillCount) break;
       const position = { x, y, z };
       if (findOverlap(index, armedType, position, palbox.rotation)) {
         skipped++;
@@ -99,7 +109,7 @@ export function FillCirclePanel() {
       addToOverlapIndex(index, { id: "", typeId: armedType, position, rotation: palbox.rotation, scale: { x: 1, y: 1, z: 1 }, origin: "placed" });
       placed++;
     }
-    const cappedNote = placed >= MAX_FILL_COUNT && placed < centers.length ? ` (capped at ${MAX_FILL_COUNT})` : "";
+    const cappedNote = placed >= maxFillCount && placed < centers.length ? ` (capped at ${maxFillCount})` : "";
     setLastResult(`placed ${placed} tile${placed === 1 ? "" : "s"}, skipped ${skipped} overlapping${cappedNote}`);
   };
 
@@ -120,7 +130,7 @@ export function FillCirclePanel() {
               <input
                 type="number"
                 min={1}
-                max={MAX_RADIUS_TILES}
+                max={maxRadiusTiles}
                 value={radiusStr}
                 onChange={(e) => setRadiusStr(e.target.value)}
               />
