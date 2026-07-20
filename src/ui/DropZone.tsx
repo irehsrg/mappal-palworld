@@ -45,15 +45,27 @@ export function DropZone() {
     [handleFile],
   );
 
-  const loadFixture = useCallback(async () => {
-    // Dev convenience only: Vite's dev server serves the whole project root,
-    // so fixtures/calibration_01.json is reachable without moving/copying
-    // it. Not available in the production build (import.meta.env.DEV gate
-    // below) — there is no dev server there to serve it from.
-    const res = await fetch("/fixtures/calibration_01.json");
-    if (!res.ok) return;
-    const text = await res.text();
-    loadFile("calibration_01.json", text);
+  const [sampleError, setSampleError] = useState<string | null>(null);
+
+  // Sample base (public/sample-base.json — a copy of the calibration fixture:
+  // palbox, a few foundations, walls, a chest and a workbench). Ships in the
+  // production build deliberately:
+  //   - Console players (Xbox/PS) can't reach their Level.sav at all, so PST
+  //     can't export for them and they'd otherwise bounce off this screen.
+  //     They can't import either, but they CAN use the editor as a planning
+  //     canvas and rebuild the layout by hand in-game.
+  //   - Everyone else gets to try the tool before installing PST.
+  // Fetched on click, never at page load, so it costs nothing to visitors
+  // who bring their own file.
+  const loadSample = useCallback(async () => {
+    setSampleError(null);
+    try {
+      const res = await fetch("/sample-base.json");
+      if (!res.ok) throw new Error(`sample base unavailable (HTTP ${res.status})`);
+      loadFile("sample-base.json", await res.text());
+    } catch (err) {
+      setSampleError(err instanceof Error ? err.message : String(err));
+    }
   }, [loadFile]);
 
   return (
@@ -68,8 +80,12 @@ export function DropZone() {
       <button type="button" onClick={() => fileInputRef.current?.click()}>
         Choose file
       </button>
+      <p className="drop-zone__or">— or —</p>
+      <button type="button" onClick={() => void loadSample()}>
+        Open a sample base
+      </button>
       <p className="drop-zone__hint">
-        Don't have one? Export a base with{" "}
+        Don't have a file? Export a base with{" "}
         <a
           href="https://github.com/deafdudecomputers/PalworldSaveTools"
           target="_blank"
@@ -77,7 +93,8 @@ export function DropZone() {
         >
           PalworldSaveTools
         </a>{" "}
-        first — Map Viewer → right-click your base → Export Base.
+        — Map Viewer → right-click your base → Export Base. On console, save files aren't reachable, so importing isn't
+        possible — but the sample base works as a planning canvas you can rebuild from in-game.
       </p>
       <input
         ref={fileInputRef}
@@ -86,14 +103,7 @@ export function DropZone() {
         onChange={onFileInputChange}
         style={{ display: "none" }}
       />
-      {import.meta.env.DEV && (
-        <>
-          <p className="drop-zone__or">— or —</p>
-          <button type="button" onClick={() => void loadFixture()}>
-            Load calibration fixture (dev)
-          </button>
-        </>
-      )}
+      {sampleError && <p className="drop-zone__error">{sampleError}</p>}
       {loadError && <p className="drop-zone__error">{loadError}</p>}
     </div>
   );
