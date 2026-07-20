@@ -36,8 +36,9 @@ JSON. Schema understanding builds on the GVAS structure work in
    (WASD + Q/E). The full cheat sheet lives in the sidebar.
 
    **Mass-building tools** (this is where the tool earns its keep):
-   - Place any of 350+ piece types from the palette, snapped the way the
-     game snaps (walls on edges, pillars on corners, wall-top capping)
+   - Place any of the game's 453 buildable piece types from the palette,
+     snapped the way the game snaps (walls on edges, pillars on corners,
+     wall-top capping)
    - Shift+click fills a line of pieces; Ctrl+Shift+click fills a rectangle
    - One-click circular platform generator sized to the base radius
    - Vertical stacking (whole columns of walls in one action)
@@ -65,10 +66,10 @@ JSON. Schema understanding builds on the GVAS structure work in
 ## Status
 
 v0.2 — the full loop (load → edit → export → PST import → verified in-game)
-works, including placing *new* objects from a palette of 350+ donor types
-(cloned from real exports, not synthesized from scratch — see `CLAUDE.md`
-§6). Verified in-game at scale: a ~5,700-piece editor-built skyscraper
-imported and spawned intact. Tested against PST v2.1.0 on Palworld
+works, including placing *new* objects from a palette covering all 453
+buildable types (cloned from real exports, not synthesized from scratch —
+see `CLAUDE.md` §6). Verified in-game at scale: a ~7,700-piece editor-built
+skyscraper imported and spawned intact. Tested against PST v2.1.0 on Palworld
 v1.0.1 (Steam). Derived format ground truth lives in `docs/CALIBRATION.md`.
 
 ## Known limitations
