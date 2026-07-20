@@ -8,6 +8,7 @@ export function DropZone() {
   const [isDragOver, setIsDragOver] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const loadFile = useEditorStore((s) => s.loadFile);
+  const loadBlankFrom = useEditorStore((s) => s.loadBlankFrom);
   const loadError = useEditorStore((s) => s.loadError);
 
   const handleFile = useCallback(
@@ -68,6 +69,20 @@ export function DropZone() {
     }
   }, [loadFile]);
 
+  // Blank canvas: the same sample file stripped to its palbox. For designing a
+  // build from nothing rather than editing an existing base — the free-craft
+  // use case. Still a real exported blueprint underneath, so it imports.
+  const loadBlank = useCallback(async () => {
+    setSampleError(null);
+    try {
+      const res = await fetch("/sample-base.json");
+      if (!res.ok) throw new Error(`sample base unavailable (HTTP ${res.status})`);
+      loadBlankFrom("blank-base.json", await res.text());
+    } catch (err) {
+      setSampleError(err instanceof Error ? err.message : String(err));
+    }
+  }, [loadBlankFrom]);
+
   return (
     <div
       className={`drop-zone${isDragOver ? " drop-zone--active" : ""}`}
@@ -81,9 +96,18 @@ export function DropZone() {
         Choose file
       </button>
       <p className="drop-zone__or">— or —</p>
-      <button type="button" onClick={() => void loadSample()}>
-        Open a sample base
-      </button>
+      <div className="drop-zone__starters">
+        <button type="button" onClick={() => void loadBlank()}>
+          Start a blank base
+        </button>
+        <button type="button" onClick={() => void loadSample()}>
+          Open a sample base
+        </button>
+      </div>
+      <p className="drop-zone__starter-hint">
+        Blank gives you an empty palbox to design into. Sample has a few
+        foundations, walls and a chest to poke at.
+      </p>
       <p className="drop-zone__hint">
         Don't have a file? Export a base with{" "}
         <a

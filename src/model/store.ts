@@ -88,6 +88,12 @@ export interface EditorState {
   redoStack: Command[];
 
   loadFile(name: string, text: string): void;
+  /**
+   * Load a blueprint and strip it to bare ground: the palbox and nothing else.
+   * An empty canvas to design into, for people who want to plan a build rather
+   * than edit an existing one.
+   */
+  loadBlankFrom(name: string, text: string): void;
   setSelection(ids: string[]): void;
   toggleSelect(id: string): void;
   clearSelection(): void;
@@ -154,6 +160,19 @@ export const useEditorStore = create<EditorState>((set, get) => {
           redoStack: [],
         });
       }
+    },
+
+    loadBlankFrom(name, text) {
+      get().loadFile(name, text);
+      if (get().loadError) return;
+      // Reuse the tested delete path rather than hand-pruning JSON: it already
+      // spares the palbox (see deleteSelection) and keeps works/containers
+      // consistent through the same command machinery every other edit uses.
+      set({ selection: get().objects.map((o) => o.id) });
+      get().deleteSelection();
+      // The strip is the starting state, not an edit — undo must not be able to
+      // resurrect the donor file's objects underneath the user's own work.
+      set({ fileName: name, selection: [], undoStack: [], redoStack: [] });
     },
 
     setSelection: (ids) => set({ selection: ids }),

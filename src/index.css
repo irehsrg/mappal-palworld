@@ -1024,6 +1024,24 @@ body,
   background: #34383f;
 }
 
+/* Two equal-weight starting points: build from nothing, or explore a base
+   that already has objects in it. Neither is the "real" one. */
+.drop-zone__starters {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.drop-zone__starter-hint {
+  margin: 10px 0 0;
+  max-width: 380px;
+  color: #8b909a;
+  font-size: 12px;
+  line-height: 1.5;
+  text-align: center;
+}
+
 .drop-zone__error {
   margin-top: 12px;
   max-width: 480px;
