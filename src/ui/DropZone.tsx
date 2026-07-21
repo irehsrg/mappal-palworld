@@ -54,9 +54,10 @@ export function DropZone() {
 
   const [sampleError, setSampleError] = useState<string | null>(null);
 
-  // Sample base (public/sample-base.json — a copy of the calibration fixture:
-  // palbox, a few foundations, walls, a chest and a workbench). Ships in the
-  // production build deliberately:
+  // Sample base (public/sample-base.json — a clean 208-tile circular platform
+  // built with the Base Circle tool; replaced the old calibration-fixture
+  // sample 2026-07-21 because a test rig makes an ugly first impression).
+  // Ships in the production build deliberately:
   //   - Console players (Xbox/PS) can't reach their Level.sav at all, so PST
   //     can't export for them and they'd otherwise bounce off this screen.
   //     They can't import either, but they CAN use the editor as a planning
@@ -113,8 +114,8 @@ export function DropZone() {
         </button>
       </div>
       <p className="drop-zone__starter-hint">
-        Blank gives you an empty palbox to design into. Sample has a few
-        foundations, walls and a chest to poke at.
+        Blank gives you an empty palbox to design into. Sample opens a
+        ready-made circular platform to build on.
       </p>
       {galleryEnabled && (
         <>
