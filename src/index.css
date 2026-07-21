@@ -1046,12 +1046,23 @@ body,
 }
 
 /* Two equal-weight starting points: build from nothing, or explore a base
-   that already has objects in it. Neither is the "real" one. */
+   that already has objects in it. Neither is the "real" one.
+   Equal widths matter: with auto widths the seam between the pair sat ~8px
+   off the page's center line, and the eye reads that seam as THE vertical
+   reference — making the (actually centered) "or" dividers look shifted.
+   Alex caught it twice before the pixel measurements did. */
 .drop-zone__starters {
   display: flex;
   gap: 10px;
+  width: 350px;
+  max-width: 90vw;
   flex-wrap: wrap;
   justify-content: center;
+}
+
+.drop-zone__starters button {
+  flex: 1 1 0;
+  white-space: nowrap;
 }
 
 .drop-zone__starter-hint {
