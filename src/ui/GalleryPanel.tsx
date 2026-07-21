@@ -13,6 +13,7 @@ import {
   deleteBase,
   reportBase,
   thumbUrl,
+  baseShareUrl,
   type GalleryRow,
 } from "../gallery/api";
 
@@ -37,6 +38,13 @@ export function GalleryPanel() {
   const [rows, setRows] = useState<GalleryRow[] | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [busyId, setBusyId] = useState<string | null>(null);
+  const [copiedId, setCopiedId] = useState<string | null>(null);
+
+  const handleCopyLink = async (row: GalleryRow) => {
+    await navigator.clipboard.writeText(baseShareUrl(row));
+    setCopiedId(row.id);
+    window.setTimeout(() => setCopiedId((c) => (c === row.id ? null : c)), 1500);
+  };
 
   const refresh = useCallback(async (which: Tab) => {
     setRows(null);
@@ -181,6 +189,15 @@ export function GalleryPanel() {
                       >
                         {busyId === row.id ? "Opening…" : "Open in editor"}
                       </button>
+                      {row.is_public && (
+                        <button
+                          type="button"
+                          title="Copy a link that opens this base straight in the editor"
+                          onClick={() => void handleCopyLink(row)}
+                        >
+                          {copiedId === row.id ? "Copied!" : "Copy link"}
+                        </button>
+                      )}
                       {session?.user.id === row.owner ? (
                         <button
                           type="button"

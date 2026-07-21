@@ -7,7 +7,8 @@ import { useEffect, useMemo, useState } from "react";
 import { useEditorStore } from "../model/store";
 import { useGalleryStore, sessionDisplayName } from "../gallery/galleryStore";
 import { scanForPersonalData } from "../gallery/disclosure";
-import { publishBase } from "../gallery/api";
+import { publishBase, baseShareUrl, type GalleryRow } from "../gallery/api";
+import { bumpMetric } from "../gallery/metrics";
 
 /** JPEG snapshot of the R3F canvas. Needs preserveDrawingBuffer (Scene.tsx). */
 async function captureThumbnail(): Promise<Blob | null> {
@@ -42,6 +43,8 @@ export function PublishDialog() {
   const [isPublic, setIsPublic] = useState(false);
   const [state, setState] = useState<"idle" | "publishing" | "done">("idle");
   const [error, setError] = useState<string | null>(null);
+  const [published, setPublished] = useState<GalleryRow | null>(null);
+  const [linkCopied, setLinkCopied] = useState(false);
 
   // Privacy disclosure over the loaded raw blueprint — what this file
   // carries besides geometry. Computed once per open.
@@ -72,7 +75,7 @@ export function PublishDialog() {
       const result = exportBlueprint();
       if (!result) throw new Error("nothing to publish — no blueprint loaded");
       const thumbnail = await captureThumbnail();
-      await publishBase({
+      const row = await publishBase({
         title: title.trim() || "untitled base",
         description: description.trim(),
         isPublic,
@@ -82,6 +85,8 @@ export function PublishDialog() {
         typeBreakdown,
         thumbnail,
       });
+      setPublished(row);
+      bumpMetric("base_published");
       setState("done");
     } catch (err) {
       setError(err instanceof Error ? err.message : String(err));
@@ -109,6 +114,17 @@ export function PublishDialog() {
                 ? "Published. It's live in the community gallery."
                 : "Saved to your account."}
             </p>
+            {isPublic && published && (
+              <button
+                type="button"
+                onClick={() => {
+                  void navigator.clipboard.writeText(baseShareUrl(published));
+                  setLinkCopied(true);
+                }}
+              >
+                {linkCopied ? "Link copied!" : "Copy share link"}
+              </button>
+            )}
             <button type="button" onClick={() => setPublishOpen(false)}>
               Close
             </button>

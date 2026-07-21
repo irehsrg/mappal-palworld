@@ -5,6 +5,7 @@ import { useCallback, useRef, useState } from "react";
 import { useEditorStore } from "../model/store";
 import { galleryEnabled } from "../gallery/supabaseClient";
 import { useGalleryStore } from "../gallery/galleryStore";
+import { bumpMetric } from "../gallery/metrics";
 
 export function DropZone() {
   const [isDragOver, setIsDragOver] = useState(false);
@@ -17,6 +18,9 @@ export function DropZone() {
     async (file: File) => {
       const text = await file.text();
       loadFile(file.name, text);
+      // Funnel counter (count-only, docs/GALLERY.md): a user file actually
+      // parsed — the activation signal page views can't show.
+      if (useEditorStore.getState().loadError === null) bumpMetric("base_loaded");
     },
     [loadFile],
   );
@@ -66,6 +70,7 @@ export function DropZone() {
       const res = await fetch("/sample-base.json");
       if (!res.ok) throw new Error(`sample base unavailable (HTTP ${res.status})`);
       loadFile("sample-base.json", await res.text());
+      bumpMetric("sample_opened");
     } catch (err) {
       setSampleError(err instanceof Error ? err.message : String(err));
     }
@@ -80,6 +85,7 @@ export function DropZone() {
       const res = await fetch("/sample-base.json");
       if (!res.ok) throw new Error(`sample base unavailable (HTTP ${res.status})`);
       loadBlankFrom("blank-base.json", await res.text());
+      bumpMetric("blank_opened");
     } catch (err) {
       setSampleError(err instanceof Error ? err.message : String(err));
     }

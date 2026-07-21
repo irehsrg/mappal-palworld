@@ -13,6 +13,8 @@ import { useEditorStore } from "./model/store";
 import { useVisibilityStore } from "./scene/visibilityStore";
 import { startAutosave } from "./ui/autosave";
 import { useGalleryStore } from "./gallery/galleryStore";
+import { galleryEnabled } from "./gallery/supabaseClient";
+import { fetchBaseRow, openBase } from "./gallery/api";
 import { GalleryPanel } from "./ui/GalleryPanel";
 import { PublishDialog } from "./ui/PublishDialog";
 
@@ -29,6 +31,34 @@ export function App() {
   // Autosave loop: subscribes to the store, writes to IndexedDB every 20s
   // while dirty, flushes best-effort on tab close. See src/ui/autosave.ts.
   useEffect(() => startAutosave(), []);
+
+  // Gallery deep links: /?base=<id> opens a shared base straight in the
+  // editor — every gallery entry becomes a droppable-in-Discord URL. The
+  // param is stripped after handling so refresh returns to a normal landing
+  // (and a stale link never re-downloads over someone's session restore).
+  useEffect(() => {
+    if (!galleryEnabled) return;
+    const params = new URLSearchParams(window.location.search);
+    const baseId = params.get("base");
+    if (!baseId) return;
+    void (async () => {
+      try {
+        const row = await fetchBaseRow(baseId);
+        if (!row) throw new Error("that base doesn't exist (or was deleted or made private)");
+        const text = await openBase(row);
+        useEditorStore.getState().loadFile(`${row.title}.json`, text);
+      } catch (err) {
+        // Surface on the drop-zone screen, same place file errors land.
+        useEditorStore.setState({
+          loadError: `shared base link failed: ${err instanceof Error ? err.message : String(err)}`,
+        });
+      } finally {
+        const url = new URL(window.location.href);
+        url.searchParams.delete("base");
+        window.history.replaceState({}, "", url);
+      }
+    })();
+  }, []);
 
   // Levels panel visibility lens (task brief §5: "Reset visibility
   // automatically on loadFile") — keyed on `blueprint`'s own identity, which

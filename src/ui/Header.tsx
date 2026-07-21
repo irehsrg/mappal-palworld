@@ -16,6 +16,7 @@ import { VerticalStackPanel } from "./VerticalStackPanel";
 import { RelocateBasePanel } from "./RelocateBasePanel";
 import { galleryEnabled } from "../gallery/supabaseClient";
 import { useGalleryStore } from "../gallery/galleryStore";
+import { bumpMetric } from "../gallery/metrics";
 
 type ToolId = "circle" | "stack" | "relocate";
 
@@ -88,6 +89,8 @@ export function Header({ onExported }: HeaderProps) {
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
+    // Funnel counter (count-only): completion signal — an export downloaded.
+    bumpMetric("base_exported");
     onExported(result.notes);
   };
 
@@ -191,7 +194,10 @@ export function Header({ onExported }: HeaderProps) {
         <button
           type="button"
           className="header__gallery"
-          onClick={() => useGalleryStore.getState().setGalleryOpen(true)}
+          onClick={() => {
+            useGalleryStore.getState().setGalleryOpen(true);
+            bumpMetric("gallery_opened");
+          }}
           title="Browse community bases"
         >
           Gallery

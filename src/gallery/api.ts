@@ -113,6 +113,23 @@ export async function publishBase(input: PublishInput): Promise<GalleryRow> {
   return data as GalleryRow;
 }
 
+/** Single row by id (deep links: /?base=<id>). Null when missing/private. */
+export async function fetchBaseRow(id: string): Promise<GalleryRow | null> {
+  const sb = requireSupabase();
+  const { data, error } = await sb
+    .from("bases")
+    .select(ROW_COLUMNS)
+    .eq("id", id)
+    .maybeSingle();
+  if (error) throw new Error(`base lookup failed: ${error.message}`);
+  return (data as GalleryRow) ?? null;
+}
+
+/** Shareable URL that opens this base straight in the editor. */
+export function baseShareUrl(row: GalleryRow): string {
+  return `${window.location.origin}/?base=${row.id}`;
+}
+
 /** Download + decompress a base; returns blueprint JSON text ready for loadFile(). */
 export async function openBase(row: GalleryRow): Promise<string> {
   const sb = requireSupabase();

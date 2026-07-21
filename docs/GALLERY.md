@@ -146,6 +146,30 @@ One-time, ~15 minutes total:
 The app runs fine with the env vars absent — gallery UI simply doesn't
 render. That keeps dev, CI, and forks working with zero setup.
 
+## Metrics (anonymous funnel counters)
+
+Vercel Analytics shows reach (visitors/referrers) but not activation. The
+`metrics` table holds a single integer per event key — `base_loaded`,
+`sample_opened`, `blank_opened`, `base_exported`, `base_published`,
+`gallery_opened` — bumped via a whitelisting SECURITY DEFINER RPC.
+**Count-only by design**: no user ids, no sessions, no per-event timestamps,
+nothing joinable. Fire-and-forget on the client; failures never affect the
+editor. Totals are publicly readable:
+
+```
+curl "https://<ref>.supabase.co/rest/v1/metrics?select=*" -H "apikey: <anon>"
+```
+
+The number that matters is base_loaded → base_exported: the difference
+between a pretty landing page and a tool people actually use.
+
+## Deep links
+
+`/?base=<id>` opens a public gallery base straight in the editor. Every
+card has Copy link; the publish success screen offers the same. This is the
+distribution loop: a base shared in any Discord is one click from being
+open in MapPal.
+
 ## Future hardening (not MVP)
 
 - Edge-function revalidation of submissions with the same `src/parse`
