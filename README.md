@@ -8,6 +8,14 @@
 ![Box-select and mass editing](docs/media/shift-highlight-demo.gif)
 *Box-select a whole region and mass-edit it — one of the fill/stack/duplicate tools that make 7,000-piece builds practical.*
 
+<p align="center">
+  <img src="docs/media/level-peel-demo.gif" alt="Per-level hide/solo peeling a 7,700-piece tower floor by floor" width="320" />
+  &nbsp;&nbsp;
+  <img src="docs/media/circle-fill-demo.gif" alt="One-click circular platform generator" width="420" />
+</p>
+
+*Left: per-level hide/solo peels the 7,700-piece tower floor by floor — work on any interior level without the building in the way. Right: the Base Circle generator fills a full circular platform in one click.*
+
 > ## ⚠️ Back up your save first
 > Before importing anything this tool produced, copy your world folder
 > (`%LOCALAPPDATA%\Pal\Saved\SaveGames\<SteamID>\<WorldID>`) somewhere safe.
