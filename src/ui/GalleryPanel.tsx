@@ -124,11 +124,11 @@ export function GalleryPanel() {
               </>
             ) : (
               <>
+                {/* Discord only — the GitHub provider isn't configured in
+                    Supabase; showing a button that dead-ends on an error page
+                    is worse than one option. Re-add alongside enabling it. */}
                 <button type="button" onClick={() => void signIn("discord")}>
                   Sign in with Discord
-                </button>
-                <button type="button" onClick={() => void signIn("github")}>
-                  GitHub
                 </button>
               </>
             )}

@@ -97,11 +97,9 @@ export function PublishDialog() {
         {!session ? (
           <div className="publish__signin">
             <p>Sign in to publish or save bases. Publishing uploads this base; nothing is sent until you choose to.</p>
+            {/* Discord only — GitHub provider not configured; see GalleryPanel. */}
             <button type="button" onClick={() => void signIn("discord")}>
               Sign in with Discord
-            </button>
-            <button type="button" onClick={() => void signIn("github")}>
-              Sign in with GitHub
             </button>
           </div>
         ) : state === "done" ? (
