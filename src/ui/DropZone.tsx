@@ -93,11 +93,11 @@ export function DropZone() {
       onDragLeave={onDragLeave}
     >
       <p>Drag a PST base export (.json) here</p>
-      <p className="drop-zone__or">— or —</p>
+      <p className="drop-zone__or">or</p>
       <button type="button" onClick={() => fileInputRef.current?.click()}>
         Choose file
       </button>
-      <p className="drop-zone__or">— or —</p>
+      <p className="drop-zone__or">or</p>
       <div className="drop-zone__starters">
         <button type="button" onClick={() => void loadBlank()}>
           Start a blank base
@@ -112,7 +112,7 @@ export function DropZone() {
       </p>
       {galleryEnabled && (
         <>
-          <p className="drop-zone__or">— or —</p>
+          <p className="drop-zone__or">or</p>
           <button type="button" onClick={() => useGalleryStore.getState().setGalleryOpen(true)}>
             Browse community bases
           </button>

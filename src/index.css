@@ -991,7 +991,7 @@ body,
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 12px;
   background: rgba(10, 11, 13, 0.75);
   border: 2px dashed #3a3f47;
   color: #cfd3da;
@@ -999,15 +999,36 @@ body,
   pointer-events: auto;
 }
 
+/* Uniform vertical rhythm: the flex gap is the ONLY spacing between rows.
+   :where() keeps specificity at zero so any class that wants extra room
+   (e.g. .drop-zone__hint) can still win with a plain rule. */
+:where(.drop-zone > p) {
+  margin: 0;
+}
+
 .drop-zone--active {
   border-color: #5b8def;
   background: rgba(10, 11, 13, 0.9);
 }
 
+/* "or" divider: real hairlines flanking the word instead of typed em
+   dashes. Faint floating dashes read as off-center even when they measure
+   dead-on; a drawn symmetric line is verifiable at a glance. */
 .drop-zone__or {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 220px;
   opacity: 0.6;
   font-size: 12px;
-  margin: 0;
+}
+
+.drop-zone__or::before,
+.drop-zone__or::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: #3a3f47;
 }
 
 .drop-zone button {
@@ -1034,7 +1055,7 @@ body,
 }
 
 .drop-zone__starter-hint {
-  margin: 10px 0 0;
+  margin: 0;
   max-width: 380px;
   color: #8b909a;
   font-size: 12px;
@@ -1050,7 +1071,7 @@ body,
 }
 
 .drop-zone__hint {
-  margin-top: 20px;
+  margin: 12px 0 0;
   max-width: 360px;
   color: #8b909a;
   font-size: 12px;
