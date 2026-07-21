@@ -36,7 +36,10 @@ export function PublishDialog() {
 
   const [title, setTitle] = useState((fileName ?? "my base").replace(/\.json$/i, ""));
   const [description, setDescription] = useState("");
-  const [isPublic, setIsPublic] = useState(true);
+  // Default PRIVATE (Alex's call, 2026-07-21): first-time users poking at the
+  // app shouldn't accidentally flow half-finished test bases into the public
+  // gallery. Publishing publicly is a deliberate opt-in every time.
+  const [isPublic, setIsPublic] = useState(false);
   const [state, setState] = useState<"idle" | "publishing" | "done">("idle");
   const [error, setError] = useState<string | null>(null);
 
