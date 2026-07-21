@@ -14,6 +14,8 @@ import { ShortcutsModal } from "./ShortcutsModal";
 import { FillCirclePanel } from "./FillCirclePanel";
 import { VerticalStackPanel } from "./VerticalStackPanel";
 import { RelocateBasePanel } from "./RelocateBasePanel";
+import { galleryEnabled } from "../gallery/supabaseClient";
+import { useGalleryStore } from "../gallery/galleryStore";
 
 type ToolId = "circle" | "stack" | "relocate";
 
@@ -151,6 +153,17 @@ export function Header({ onExported }: HeaderProps) {
           <button type="button" className="header__export" onClick={handleExport}>
             Export
           </button>
+          {/* Publish sits next to Export deliberately: same exportBlueprint()
+              output, different destination (docs/GALLERY.md). */}
+          {galleryEnabled && (
+            <button
+              type="button"
+              onClick={() => useGalleryStore.getState().setPublishOpen(true)}
+              title="Publish this base to the community gallery, or save it to your account"
+            >
+              Publish
+            </button>
+          )}
           <AutosaveIndicator />
           <button
             type="button"
@@ -170,6 +183,19 @@ export function Header({ onExported }: HeaderProps) {
             Feedback
           </a>
         </div>
+      )}
+
+      {/* Gallery entry — visible with or without a file loaded, so browsing
+          is a first-class way in, not an editor afterthought. */}
+      {galleryEnabled && (
+        <button
+          type="button"
+          className="header__gallery"
+          onClick={() => useGalleryStore.getState().setGalleryOpen(true)}
+          title="Browse community bases"
+        >
+          Gallery
+        </button>
       )}
 
       {shortcutsOpen && <ShortcutsModal onClose={() => setShortcutsOpen(false)} />}

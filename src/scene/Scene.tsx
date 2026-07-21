@@ -27,6 +27,7 @@ import { RadiusRing } from "./RadiusRing";
 import { MarqueeSelect } from "./MarqueeSelect";
 import { PlaceMode } from "./PlaceMode";
 import { FlyCamera } from "./FlyCamera";
+import { CameraDevHook } from "./CameraDevHook";
 import { findPalbox } from "./campGeometry";
 import { usePlaceModeStore } from "./placeModeStore";
 import { computeStampFill, stampModeFromModifiers } from "./arrayStamp";
@@ -167,6 +168,11 @@ export function Scene() {
       // reads exactly like a zoom cap even though the control itself never
       // stopped moving. 5000 gives real headroom over any base's radius.
       camera={{ position: [14, 16, 14], fov: 50, near: 0.05, far: 5000 }}
+      // preserveDrawingBuffer: lets the gallery's Publish flow snapshot the
+      // canvas for a thumbnail (PublishDialog.tsx captureThumbnail). Without
+      // it, toBlob/drawImage reads back an empty buffer because WebGL clears
+      // after each frame. Small memory cost, no measurable frame cost here.
+      gl={{ preserveDrawingBuffer: true }}
       onPointerDown={(e) => {
         pointerDownPos.current = { x: e.clientX, y: e.clientY };
       }}
@@ -277,6 +283,10 @@ export function Scene() {
       <FlyCamera />
 
       <OrbitControls makeDefault />
+
+      {/* DEV-ONLY: exposes camera/controls on window for the screenshot
+          pipeline that records feature GIFs. Tree-shaken from prod builds. */}
+      {import.meta.env.DEV && <CameraDevHook />}
     </Canvas>
   );
 }

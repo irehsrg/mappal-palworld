@@ -1,6 +1,6 @@
 # MapPal — Palworld Base Blueprint Editor
 
-**Use it now: [mappal-palworld.vercel.app](https://mappal-palworld.vercel.app)** — no install, no signup, runs entirely in your browser (your files never leave your machine).
+**Use it now: [mappal-palworld.vercel.app](https://mappal-palworld.vercel.app)** — no install, no signup required, runs entirely in your browser. Your files never leave your machine unless you explicitly publish a base to the community gallery.
 
 ![A 7,700-piece skyscraper built in MapPal](docs/media/tower-hero.png)
 *A ~7,700-piece skyscraper designed in MapPal and imported into a live world — the glass-and-cladding facade was generated from the original build guide's plan graphic.*
@@ -62,6 +62,15 @@ JSON. Schema understanding builds on the GVAS structure work in
   ignores the change and overwrites it on its next save.
 - **Imports land ~80 m away from the blueprint's original coordinates**
   (collision-avoided), as a new base. Look for the new palbox on the map.
+
+## Community gallery
+
+Sign in (Discord or GitHub) to **publish a base** to a public gallery anyone
+can browse and open straight in the editor, or **save bases privately** to
+your account. Before anything uploads, the publish dialog shows exactly what
+the file contains beyond the build (player IDs, pal entries) — nothing is
+sent until you click Publish. Full architecture and privacy notes:
+[docs/GALLERY.md](docs/GALLERY.md).
 
 ## Status
 

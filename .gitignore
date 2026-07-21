@@ -3,6 +3,14 @@ dist/
 dist-ssr/
 *.local
 
+# env — real keys never committed; .env.example is the committed template
+.env
+.env.*
+!.env.example
+
+# supabase CLI local state
+supabase/.temp/
+
 # editor / OS cruft
 .vscode/*
 !.vscode/extensions.json

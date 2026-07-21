@@ -3,6 +3,8 @@
 // parses + validates + populates the editor's object list in one call.
 import { useCallback, useRef, useState } from "react";
 import { useEditorStore } from "../model/store";
+import { galleryEnabled } from "../gallery/supabaseClient";
+import { useGalleryStore } from "../gallery/galleryStore";
 
 export function DropZone() {
   const [isDragOver, setIsDragOver] = useState(false);
@@ -108,6 +110,14 @@ export function DropZone() {
         Blank gives you an empty palbox to design into. Sample has a few
         foundations, walls and a chest to poke at.
       </p>
+      {galleryEnabled && (
+        <>
+          <p className="drop-zone__or">— or —</p>
+          <button type="button" onClick={() => useGalleryStore.getState().setGalleryOpen(true)}>
+            Browse community bases
+          </button>
+        </>
+      )}
       <p className="drop-zone__hint">
         Don't have a file? Export a base with{" "}
         <a

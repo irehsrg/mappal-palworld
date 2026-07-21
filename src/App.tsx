@@ -12,10 +12,15 @@ import { useKeyboardControls } from "./scene/useKeyboardControls";
 import { useEditorStore } from "./model/store";
 import { useVisibilityStore } from "./scene/visibilityStore";
 import { startAutosave } from "./ui/autosave";
+import { useGalleryStore } from "./gallery/galleryStore";
+import { GalleryPanel } from "./ui/GalleryPanel";
+import { PublishDialog } from "./ui/PublishDialog";
 
 export function App() {
   const blueprint = useEditorStore((s) => s.blueprint);
   const [exportNotes, setExportNotes] = useState<string[] | null>(null);
+  const galleryOpen = useGalleryStore((s) => s.galleryOpen);
+  const publishOpen = useGalleryStore((s) => s.publishOpen);
 
   // Arrow-key nudge, Q/E rotate, delete, undo/redo, duplicate, escape — all
   // attached to `window` and self-disabling when nothing is loaded.
@@ -65,6 +70,11 @@ export function App() {
       </div>
 
       {exportNotes && <ExportNotesPanel notes={exportNotes} onDismiss={() => setExportNotes(null)} />}
+
+      {/* Community gallery (docs/GALLERY.md) — modals over everything, only
+          reachable when the Supabase env is configured. */}
+      {galleryOpen && <GalleryPanel />}
+      {publishOpen && blueprint && <PublishDialog />}
     </div>
   );
 }
