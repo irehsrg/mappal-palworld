@@ -112,6 +112,9 @@ v1.0.1 (Steam). Derived format ground truth lives in `docs/CALIBRATION.md`.
 
 ## Development
 
+**How it was built:** the full build log — calibration-first process, the donor
+pattern, and the same-world import incident — is in [docs/BUILDLOG.md](docs/BUILDLOG.md).
+
 ```
 npm install
 npm run dev        # editor at http://localhost:5173
