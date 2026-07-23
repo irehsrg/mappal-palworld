@@ -7,6 +7,7 @@
 
 import { create } from "zustand";
 import { loadBlueprint, serializeBlueprint, type LoadedBlueprint } from "../parse/blueprint";
+import { track } from "../analytics";
 import { extractCampInfo, extractObjects, type CampInfo } from "./blueprintView";
 import { mintGuid, reconcileExport, type DonorLibrary } from "./writeback";
 import { validateLinkage } from "./validate";
@@ -148,6 +149,11 @@ export const useEditorStore = create<EditorState>((set, get) => {
           undoStack: [],
           redoStack: [],
         });
+        track("blueprint_loaded", {
+          object_count: objects.length,
+          warning_count: bp.warnings.length,
+          has_camp: camp !== null,
+        });
       } catch (err) {
         set({
           fileName: name,
@@ -159,6 +165,7 @@ export const useEditorStore = create<EditorState>((set, get) => {
           undoStack: [],
           redoStack: [],
         });
+        track("blueprint_load_failed", {});
       }
     },
 
@@ -300,6 +307,10 @@ export const useEditorStore = create<EditorState>((set, get) => {
       }
       const text = serializeBlueprint({ raw, warnings: [] });
       const base = (fileName ?? "blueprint.json").replace(/\.json$/i, "");
+      track("blueprint_exported", {
+        object_count: objects.length,
+        lint_warning_count: lintWarnings.length,
+      });
       return { filename: `${base}_edited.json`, text, notes };
     },
   };
