@@ -2,6 +2,8 @@
 
 **Use it now: [mappal-palworld.vercel.app](https://mappal-palworld.vercel.app)** — no install, no signup required, runs entirely in your browser. Your files never leave your machine unless you explicitly publish a base to the community gallery. (The app reports anonymous usage signals — feature counts and errors, via PostHog — but never blueprint contents.)
 
+**How it was built: [docs/BUILDLOG.md](docs/BUILDLOG.md)** — calibration-first reverse engineering of an undocumented save format, the donor pattern, and how round-trip fidelity is enforced.
+
 ![A 7,700-piece skyscraper built in MapPal](docs/media/tower-hero.png)
 *A ~7,700-piece skyscraper designed in MapPal and imported into a live world — the glass-and-cladding facade was generated from the original build guide's plan graphic.*
 
